@@ -1,0 +1,7 @@
+interface:
+  display_name: "False Positive Analysis"
+  short_description: "Assess detection and activity without closure claims"
+  default_prompt: "Use $false-positive-analysis to assess this supplied investigation packet on separate detection-validity and activity-assessment axes."
+
+policy:
+  allow_implicit_invocation: true
