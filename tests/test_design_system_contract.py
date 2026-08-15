@@ -12,8 +12,24 @@ class DesignSystemContractTests(unittest.TestCase):
         content = (CANONICAL / "SKILL.md").read_text(encoding="utf-8")
         self.assertTrue(content.startswith("---\nname: design-system\n"))
         self.assertNotIn("allowed-tools:", content)
-        for term in ("STANDARD", "ESTABLISHED PRACTICE", "WCAG conformance", "untrusted data"):
+        for term in (
+            "STANDARD",
+            "COMMUNITY SPECIFICATION",
+            "ESTABLISHED PRACTICE",
+            "WCAG conformance",
+            "untrusted data",
+        ):
             self.assertIn(term, content)
+
+        tokens = (CANONICAL / "references" / "tokens-and-components.md").read_text(
+            encoding="utf-8"
+        )
+        for term in (
+            "Final Community Group Report",
+            "neither W3C Recommendations",
+            "nor W3C Standards Track specifications",
+        ):
+            self.assertIn(term, tokens)
 
     def test_references_and_adapters_match(self) -> None:
         expected = {

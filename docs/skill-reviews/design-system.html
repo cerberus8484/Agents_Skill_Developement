@@ -1,1 +1,28 @@
-<!doctype html><html lang="de"><head><meta charset="utf-8"><title>Skill Review – Design System</title></head><body><main><p><a href="../index.html">← Agent &amp; Skill Framework</a></p><h1>Skill Review: Design System</h1><p><strong>Evidenz: PARTIALLY_VERIFIED · Framework-Reife: YELLOW</strong></p><h2>Inventar und Entscheidung</h2><p>Es existierte kein Skill mit der ID <code>design-system</code>. Der externe ECC-Skill <code>frontend-design</code> ist ein Visual-Design-/Frontend-Leitfaden, kein Design-System-Skill, und blieb unverändert. Deshalb ist <code>framework/skills/design-system</code> eine neue kanonische Quelle mit Adaptern für GitHub Copilot, Codex und Claude Code.</p><h2>Scope und Grenzen</h2><p>Der Skill prüft Komponenten, Tokens, Varianten, States, Naming, Komposition und Dokumentation sowie begrenzte Accessibility-Aspekte. Er beweist keine UX-Qualität, genehmigt kein Branding, ersetzt keine Nutzerforschung und zertifiziert keine WCAG-Konformität.</p><h2>Quellen</h2><p><strong>STANDARD:</strong> <a href="https://www.w3.org/TR/WCAG22/">WCAG 2.2</a> definiert testbare Erfolgskriterien und Seiten-Konformität. <a href="https://www.w3.org/WAI/ARIA/apg/">WAI-ARIA APG</a> liefert empfohlene Semantik- und Tastaturmuster, ist aber kein UI-Design-System. <strong>ESTABLISHED PRACTICE:</strong> Tokens, Komponenten und Governance fördern Konsistenz, ohne ein UX-Ergebnis zu garantieren.</p><h2>Tests und Plattformen</h2><p>32 Contract Tests grün. Runtime: GitHub Copilot <code>RUNTIME_NOT_AVAILABLE</code>, Codex <code>RUNTIME_BLOCKED_ENVIRONMENT</code>, Claude Code <code>RUNTIME_BLOCKED_AUTH</code>. Adapter sind kein Runtime-Nachweis.</p></main></body></html>
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Skill Review – Design System</title>
+</head>
+<body>
+  <main>
+    <p><a href="../index.html">← Agent &amp; Skill Framework</a></p>
+    <h1>Skill Review: Design System</h1>
+    <p><strong>Evidenz: PARTIALLY_VERIFIED · Framework-Reife: YELLOW</strong></p>
+
+    <h2>Inventar und Entscheidung</h2>
+    <p>Es existierte kein Skill mit der ID <code>design-system</code>. Der externe ECC-Skill <code>frontend-design</code> ist ein Visual-Design-/Frontend-Leitfaden, kein Design-System-Skill, und blieb unverändert. Deshalb ist <code>framework/skills/design-system</code> eine neue kanonische Quelle mit Adaptern für GitHub Copilot, Codex und Claude Code.</p>
+
+    <h2>Scope und Grenzen</h2>
+    <p>Der Skill prüft Komponenten, Tokens, Varianten, States, Naming, Komposition und Dokumentation sowie begrenzte Accessibility-Aspekte. Er beweist keine UX-Qualität, genehmigt kein Branding, ersetzt keine Nutzerforschung und zertifiziert keine WCAG-Konformität.</p>
+
+    <h2>Quellenklassifikation</h2>
+    <p><strong>STANDARD:</strong> <a href="https://www.w3.org/TR/WCAG22/">WCAG 2.2</a> definiert testbare Erfolgskriterien und Seiten-Konformität. Die <a href="https://www.w3.org/WAI/ARIA/apg/">WAI-ARIA APG</a> liefert empfohlene Semantik- und Tastaturmuster, ist aber kein UI-Design-System.</p>
+    <p><strong>COMMUNITY SPECIFICATION:</strong> Die <a href="https://www.w3.org/community/reports/design-tokens/CG-FINAL-format-20251028/">Design Tokens Format Module 2025.10</a> ist ein stabiler Final Community Group Report der Design Tokens Community Group. Sie dient als technische Interoperabilitätsreferenz für Token-Struktur, Typen, Gruppen und Aliase. Die <a href="https://www.w3.org/community/reports/design-tokens/CG-FINAL-resolver-20251028/">Resolver</a>- und <a href="https://www.w3.org/community/reports/design-tokens/CG-FINAL-color-20251028/">Color</a>-Module haben denselben Status; Resolver beschreibt Kontexte wie Light, Dark und High Contrast. Keine dieser Spezifikationen ist eine W3C Recommendation oder eine W3C-Standards-Track-Spezifikation.</p>
+    <p><strong>ESTABLISHED PRACTICE:</strong> Tokens, Komponenten und Governance fördern Konsistenz, ohne ein UX-Ergebnis zu garantieren. <strong>FRAMEWORK RECOMMENDATION:</strong> Lokale Namens- und Strukturentscheidungen werden als solche gekennzeichnet.</p>
+
+    <h2>Tests und Plattformen</h2>
+    <p>Contract Tests prüfen die Quellenklassifikation, die Grenzen, Ressourcen und identische Adapter. Runtime: GitHub Copilot <code>RUNTIME_NOT_AVAILABLE</code>, Codex <code>RUNTIME_BLOCKED_ENVIRONMENT</code>, Claude Code <code>RUNTIME_BLOCKED_AUTH</code>. Adapter sind kein Runtime-Nachweis.</p>
+  </main>
+</body>
+</html>

@@ -20,7 +20,7 @@ For each material observation, report:
 
 1. **Observation** — concrete component, token, state, interaction, or documentation behavior.
 2. **Evidence and unknowns** — supplied location and missing usage, browser, assistive-technology, or user-research facts.
-3. **Classification** — STANDARD, ESTABLISHED PRACTICE, or FRAMEWORK RECOMMENDATION.
+3. **Classification** — STANDARD, COMMUNITY SPECIFICATION, ESTABLISHED PRACTICE, or FRAMEWORK RECOMMENDATION.
 4. **System impact** — consistency, maintainability, accessibility consideration, or adoption impact; do not claim UX outcome.
 5. **Smallest safe next step** — token, API, state, documentation, test, or handoff proposal.
 6. **Handoff** — accessibility specialist, UX researcher, brand owner, product owner, or authorized executor where applicable.
@@ -38,4 +38,4 @@ If no supported issue exists, state **NO MATERIAL DESIGN-SYSTEM FINDING IN THE S
 
 ## Source labels
 
-Label W3C requirements as **STANDARD**, recurring design-system practice as **ESTABLISHED PRACTICE**, and local choices as **FRAMEWORK RECOMMENDATION**.
+Label W3C requirements as **STANDARD**. Label stable Community Group reports, including the Design Tokens Community Group specifications, as **COMMUNITY SPECIFICATION**; they are not W3C Recommendations or W3C Standards Track specifications. Label recurring design-system practice as **ESTABLISHED PRACTICE**, and local choices as **FRAMEWORK RECOMMENDATION**.
