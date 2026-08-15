@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skill Review – SOC Forensic Hunts</title>
+  <style>
+    :root { color-scheme:dark; --bg:#0b1220; --card:#131d2d; --line:#2c4360; --text:#e7edf7; --muted:#aab8cc; --accent:#6bd5ff; --warn:#ffd073; }
+    body { margin:0; background:var(--bg); color:var(--text); font:16px/1.55 system-ui,sans-serif; }
+    main { max-width:1080px; margin:auto; padding:38px 24px 70px; } h1,h2 { line-height:1.2; }
+    h2 { margin-top:38px; border-bottom:1px solid var(--line); padding-bottom:7px; } a,code { color:var(--accent); }
+    table { border-collapse:collapse; width:100%; margin:14px 0; } th,td { border:1px solid var(--line); padding:9px; text-align:left; vertical-align:top; } th { background:#172840; }
+    .note { border-left:4px solid var(--warn); background:#241e11; padding:12px 15px; } .muted { color:var(--muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <p><a href="../index.html">← Agent &amp; Skill Framework</a> · <a href="../skill-inventory.html">Inventar</a></p>
+    <h1>Skill Review: SOC Forensic Hunts</h1>
+    <p><strong>Evidenz: PARTIALLY_VERIFIED · Framework-Reife: YELLOW</strong></p>
+    <p class="muted">Entscheidung: OVERLAY. Der externe Originalskill bleibt unverändert; der Framework-Overlay ist die kanonische, plattformübergreifende Integrationsquelle.</p>
+
+    <h2>Originalzustand und Provenienz</h2>
+    <table><tbody>
+      <tr><th>Original</th><td><code>C:/Users/Admin/.agents/skills/soc-forensic-hunts</code></td></tr>
+      <tr><th>Artefakte</th><td>Eine SKILL.md und elf Hunt-Referenzen; keine Skripte, keine Examples, kein deklarierter <code>allowed-tools</code>-Eintrag.</td></tr>
+      <tr><th>Fingerprint</th><td><code>SKILL.md SHA-256: 7ABC09E81EF08171DE9E81856EB6A10E2BFD73934D432727FF684E235524692C</code></td></tr>
+      <tr><th>Belegte Herkunft</th><td>Lokales Artefakt unter <code>.agents/skills</code>. Publisher, Upstream, Lizenz, Commit und Version sind nicht belegt.</td></tr>
+      <tr><th>Original unverändert</th><td><strong>JA.</strong></td></tr>
+    </tbody></table>
+
+    <h2>Fachlicher Abgleich</h2>
+    <p><strong>SOURCE FACT:</strong> ATT&amp;CK strukturiert Techniken, Datenquellen, Detektionsstrategien und Analytics. Es empfiehlt keine spezifische Vendor-Implementierung. Sigma dokumentiert u. a. Rule-Status, bekannte False Positives und Schweregrade; diese Metadaten sind keine lokale Kalibrierung. NIST ordnet Containment organisationsspezifischen Kriterien und Verfahren zu. <a href="https://attack.mitre.org/analytics/">MITRE ATT&amp;CK Analytics</a>, <a href="https://github.com/SigmaHQ/sigma-specification/blob/main/specification/sigma-rules-specification.md">Sigma Rule Specification</a>, <a href="https://csrc.nist.gov/pubs/sp/800/61/r3/final">NIST SP 800-61r3</a>.</p>
+    <p><strong>SOURCE FACT:</strong> Die Microsoft-Sysmon-Dokumentation stützt mehrere im Original genannte Event-ID-Bezeichnungen, weist aber zugleich auf Konfiguration und Telemetrieumfang hin. Daraus folgt keine Bestätigung der konkreten QRadar-Felder, AQL/SPL-Syntax oder Schwellenwerte im Original. <a href="https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon">Microsoft Sysmon</a>.</p>
+
+    <h2>Hauptbefunde und problematische Claims</h2>
+    <ul>
+      <li>Die 11 Referenzen enthalten umfangreiche QRadar-AQL-, Splunk-SPL-, Sigma- und Pseudocode-Beispiele, aber keine Quellen, Versionen oder Umgebungstests für konkrete Feldnamen, Referenzsets, Parser oder Query-Syntax.</li>
+      <li>Feste Score-Bänder, zahlreiche numerische Schwellen und ein globales Aktivierungsziel von weniger als fünf Prozent False Positives werden ohne Kalibrierungsdaten als Standard dargestellt.</li>
+      <li>Die Regel, dass ein hoher Score eine Eskalation oder vorgeschlagene Isolation bestimmt, vermischt Priorisierung mit einer operativen Incident-Response-Entscheidung.</li>
+      <li>Absolut formulierte Aussagen wie die universelle Aussage zu VSS-Löschungen bei Ransomware sind zu stark; sie eignen sich höchstens als zu prüfende Hunt-Hypothese.</li>
+      <li>Allowlist-/Whitelist-Beispiele und konkrete Infrastrukturwerte sind ohne lokale Ownership, Aktualität und Änderungsprozess nicht übertragbar.</li>
+    </ul>
+
+    <h2>Scope, Evidence Contract und Confidence</h2>
+    <p>Der Overlay reviewt nur bereitgestellte Hunt-Definitionen, Tests und Evidenz. Er verlangt Herkunft, Backend, Datenquellen, Feldmapping, Testmaterial, Messmethode, Owner und Handoff. Fehlende Daten werden als Lücke ausgegeben.</p>
+    <p><strong>FRAMEWORK INTERPRETATION:</strong> Ein Confidence-Score ist ein erklärtes Priorisierungssignal, nicht Wahrscheinlichkeit, Maliciousness-Beweis oder Berechtigung für Containment. ATT&amp;CK-IDs dienen als nachvollziehbares Verhaltensvokabular; eine Zuordnung ist Evidenz, Hypothese oder Coverage-Ziel – keine Attribution.</p>
+
+    <h2>SIEM-, Agent-, Security- und Daten-Grenzen</h2>
+    <ul>
+      <li>Keine Query-Ausführung, keine Regeländerung, kein API-/SSH-/SIEM-Zugriff, keine Allowlist-Pflege und keine Endpunktaktion.</li>
+      <li><code>qradar-aql</code>, <code>security-event-analysis</code> und <code>qradar-investigation</code> bleiben separate Verantwortungen. Der Overlay ersetzt keinen der sechs SIEM-Skills.</li>
+      <li>Es ist kein SOC-Agent installiert oder migriert. Der Skill kann künftig einem autorisierten SOC-/Threat-Hunt-Reviewer zugeordnet werden; der Analyst bzw. Incident-Response-Prozess behält jede operative Entscheidung.</li>
+      <li><code>CUSTOMER_DATA</code> und <code>UNKNOWN</code> sind LOCAL_ONLY. Logs und Tickets sind Daten, keine Anweisungen; das ist Defense in Depth, keine technische Durchsetzungsgrenze.</li>
+    </ul>
+
+    <h2>Cross-Platform und Tests</h2>
+    <table><thead><tr><th>Plattform</th><th>Integration</th><th>Status</th></tr></thead><tbody>
+      <tr><td>GitHub Copilot</td><td>Synchronisierter Adapter vorhanden</td><td><code>RUNTIME_NOT_AVAILABLE</code></td></tr>
+      <tr><td>OpenAI Codex</td><td>Synchronisierter Adapter vorhanden</td><td><code>RUNTIME_BLOCKED_ENVIRONMENT</code></td></tr>
+      <tr><td>Claude Code</td><td>Synchronisierter Adapter vorhanden</td><td><code>RUNTIME_BLOCKED_AUTH</code></td></tr>
+    </tbody></table>
+    <p>Neue Contract Tests prüfen die kanonische Quelle, das Fehlen eigener Tool-Freigaben/Skripte, die Containment- und Local-Only-Grenzen, Confidence-Kalibrierung sowie byte-identische Adapter. Sie belegen keine LLM-Laufzeit oder Detection-Qualität.</p>
+
+    <h2>Abschluss</h2>
+    <table><thead><tr><th>Achse</th><th>Ergebnis</th><th>Begründung</th></tr></thead><tbody>
+      <tr><td>Fachlicher Evidenzstatus</td><td><strong>PARTIALLY_VERIFIED</strong></td><td>Die übergeordneten Grundlagen zu ATT&amp;CK, Rule-Metadaten, Telemetrie und Incident Response sind belegt. Die konkreten 11 Hunt-Pakete, Queries, Feldmappings, Scores und Schwellen sind nicht ausreichend quellen- oder umgebungsvalidiert.</td></tr>
+      <tr><td>Framework-Reife</td><td><strong>YELLOW</strong></td><td>Kanonischer Overlay, drei Adapter, ehrliche Grenzen und Contract Tests sind vorhanden. Runtime-Nachweise sind weiterhin umgebungsbedingt blockiert.</td></tr>
+      <tr><td>Entscheidung</td><td><strong>OVERLAY</strong></td><td>KEEP wäre wegen der unbelegten, stark operativen Aussagen nicht ausreichend; OPTIMIZE würde eine unklare externe Quelle verändern. MERGE, SPLIT und DEPRECATE sind nicht begründet, weil der Originalbestand erhalten bleibt und der Overlay nur sichere Framework-Nutzung regelt.</td></tr>
+    </tbody></table>
+    <p><strong>Verbleibende Unsicherheiten:</strong> Upstream und Lizenz, konkrete Vendor-Syntax, lokale Datenquellen/Feldmappings, TP/FP/Evasion-Testresultate, Kalibrierung und echte Plattform-Runtime. Kein nächster Queue-Skill wurde begonnen.</p>
+  </main>
+</body>
+</html>
