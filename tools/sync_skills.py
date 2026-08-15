@@ -24,6 +24,7 @@ SKILLS = (
     "qradar-aql",
     "security-event-analysis",
     "false-positive-analysis",
+    "incident-summary",
 )
 
 

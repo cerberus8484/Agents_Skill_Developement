@@ -1,0 +1,7 @@
+interface:
+  display_name: "Incident Summary"
+  short_description: "Present investigation packets without changing them"
+  default_prompt: "Use $incident-summary to create a traceable summary of this supplied SIEM investigation packet."
+
+policy:
+  allow_implicit_invocation: true
