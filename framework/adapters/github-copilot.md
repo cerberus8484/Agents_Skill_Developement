@@ -1,6 +1,6 @@
 # GitHub Copilot adapter
 
-Status: STRUCTURAL_ONLY.
+Status: STRUCTURAL_ONLY. Runtime attempt on 2026-08-15 was blocked because Copilot CLI is not installed.
 
 GitHub Copilot discovers project skills in .github/skills/name/SKILL.md and supports resources and optional allowed-tools. This repository generates that adapter from the canonical source using tools/sync_skills.py.
 

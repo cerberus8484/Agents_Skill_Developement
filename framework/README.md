@@ -19,9 +19,13 @@ Capability is not permission. A skill is not an agent. A reference is not automa
 
 ## Source-of-truth strategy
 
-Each framework-owned skill has one editable canonical directory under framework/skills/name. tools/sync_skills.py generates the GitHub Copilot adapter under .github/skills/name; do not edit generated files manually.
+Each framework-owned skill has one editable canonical directory under framework/skills/name. tools/sync_skills.py generates identical adapters under .github/skills/name, .agents/skills/name, and .claude/skills/name; do not edit generated files manually. Adapter presence is structural preparation, not runtime validation.
 
-No Codex or Claude Code adapter is generated yet: their project-level discovery contract was not established by the evidence collected for this repository. Their status is UNTESTED, not inferred.
+Every changed framework-owned skill or agent follows the Cross-Platform Completion Rule: GitHub Copilot, OpenAI Codex, and Claude Code must each be considered, receive a documented adapter or explicit integration decision, and carry separate status.
+
+## Cross-Platform Completion Rule
+
+A skill or agent is not fully processed until its fachlicher Review, capability and limitation contract, security/data-policy references, canonical source, three platform decisions, contract tests, platform status, and documentation are present. Runtime validation is never inferred from file structure.
 
 ## Honesty labels
 

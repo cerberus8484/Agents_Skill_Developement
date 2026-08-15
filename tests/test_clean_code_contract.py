@@ -5,7 +5,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 CANONICAL = ROOT / "framework" / "skills" / "clean-code"
-COPILOT = ROOT / ".github" / "skills" / "clean-code"
+ADAPTERS = (
+    ROOT / ".github" / "skills" / "clean-code",
+    ROOT / ".agents" / "skills" / "clean-code",
+    ROOT / ".claude" / "skills" / "clean-code",
+)
 CASES = ROOT / "tests" / "clean-code-contract-cases.json"
 
 
@@ -26,17 +30,18 @@ class CleanCodeContractTests(unittest.TestCase):
         ):
             self.assertIn(term, content)
 
-    def test_references_are_complete_and_copilot_adapter_has_no_divergence(self) -> None:
+    def test_references_are_complete_and_adapters_have_no_divergence(self) -> None:
         expected = {
             "naming.md", "functions.md", "comments.md", "error-handling.md",
             "tests.md", "duplication.md", "tradeoffs.md",
         }
         actual = {path.name for path in (CANONICAL / "references").glob("*.md")}
         self.assertEqual(expected, actual)
-        for source in CANONICAL.rglob("*"):
-            if source.is_file():
-                relative = source.relative_to(CANONICAL)
-                self.assertEqual(source.read_bytes(), (COPILOT / relative).read_bytes())
+        for adapter in ADAPTERS:
+            for source in CANONICAL.rglob("*"):
+                if source.is_file():
+                    relative = source.relative_to(CANONICAL)
+                    self.assertEqual(source.read_bytes(), (adapter / relative).read_bytes())
         self.assertFalse((CANONICAL / "scripts").exists())
 
     def test_synthetic_contract_inventory_is_complete(self) -> None:

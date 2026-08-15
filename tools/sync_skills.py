@@ -8,18 +8,23 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 CANONICAL = ROOT / "framework" / "skills"
-COPILOT = ROOT / ".github" / "skills"
+ADAPTERS = (
+    ROOT / ".github" / "skills",
+    ROOT / ".agents" / "skills",
+    ROOT / ".claude" / "skills",
+)
 SKILLS = ("clean-code",)
 
 
 def sync_skill(name: str) -> None:
     source = CANONICAL / name
-    destination = COPILOT / name
     if not (source / "SKILL.md").is_file():
         raise FileNotFoundError(f"Missing canonical SKILL.md for {name}")
-    if destination.exists():
-        shutil.rmtree(destination)
-    shutil.copytree(source, destination)
+    for adapter_root in ADAPTERS:
+        destination = adapter_root / name
+        if destination.exists():
+            shutil.rmtree(destination)
+        shutil.copytree(source, destination)
 
 
 def main() -> None:
