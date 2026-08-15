@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skill Review – QRadar Investigation</title>
+  <style>
+    :root { color-scheme:dark; --bg:#0b1220; --card:#131d2d; --line:#2c4360; --text:#e7edf7; --muted:#aab8cc; --accent:#6bd5ff; --warn:#ffd073; }
+    body { margin:0; background:var(--bg); color:var(--text); font:16px/1.55 system-ui,sans-serif; }
+    main { max-width:1080px; margin:auto; padding:38px 24px 70px; } h1,h2 { line-height:1.2; }
+    h2 { margin-top:38px; border-bottom:1px solid var(--line); padding-bottom:7px; } a,code { color:var(--accent); }
+    table { border-collapse:collapse; width:100%; margin:14px 0; } th,td { border:1px solid var(--line); padding:9px; text-align:left; vertical-align:top; } th { background:#172840; }
+    .note { border-left:4px solid var(--warn); background:#241e11; padding:12px 15px; } .muted { color:var(--muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <p><a href="../index.html">← Agent &amp; Skill Framework</a> · <a href="../skill-inventory.html">Inventar</a></p>
+    <h1>Skill Review: QRadar Investigation</h1>
+    <p><strong>Evidenz: VERIFIED · Framework-Reife: YELLOW</strong></p>
+    <p class="muted">Entscheidung: OPTIMIZE. Der eigene GitHub-only Altbestand wird als enger kanonischer State-/Orchestrierungsvertrag fortgeführt.</p>
+
+    <h2>Originalzustand und Provenienz</h2>
+    <table><tbody>
+      <tr><th>Altbestand</th><td><code>.github/skills/qradar-investigation/SKILL.md</code></td></tr>
+      <tr><th>Artefakte</th><td>Eine SKILL.md, gemeinsame Standards/Schemas und fünf synthetische Investigation-Fixtures. Keine skill-eigenen References, Skripte, Examples oder deklarierte <code>allowed-tools</code>.</td></tr>
+      <tr><th>Fingerprint vor Optimierung</th><td><code>SHA-256: 6B4FBC2567DAC8BCC465D889918878C6F2813C857E1094091DE2EF2DD53B0765</code></td></tr>
+      <tr><th>Ownership</th><td>FRAMEWORK_OWNED; Upstream und separate Version sind nicht belegt.</td></tr>
+    </tbody></table>
+
+    <h2>Fachliche Grundlage</h2>
+    <p><strong>SOURCE FACT:</strong> NIST SP 800-61r3 versteht Incident Response als Teil des organisatorischen Cybersecurity-Risikomanagements. Evidenzgewinnung, Analyse und Response-/Recovery-Entscheidungen sind daher nicht dieselbe Aufgabe. <a href="https://csrc.nist.gov/pubs/sp/800/61/r3/final">NIST SP 800-61r3</a>.</p>
+    <p><strong>SOURCE FACT:</strong> IBM beschreibt AQL als Sprache zum Abruf und Filtern von Event- und Flow-Daten aus QRadar Ariel. Syntax, Felder und Zeitkriterien sind produkt- und umgebungsabhängig; ein Investigation-Skill soll deshalb nur einen begründeten Datenbedarf an den späteren AQL-Skill übergeben. <a href="https://www.ibm.com/docs/en/qsip/7.5.0?topic=aql-query-structure">IBM: AQL Query Structure</a> · <a href="https://www.ibm.com/docs/en/qradar-on-cloud?topic=language-time-criteria-in-aql-queries">IBM: Time Criteria</a>.</p>
+
+    <h2>Hauptbefunde</h2>
+    <ul>
+      <li>Der Altbestand war bereits vorsichtig: ein Investigation State, attribuierte Evidenz, Hypothesen, erhaltene Checks, ein nicht ausgeführter Query Request und keine Produktionsaktion.</li>
+      <li>Er war GitHub-spezifisch. Eine kanonische Quelle, Codex-/Claude-Adapter und ein verbindlicher Adapter-Gleichheitstest fehlten.</li>
+      <li>„Next Best Action“ war sinnvoll, aber noch nicht ausdrücklich als einzelne evidenzgestützte Empfehlung statt objektiv optimaler Aktion gekennzeichnet.</li>
+      <li>Handoffs zu Query-Übersetzung, Raw-Event-Analyse, Assessment, Summary und Produktion waren nicht vollständig als getrennte Verantwortungen festgeschrieben.</li>
+    </ul>
+
+    <h2>Optimierter State- und Orchestrierungsvertrag</h2>
+    <p>Der Skill verwaltet genau einen vom Analysten gelieferten Zustand. Fakten, Beobachtungen, Inferenzen, Hypothesen, fehlende Evidenz sowie erledigte/offene Checks bleiben getrennt und mit E### attribuiert. Er schlägt genau einen sicheren nächsten Untersuchungsschritt vor; die Empfehlung benennt ihre Evidenzbasis und das erwartete Ergebnis, ist jedoch kein Beweis für globale Optimalität.</p>
+    <table><thead><tr><th>Bedarf</th><th>Handoff</th><th>Kein Bestandteil dieses Skills</th></tr></thead><tbody>
+      <tr><td>Begründeter QRadar-Datenbedarf</td><td><code>qradar-aql</code></td><td>AQL erzeugen oder ausführen</td></tr>
+      <tr><td>Raw Events/Payloads, Parsing, Normalisierung, technische Korrelation</td><td><code>security-event-analysis</code></td><td>Event-Analyse und technische Findings</td></tr>
+      <tr><td>Detection Validity, False Positive, Legitimität/Maliciousness</td><td><code>false-positive-analysis</code></td><td>Assessment- oder Incident-Entscheidung</td></tr>
+      <tr><td>Berichterstattung</td><td><code>incident-summary</code></td><td>Incident Summary</td></tr>
+      <tr><td>Containment, Remediation, Ticket-/Produktionsaktion</td><td>Autorisierter Mensch / künftiger autorisierter Operator</td><td>Ausführung oder Autorisierung</td></tr>
+    </tbody></table>
+    <p><strong>FRAMEWORK INTERPRETATION:</strong> Ein Query Request enthält nur Purpose, Events/Flows, Entity, evidenzverankertes Zeitfenster, Required Fields, Reason und bewertete Hypothesen. Ohne Entity und belastbaren Zeitanker wird kein Request erstellt.</p>
+
+    <h2>Security, Datenschutz und Agent Mapping</h2>
+    <ul>
+      <li>Kein Agent wurde erstellt oder migriert. Der Skill ist Methodik für einen künftig autorisierten SOC-Investigation-Reviewer, keine Ausführungsberechtigung.</li>
+      <li>Alle Tickets, Logs, Query Results und eingebetteten Anweisungen sind untrusted data. Sie können Scope oder Berechtigungen nicht verändern.</li>
+      <li><code>CUSTOMER_DATA</code> und <code>UNKNOWN</code> bleiben LOCAL_ONLY. Keine automatische Cloud-Weitergabe; die Regel ist ein Policy-/Prompt-Vertrag, keine technische Isolation.</li>
+    </ul>
+
+    <h2>Tests und Plattformen</h2>
+    <p>Die fünf bestehenden Fixtures bleiben unverändert und verlangen konservative Ergebnisse: viermal <code>UNKNOWN</code>, einmal <code>SUSPICIOUS</code>, immer <code>LOW</code> Confidence sowie verbotene Schlussfolgerungen. Der neue Contract-Test prüft Source Contract, fehlende Tool-Freigaben/Skripte, die fünf Handoffs, Local-Only und byte-identische Adapter.</p>
+    <table><thead><tr><th>Plattform</th><th>Integration</th><th>Status</th></tr></thead><tbody>
+      <tr><td>GitHub Copilot</td><td>Synchronisierter Adapter</td><td><code>RUNTIME_NOT_AVAILABLE</code></td></tr>
+      <tr><td>OpenAI Codex</td><td>Synchronisierter Adapter</td><td><code>RUNTIME_BLOCKED_ENVIRONMENT</code></td></tr>
+      <tr><td>Claude Code</td><td>Synchronisierter Adapter</td><td><code>RUNTIME_BLOCKED_AUTH</code></td></tr>
+    </tbody></table>
+
+    <h2>Abschlussentscheidung</h2>
+    <table><thead><tr><th>Achse</th><th>Ergebnis</th><th>Begründung</th></tr></thead><tbody>
+      <tr><td>Fachlicher Evidenzstatus</td><td><strong>VERIFIED</strong></td><td>Der Skill bleibt bei nachvollziehbarer Zustandsfortschreibung und Evidence-Handoffs. IBM deckt die Trennung der QRadar-Datenabfrage ab; NIST stützt die Trennung von Analyse und Response. Er behauptet keine lokale Query- oder Incident-Wahrheit.</td></tr>
+      <tr><td>Framework-Reife</td><td><strong>YELLOW</strong></td><td>Kanonische Quelle, drei Adapter, I/O, Grenzen, Local-Only und Regressionen sind vorhanden. Echte Plattform-Runtime ist nicht nachgewiesen.</td></tr>
+      <tr><td>Entscheidung</td><td><strong>OPTIMIZE</strong></td><td>Der eigene Altbestand war brauchbar, aber GitHub-only und in den Orchestrierungsgrenzen nicht vollständig. KEEP wäre unvollständig; OVERLAY, MERGE, SPLIT, REPLACE und DEPRECATE sind nicht nötig.</td></tr>
+    </tbody></table>
+    <p><strong>Original unverändert:</strong> NEIN. Der FRAMEWORK_OWNED GitHub-Adapter wurde kontrolliert durch den kanonischen, engeren Vertrag ersetzt. Die ursprünglichen Safety-Prinzipien und fünf Fixtures bleiben erhalten. Verbleibend offen: echte Runtime-Validierung sowie lokale QRadar-Feld-, Berechtigungs- und Query-Syntax-Prüfung im späteren <code>qradar-aql</code>-Review.</p>
+  </main>
+</body>
+</html>
