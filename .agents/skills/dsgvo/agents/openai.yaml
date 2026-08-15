@@ -1,0 +1,4 @@
+interface:
+  display_name: "DSGVO Review"
+  short_description: "Bounded GDPR review guidance"
+  default_prompt: "Use $dsgvo to review this artefact for GDPR-relevant data-protection considerations without providing legal advice."

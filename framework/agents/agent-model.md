@@ -26,6 +26,14 @@ Example: code-simplifier is an EXECUTOR; whether it may write a file remains env
 | `code-reviewer` | REVIEWER | Uses the security method when a code review has a security-relevant focus. |
 | `security-fixer` | Proposed EXECUTOR role | May implement an approved remediation only when separately authorized; it is not currently an installed agent. |
 
+## DSGVO skill mapping
+
+| Component | Role | Boundary |
+|---|---|---|
+| `dsgvo` | Method / reference | Structures data-protection considerations; it provides no legal conclusion. |
+| `privacy-reviewer` | Proposed REVIEWER role | Reviews artefact evidence and routes legal questions to accountable expertise. |
+| `dsgvo-fixer` | Proposed EXECUTOR role | May implement approved technical changes only with separate authorization; it is not currently installed. |
+
 ## Cross-Platform Definition of Done
 
 For every newly reviewed or changed agent: canonical definition; Copilot custom-agent decision; Codex integration decision; Claude Code sub-agent decision; no manually divergent copies; contract tests; separate per-platform status; real runtime evidence where available; and updated security/data documentation. Missing hosts are UNTESTED until a test is attempted, then use the precise runtime-blocked status where applicable.
