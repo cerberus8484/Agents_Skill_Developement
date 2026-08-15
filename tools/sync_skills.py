@@ -1,4 +1,4 @@
-"""Generate GitHub Copilot skill adapters from canonical framework skills."""
+"""Generate cross-platform skill adapters from canonical framework skills."""
 
 from __future__ import annotations
 
@@ -13,7 +13,7 @@ ADAPTERS = (
     ROOT / ".agents" / "skills",
     ROOT / ".claude" / "skills",
 )
-SKILLS = ("clean-code",)
+SKILLS = ("clean-code", "security")
 
 
 def sync_skill(name: str) -> None:

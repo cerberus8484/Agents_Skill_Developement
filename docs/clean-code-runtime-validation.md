@@ -12,9 +12,9 @@ The canonical contract inventory contains 14 synthetic cases: naming, large func
 
 | Platform | Discovery / explicit invocation | Runtime result | Status |
 |---|---|---|---|
-| GitHub Copilot | Project adapter generated and contract-tested. | gh copilot reported that Copilot CLI is not installed. | STRUCTURAL_ONLY |
-| OpenAI Codex | Agents adapter generated and contract-tested. | The installed codex.exe could not start from this environment: access denied. | UNTESTED |
-| Claude Code | Claude adapter generated and contract-tested. | claude reached the host but failed before inference: OAuth token revoked (HTTP 401). | FAILED |
+| GitHub Copilot | Project adapter generated and contract-tested. | gh copilot reported that Copilot CLI is not installed. | RUNTIME_NOT_AVAILABLE |
+| OpenAI Codex | Agents adapter generated and contract-tested. | The installed codex.exe could not start from this environment: access denied. | RUNTIME_BLOCKED_ENVIRONMENT |
+| Claude Code | Claude adapter generated and contract-tested. | claude reached the host but failed before inference: OAuth token revoked (HTTP 401). | RUNTIME_BLOCKED_AUTH |
 
 No output contract, automatic triggering, reference loading, trade-off behavior, prompt injection resistance, or agent boundary was marked as runtime-passed. No runtime evidence was invented.
 
