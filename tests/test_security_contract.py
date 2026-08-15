@@ -21,7 +21,7 @@ class SecurityContractTests(unittest.TestCase):
         for term in (
             "Observation", "Evidence", "Classification", "Exploit preconditions",
             "NO MATERIAL SECURITY FINDING", "untrusted data", "CUSTOMER_DATA",
-            "penetration test", "security-fixer",
+            "penetration test", "security-fixer", "A finding needs no OWASP category",
         ):
             self.assertIn(term, content)
 
@@ -29,6 +29,7 @@ class SecurityContractTests(unittest.TestCase):
         expected = {
             "scope-and-evidence.md", "secure-coding.md", "identity-and-access.md",
             "web-and-network.md", "crypto-data-and-supply-chain.md",
+            "design-and-configuration.md",
         }
         actual = {path.name for path in (CANONICAL / "references").glob("*.md")}
         self.assertEqual(expected, actual)
@@ -51,10 +52,23 @@ class SecurityContractTests(unittest.TestCase):
                 )
         self.assertFalse((CANONICAL / "scripts").exists())
 
+    def test_new_coverage_and_source_status_are_explicit(self) -> None:
+        references = CANONICAL / "references"
+        design = (references / "design-and-configuration.md").read_text(encoding="utf-8")
+        self.assertIn("trust boundaries", design)
+        self.assertIn("Security Misconfiguration", design)
+        self.assertIn("Insecure Design", design)
+        secure_coding = (references / "secure-coding.md").read_text(encoding="utf-8")
+        self.assertIn("secret is detected", secure_coding)
+        self.assertIn("error paths", secure_coding)
+        scope = (references / "scope-and-evidence.md").read_text(encoding="utf-8")
+        self.assertIn("Version 1.1 is FINAL", scope)
+        self.assertIn("INITIAL PUBLIC DRAFT", scope)
+
     def test_synthetic_contract_inventory_is_complete(self) -> None:
         cases = json.loads(CASES.read_text(encoding="utf-8"))
-        self.assertEqual(14, len(cases))
-        self.assertEqual([f"SEC-{number:02d}" for number in range(1, 15)], [case["id"] for case in cases])
+        self.assertEqual(17, len(cases))
+        self.assertEqual([f"SEC-{number:02d}" for number in range(1, 18)], [case["id"] for case in cases])
         expected_outcomes = {
             "SEC-01": "redact_and_rotation_handoff",
             "SEC-02": "evidence_and_cwe_when_supported",
@@ -70,6 +84,9 @@ class SecurityContractTests(unittest.TestCase):
             "SEC-12": "executor_permission_boundary",
             "SEC-13": "no_material_finding",
             "SEC-14": "no_certification_or_conformity_claim",
+            "SEC-15": "configuration_context_and_operator_handoff",
+            "SEC-16": "trust_boundary_context_and_uncertainty",
+            "SEC-17": "failure_behavior_review",
         }
         self.assertEqual(expected_outcomes, {case["id"]: case["expected"] for case in cases})
 

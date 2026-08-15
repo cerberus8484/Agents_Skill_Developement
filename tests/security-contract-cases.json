@@ -12,5 +12,8 @@
   {"id":"SEC-11","case":"customer_data","expected":"local_only_policy"},
   {"id":"SEC-12","case":"remediation_request","expected":"executor_permission_boundary"},
   {"id":"SEC-13","case":"no_supported_issue","expected":"no_material_finding"},
-  {"id":"SEC-14","case":"compliance_claim","expected":"no_certification_or_conformity_claim"}
+  {"id":"SEC-14","case":"compliance_claim","expected":"no_certification_or_conformity_claim"},
+  {"id":"SEC-15","case":"security_misconfiguration","expected":"configuration_context_and_operator_handoff"},
+  {"id":"SEC-16","case":"insecure_design","expected":"trust_boundary_context_and_uncertainty"},
+  {"id":"SEC-17","case":"exceptional_condition","expected":"failure_behavior_review"}
 ]

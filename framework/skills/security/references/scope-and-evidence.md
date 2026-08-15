@@ -16,3 +16,4 @@
 - OWASP Top 10:2025: https://owasp.org/Top10/
 - CWE Top 25: https://cwe.mitre.org/top25/
 - NIST SP 800-218 SSDF: https://csrc.nist.gov/pubs/sp/800/218/final
+- NIST source status: SP 800-218 Version 1.1 is FINAL (2022-02-03). SP 800-218 Rev. 1 / SSDF Version 1.2 is an INITIAL PUBLIC DRAFT (2025-12-17), not a final standard: https://csrc.nist.gov/pubs/sp/800/218/r1/ipd
