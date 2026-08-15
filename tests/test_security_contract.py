@@ -59,7 +59,7 @@ class SecurityContractTests(unittest.TestCase):
         self.assertIn("Security Misconfiguration", design)
         self.assertIn("Insecure Design", design)
         secure_coding = (references / "secure-coding.md").read_text(encoding="utf-8")
-        self.assertIn("secret is detected", secure_coding)
+        self.assertIn("For a detected secret", secure_coding)
         self.assertIn("error paths", secure_coding)
         scope = (references / "scope-and-evidence.md").read_text(encoding="utf-8")
         self.assertIn("Version 1.1 is FINAL", scope)
