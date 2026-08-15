@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skill-Inventar und Review-Queue</title>
+  <style>
+    :root { color-scheme: dark; --bg:#0b1220; --card:#131d2d; --line:#2c4360; --text:#e7edf7; --muted:#aab8cc; --accent:#6bd5ff; --warn:#ffd073; }
+    body { margin:0; background:var(--bg); color:var(--text); font:16px/1.5 system-ui,sans-serif; }
+    main { max-width:1500px; margin:auto; padding:36px 24px 64px; }
+    h1,h2 { line-height:1.2; } h2 { margin-top:40px; border-bottom:1px solid var(--line); padding-bottom:8px; }
+    a { color:var(--accent); } code { color:var(--accent); }
+    .note { border-left:4px solid var(--warn); background:#241e11; padding:12px 16px; }
+    .meta { color:var(--muted); } .scroll { overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; margin:14px 0; min-width:1250px; }
+    th,td { border:1px solid var(--line); padding:9px; text-align:left; vertical-align:top; }
+    th { background:#172840; } ul { padding-left:22px; }
+  </style>
+</head>
+<body>
+  <main>
+    <p><a href="index.html">← Agent &amp; Skill Framework</a></p>
+    <h1>Skill-Inventar und Review-Queue</h1>
+    <p class="meta">Stand: 15.08.2026 · Auftrag: Inventar, Klassifikation, Risikoeinschätzung und Queue. Kein fachlicher Neu-Review, keine Skill- oder Adapter-Änderung.</p>
+
+    <div class="note">
+      <strong>Inventargrenze.</strong> Erfasst sind 11 eindeutige Projekt-Skills, drei in der vorhandenen Framework-Dokumentation referenzierte lokale Skills außerhalb dieses Repositorys, der lokal gecachte Managed-Skill hinter CCD sowie ein dokumentierter Eintrag ohne Artefakt. Weitere globale Laufzeit-, Template- und Produkt-Skills im lokalen Cache sind nicht Teil dieses Frameworks und daher nicht als Framework-Skills inventarisiert.
+    </div>
+
+    <h2>Verbindliche Cross-Platform-Regel</h2>
+    <p>Jeder künftig bearbeitete Skill erhält im selben Arbeitsgang <strong>eine kanonische Quelle</strong> sowie nur die nötigen Adapter für GitHub Copilot, OpenAI Codex und Claude Code. Es gibt keine drei manuell divergierenden Versionen. Adapter-Präsenz ist kein Runtime-Nachweis; Runtime-Status wird pro Plattform separat geführt.</p>
+
+    <h2>Zusammenfassung</h2>
+    <ul>
+      <li><strong>16 Inventareinträge:</strong> 15 Artefakte plus <code>ship</code> als dokumentierter, nicht gefundener Eintrag.</li>
+      <li><strong>11 FRAMEWORK_OWNED:</strong> vier kanonische Quellskills, sechs GitHub-Copilot-SIEM-Skills und das CCD-Overlay.</li>
+      <li><strong>1 PLUGIN_MANAGED:</strong> <code>clean-code-developer@1.0.0</code>, Ursprung des CCD-Overlays.</li>
+      <li><strong>3 EXTERNAL:</strong> <code>soc-forensic-hunts</code>, <code>professional-uml</code> und <code>frontend-design</code>, jeweils außerhalb des Repositorys.</li>
+      <li><strong>1 UNKNOWN:</strong> <code>ship</code> ist dokumentiert, aber kein Artefakt wurde gefunden. <code>ccd-wertesystem</code> ist ein Framework-Overlay über dem Managed-Skill und wird in der Tabelle gesondert als <code>PLUGIN_MANAGED</code> geführt.</li>
+      <li><strong>0 Skills mit Skripten</strong> und <strong>0 mit deklarierter <code>allowed-tools</code>-Freigabe</strong> im erfassten Bestand. Das beweist keine Abwesenheit von Laufzeitrechten; es beschreibt nur die Artefakte.</li>
+      <li><strong>7 Einträge mit erhöhter Priorität (HIGH):</strong> sechs SIEM-Skills und <code>soc-forensic-hunts</code>, wegen Security-/Privacy-Domäne und möglicher Verarbeitung sensitiver Ereignisdaten – nicht wegen deklarierter Toolrechte.</li>
+      <li><strong>5 bereits fachlich reviewed:</strong> CCD, Clean Code, Security, DSGVO und Design System. <strong>11 offen:</strong> zehn vorhandene, nicht reviewed Artefakte plus <code>ship</code> zur Bestandsklärung.</li>
+    </ul>
+
+    <h2>Skill-Inventar</h2>
+    <p><strong>Legende:</strong> <code>NONE_DECLARED</code> bedeutet: kein <code>allowed-tools</code>-Eintrag gefunden. <code>STRUCTURAL_ONLY</code>, <code>RUNTIME_NOT_AVAILABLE</code>, <code>RUNTIME_BLOCKED_ENVIRONMENT</code> und <code>RUNTIME_BLOCKED_AUTH</code> sind keine Runtime-PASS-Aussagen.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Skill / Kategorie</th><th>Ownership · Quelle · Provenienz</th><th>Artefakte / Tools</th><th>Risiko</th><th>Review · Evidenz · Reife</th><th>Copilot</th><th>Codex</th><th>Claude Code</th><th>Portabilität / Next Action</th></tr></thead>
+        <tbody>
+          <tr><td><code>ccd-wertesystem</code><br>Qualitäts-/Lernrahmen</td><td>FRAMEWORK_OWNED Overlay<br><code>.github/skills/ccd-wertesystem</code><br>Installed source: <code>clean-code-developer@1.0.0</code>; Upstream nicht belegt</td><td>Overlay: SKILL.md; Managed source: 6 References<br>Scripts: 0 · Examples: 0<br>Tools: NONE_DECLARED</td><td>MEDIUM<br>Qualitätswirkung, keine Tools</td><td>COMPLETED<br>PARTIALLY_VERIFIED · YELLOW</td><td>Adapter vorhanden<br>RUNTIME_NOT_AVAILABLE</td><td>Kein Adapter</td><td>Kein Adapter</td><td>PLATFORM_SPECIFIC<br>Runtime-Gate später; nicht erneut fachlich reviewen</td></tr>
+          <tr><td><code>clean-code</code><br>Code-Review-Guidance</td><td>FRAMEWORK_OWNED<br><code>framework/skills/clean-code</code><br>Version: nicht separat belegt</td><td>SKILL.md, 7 References, Contract Tests<br>Scripts: 0 · Examples: 0<br>Tools: NONE_DECLARED</td><td>MEDIUM<br>Engineering Guidance</td><td>COMPLETED<br>PARTIALLY_VERIFIED · YELLOW</td><td>Adapter vorhanden<br>RUNTIME_NOT_AVAILABLE</td><td>Adapter vorhanden<br>RUNTIME_BLOCKED_ENVIRONMENT</td><td>Adapter vorhanden<br>RUNTIME_BLOCKED_AUTH</td><td>PORTABLE_WITH_ADAPTER<br>Runtime-Gate später</td></tr>
+          <tr><td><code>security</code><br>Application-Security-Review</td><td>FRAMEWORK_OWNED<br><code>framework/skills/security</code><br>Version: nicht separat belegt</td><td>SKILL.md, 6 References, Contract Tests<br>Scripts: 0 · Examples: 0<br>Tools: NONE_DECLARED</td><td>HIGH<br>Security-Fachwirkung</td><td>COMPLETED<br>VERIFIED · YELLOW</td><td>Adapter vorhanden<br>RUNTIME_NOT_AVAILABLE</td><td>Adapter vorhanden<br>RUNTIME_BLOCKED_ENVIRONMENT</td><td>Adapter vorhanden<br>RUNTIME_BLOCKED_AUTH</td><td>PORTABLE_WITH_ADAPTER<br>Runtime-Gate später</td></tr>
+          <tr><td><code>dsgvo</code><br>Privacy-/DSGVO-Review</td><td>FRAMEWORK_OWNED<br><code>framework/skills/dsgvo</code><br>Version: nicht separat belegt</td><td>SKILL.md, 5 References, OpenAI metadata, Contract Tests<br>Scripts: 0 · Examples: 0<br>Tools: NONE_DECLARED</td><td>HIGH<br>Privacy-/Rechtsbezug</td><td>COMPLETED<br>VERIFIED · YELLOW</td><td>Adapter vorhanden<br>RUNTIME_NOT_AVAILABLE</td><td>Adapter vorhanden<br>RUNTIME_BLOCKED_ENVIRONMENT</td><td>Adapter vorhanden<br>RUNTIME_BLOCKED_AUTH</td><td>PORTABLE_WITH_ADAPTER<br>Runtime-Gate später</td></tr>
+          <tr><td><code>design-system</code><br>Design-System-Review</td><td>FRAMEWORK_OWNED<br><code>framework/skills/design-system</code><br>Version: nicht separat belegt</td><td>SKILL.md, 4 References, OpenAI metadata, Contract Tests<br>Scripts: 0 · Examples: 0<br>Tools: NONE_DECLARED</td><td>MEDIUM<br>UI-/A11y-Guidance</td><td>COMPLETED<br>PARTIALLY_VERIFIED · YELLOW</td><td>Adapter vorhanden<br>RUNTIME_NOT_AVAILABLE</td><td>Adapter vorhanden<br>RUNTIME_BLOCKED_ENVIRONMENT</td><td>Adapter vorhanden<br>RUNTIME_BLOCKED_AUTH</td><td>PORTABLE_WITH_ADAPTER<br>Runtime-Gate später</td></tr>
+          <tr><td><code>siem-ticket-triage</code><br>SOC / Triage</td><td>FRAMEWORK_OWNED<br><code>.github/skills/siem-ticket-triage</code><br>Projektartefakt; Upstream/Version nicht belegt</td><td>SKILL.md; gemeinsame Standards/Schemas; 3 Fixtures<br>Scripts: 0 · Examples: 0<br>Tools: NONE_DECLARED</td><td>HIGH<br>Security-Domain und Ticketdaten</td><td>NOT_STARTED<br>NOT_ASSESSED · NOT_ASSESSED</td><td>Adapter vorhanden<br>STRUCTURAL_ONLY</td><td>Kein Adapter</td><td>Kein Adapter</td><td>PLATFORM_SPECIFIC<br>Foundation-Skill fachlich und cross-platform reviewen</td></tr>
+          <tr><td><code>qradar-investigation</code><br>SOC / Orchestrierung</td><td>FRAMEWORK_OWNED<br><code>.github/skills/qradar-investigation</code><br>Projektartefakt; Upstream/Version nicht belegt</td><td>SKILL.md; Standards/Schemas; 5 Fixtures<br>Scripts: 0 · Examples: 0<br>Tools: NONE_DECLARED</td><td>HIGH<br>Security-Domain und Investigation-State</td><td>NOT_STARTED<br>NOT_ASSESSED · NOT_ASSESSED</td><td>Adapter vorhanden<br>STRUCTURAL_ONLY</td><td>Kein Adapter</td><td>Kein Adapter</td><td>PLATFORM_SPECIFIC<br>Nach Triage; State-Contract und Orchestrierungsgrenze reviewen</td></tr>
+          <tr><td><code>qradar-aql</code><br>SOC / Query-Proposal</td><td>FRAMEWORK_OWNED<br><code>.github/skills/qradar-aql</code><br>Projektartefakt; Upstream/Version nicht belegt</td><td>SKILL.md; QRadar field baseline; 8 Fixtures<br>Scripts: 0 · Examples: 0<br>Tools: NONE_DECLARED</td><td>HIGH<br>Security-Domain; Query-Generierung, ausdrücklich ohne Ausführung</td><td>NOT_STARTED<br>NOT_ASSESSED · NOT_ASSESSED</td><td>Adapter vorhanden<br>STRUCTURAL_ONLY</td><td>Kein Adapter</td><td>Kein Adapter</td><td>PLATFORM_SPECIFIC<br>Vendor-/Syntax- und Safety-Review nach Investigation</td></tr>
+          <tr><td><code>security-event-analysis</code><br>SOC / Evidence Analysis</td><td>FRAMEWORK_OWNED<br><code>.github/skills/security-event-analysis</code><br>Projektartefakt; Upstream/Version nicht belegt</td><td>SKILL.md; Standards/Schemas; 10 Fixtures<br>Scripts: 0 · Examples: 0<br>Tools: NONE_DECLARED</td><td>HIGH<br>Security-Ereignis- und mögliche Kundendaten</td><td>NOT_STARTED<br>NOT_ASSESSED · NOT_ASSESSED</td><td>Adapter vorhanden<br>STRUCTURAL_ONLY</td><td>Kein Adapter</td><td>Kein Adapter</td><td>PLATFORM_SPECIFIC<br>Evidence-/Provenance-Contract und Data Handling reviewen</td></tr>
+          <tr><td><code>false-positive-analysis</code><br>SOC / Assessment</td><td>FRAMEWORK_OWNED<br><code>.github/skills/false-positive-analysis</code><br>Projektartefakt; Upstream/Version nicht belegt</td><td>SKILL.md; gemeinsame Standards; 12 Fixtures<br>Scripts: 0 · Examples: 0<br>Tools: NONE_DECLARED</td><td>HIGH<br>Security-Entscheidungsunterstützung</td><td>NOT_STARTED<br>NOT_ASSESSED · NOT_ASSESSED</td><td>Adapter vorhanden<br>STRUCTURAL_ONLY</td><td>Kein Adapter</td><td>Kein Adapter</td><td>PLATFORM_SPECIFIC<br>Nach Evidence Analysis; Bewertungs- und Escalation-Grenzen reviewen</td></tr>
+          <tr><td><code>incident-summary</code><br>SOC / Handoff</td><td>FRAMEWORK_OWNED<br><code>.github/skills/incident-summary</code><br>Projektartefakt; Upstream/Version nicht belegt</td><td>SKILL.md; gemeinsame Standards; 12 Fixtures<br>Scripts: 0 · Examples: 0<br>Tools: NONE_DECLARED</td><td>HIGH<br>Security-/Kundendaten im Bericht</td><td>NOT_STARTED<br>NOT_ASSESSED · NOT_ASSESSED</td><td>Adapter vorhanden<br>STRUCTURAL_ONLY</td><td>Kein Adapter</td><td>Kein Adapter</td><td>PLATFORM_SPECIFIC<br>Nach Assessment; Handoff-/Traceability-Contract reviewen</td></tr>
+          <tr><td><code>soc-forensic-hunts</code><br>SOC / Threat Hunting</td><td>EXTERNAL<br><code>C:UsersAdmin.agentsskillssoc-forensic-hunts</code><br>Lokales Artefakt; Upstream/Version nicht belegt</td><td>SKILL.md, 11 References<br>Scripts: 0 · Examples: 0<br>Tools: NONE_DECLARED</td><td>HIGH<br>Breite SOC-/Detection-Guidance</td><td>NOT_STARTED<br>NOT_ASSESSED · NOT_ASSESSED</td><td>Kein Projektadapter</td><td>Externes Artefakt<br>UNVERIFIED</td><td>Kein Projektadapter</td><td>UNVERIFIED<br>Provenance-, Scope- und SIEM-Overlap-Review</td></tr>
+          <tr><td><code>frontend-design</code><br>Frontend / Visual Design</td><td>EXTERNAL (ECC)<br><code>C:UsersAdmin.agentsskillsrontend-design</code><br><code>origin: ECC</code>; Version nicht belegt</td><td>SKILL.md<br>Scripts: 0 · Examples: 0<br>Tools: NONE_DECLARED</td><td>MEDIUM<br>Code-/UI-Guidance</td><td>NOT_STARTED<br>NOT_ASSESSED · NOT_ASSESSED</td><td>Kein Projektadapter</td><td>Externes Artefakt<br>UNVERIFIED</td><td>Kein Projektadapter</td><td>UNVERIFIED<br>Abgrenzung zu Design System reviewen</td></tr>
+          <tr><td><code>professional-uml</code><br>Architektur-Dokumentation</td><td>EXTERNAL<br><code>C:UsersAdmin.agentsskillsprofessional-uml</code><br>Lokales Artefakt; Upstream/Version nicht belegt</td><td>SKILL.md<br>Scripts: 0 · Examples: 0<br>Tools: NONE_DECLARED</td><td>MEDIUM<br>Architektur-/Dokumentationswirkung</td><td>NOT_STARTED<br>NOT_ASSESSED · NOT_ASSESSED</td><td>Kein Projektadapter</td><td>Externes Artefakt<br>UNVERIFIED</td><td>Kein Projektadapter</td><td>UNVERIFIED<br>Scope, Quellen und Schreibgrenzen reviewen</td></tr>
+          <tr><td><code>ship</code><br>Feature-Orchestrierung</td><td>UNKNOWN<br>Nur in <code>docs/skills-documentation.html</code> dokumentiert<br>Kein SKILL.md gefunden</td><td>Kein Artefakt<br>Scripts/Examples/Tools: UNKNOWN</td><td>NOT_ASSESSED<br>Keine Fähigkeiten ableitbar</td><td>NOT_STARTED<br>NOT_ASSESSED · NOT_IMPLEMENTED</td><td>Kein Adapter</td><td>Kein Adapter</td><td>Kein Adapter</td><td>UNVERIFIED<br>Dokumentation mit tatsächlichem Bestand abgleichen</td></tr>
+          <tr><td><code>clean-code-developer</code><br>CCD / Managed Source</td><td>PLUGIN_MANAGED<br><code>claude-cowork/anthropic-skills/1.0.0</code><br>Publisher/Upstream nicht belegt</td><td>SKILL.md, 6 References<br>Scripts: 0 · Examples: 0<br>Tools: NONE_DECLARED</td><td>MEDIUM<br>Externe Qualitäts-Guidance</td><td>COMPLETED via CCD overlay<br>PARTIALLY_VERIFIED · YELLOW</td><td>Kein Projektadapter</td><td>Plugin cache only<br>UNVERIFIED</td><td>Kein Projektadapter</td><td>PLATFORM_SPECIFIC<br>Nur bei Paketänderung erneut prüfen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Überschneidungen – nur dokumentiert</h2>
+    <ul>
+      <li><code>clean-code</code> behandelt konkrete, kontextabhängige Code-Qualität; <code>ccd-wertesystem</code> ist ein Lern-/Reflexionsmaßstab. Reviewer- und Simplifier-Agents sind keine Skills und werden erst in der Agent-Runde geprüft.</li>
+      <li><code>security</code> ist ein begrenzter Application-Security-Review; <code>soc-forensic-hunts</code> und die sechs SIEM-Skills arbeiten in der SOC-/Investigation-Domain. Keiner davon ersetzt einen ausführenden Security-Fixer oder Produktionszugriff.</li>
+      <li>Die sechs SIEM-Skills bilden eine Kette: Triage → Investigation → AQL-Vorschlag → Event Analysis → Assessment → Summary. Ihre Übergaben überschneiden sich absichtlich über gemeinsame Evidenz, nicht über identische Verantwortung.</li>
+      <li><code>frontend-design</code> zielt auf visuelle Gestaltung und Frontend-Umsetzung; <code>design-system</code> bewertet Konsistenz, Tokens, Komponenten und begrenzte Accessibility-Aspekte. Beide sind weder UX-Nachweis noch WCAG-Zertifizierung.</li>
+      <li><code>professional-uml</code> berührt Architektur-Dokumentation und potenziell spätere Architektur-Skills; <code>ship</code> wäre – falls wiederhergestellt – eine Orchestrierungsdefinition. Beide sind nicht Teil der jetzigen Agentenrunde.</li>
+    </ul>
+
+    <h2>Aktive Review-Queue</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Position</th><th>Skill</th><th>Risk</th><th>Grund</th><th>Erwarteter Review-Typ</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><code>soc-forensic-hunts</code></td><td>HIGH</td><td>Breiter externer SOC-Skill mit elf Referenzen, unklarer Provenienz und direkter Überschneidung zur SIEM-Domain.</td><td>External provenance + Security-domain + cross-platform decision</td></tr>
+          <tr><td>2</td><td><code>siem-ticket-triage</code></td><td>HIGH</td><td>Beginn der Projekt-SIEM-Kette; nur Copilot-Struktur, kein kanonischer Cross-Platform-Source.</td><td>Foundation contract + privacy/data handling + canonical/adapters</td></tr>
+          <tr><td>3</td><td><code>qradar-investigation</code></td><td>HIGH</td><td>Übernimmt Investigation-State und delegiert Folgeschritte; nach Triage zu prüfen.</td><td>State/I-O boundary + orchestration review</td></tr>
+          <tr><td>4</td><td><code>qradar-aql</code></td><td>HIGH</td><td>Erzeugt manuell ausführbare Query-Vorschläge mit vendor-spezifischer Semantik.</td><td>QRadar source baseline + read-only/query-safety review</td></tr>
+          <tr><td>5</td><td><code>security-event-analysis</code></td><td>HIGH</td><td>Normalisiert sensible Ereignisdaten und erzeugt Evidence/Findings.</td><td>Evidence provenance + privacy + cross-platform review</td></tr>
+          <tr><td>6</td><td><code>false-positive-analysis</code></td><td>HIGH</td><td>Unterstützt eine folgenreiche Assessment-Entscheidung, ohne Ticket- oder Produktionsautonomie.</td><td>Assessment threshold + handoff/boundary review</td></tr>
+          <tr><td>7</td><td><code>incident-summary</code></td><td>HIGH</td><td>Erstellt Handoffs aus Security-/Kundendaten und schließt die SIEM-Kette ab.</td><td>Traceability + reporting/privacy review</td></tr>
+          <tr><td>8</td><td><code>frontend-design</code></td><td>MEDIUM</td><td>Externer ECC-Skill mit funktionaler Nähe zu Design System, aber anderem Ziel.</td><td>External provenance + overlap/boundary review</td></tr>
+          <tr><td>9</td><td><code>professional-uml</code></td><td>MEDIUM</td><td>Dokumentationsskill außerhalb des Repositorys mit breiter Architekturwirkung.</td><td>Scope/source + documentation output review</td></tr>
+          <tr><td>10</td><td><code>ship</code></td><td>NOT_ASSESSED</td><td>Dokumentiert, aber nicht installiert; vor jedem fachlichen Review muss zuerst die Bestandsdifferenz geklärt werden.</td><td>Inventory reconciliation only</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>Nicht in der aktiven Queue:</strong> CCD, Clean Code, Security, DSGVO und Design System bleiben geschlossen; nur ihr dokumentiertes Runtime-Gate ist offen. <code>clean-code-developer</code> wird durch den CCD-Review abgedeckt und erst bei Paketänderung erneut geprüft.</p>
+  </main>
+</body>
+</html>
