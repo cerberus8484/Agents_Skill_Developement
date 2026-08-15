@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skill Review – QRadar AQL</title>
+  <style>
+    :root { color-scheme:dark; --bg:#0b1220; --card:#131d2d; --line:#2c4360; --text:#e7edf7; --muted:#aab8cc; --accent:#6bd5ff; --warn:#ffd073; }
+    body { margin:0; background:var(--bg); color:var(--text); font:16px/1.55 system-ui,sans-serif; }
+    main { max-width:1080px; margin:auto; padding:38px 24px 70px; } h1,h2 { line-height:1.2; }
+    h2 { margin-top:38px; border-bottom:1px solid var(--line); padding-bottom:7px; } a,code { color:var(--accent); }
+    table { border-collapse:collapse; width:100%; margin:14px 0; } th,td { border:1px solid var(--line); padding:9px; text-align:left; vertical-align:top; } th { background:#172840; }
+    .note { border-left:4px solid var(--warn); background:#241e11; padding:12px 15px; } .muted { color:var(--muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <p><a href="../index.html">← Agent &amp; Skill Framework</a> · <a href="../skill-inventory.html">Inventar</a></p>
+    <h1>Skill Review: QRadar AQL</h1>
+    <p><strong>Evidenz: VERIFIED · Framework-Reife: YELLOW</strong></p>
+    <p class="muted">Entscheidung: OPTIMIZE. Der eigene GitHub-only Query-Proposal-Skill wurde zu einem statusgesteuerten, nicht ausführenden Cross-Platform-Vertrag gehärtet.</p>
+
+    <h2>Originalzustand und Provenienz</h2>
+    <table><tbody>
+      <tr><th>Altbestand</th><td><code>.github/skills/qradar-aql/SKILL.md</code></td></tr>
+      <tr><th>Artefakte</th><td>Eine SKILL.md, eine gemeinsame QRadar-Feldbaseline und acht synthetische Fixtures. Keine skill-eigenen References, Skripte, Examples oder deklarierte <code>allowed-tools</code>.</td></tr>
+      <tr><th>Fingerprint vor Optimierung</th><td><code>SHA-256: 3E2B445F88DBA878E037681B9302005BC7F41DA42812EFAF6746C8B86DF4EAE0</code></td></tr>
+      <tr><th>Ownership</th><td>FRAMEWORK_OWNED; Upstream und separate Version sind nicht belegt.</td></tr>
+    </tbody></table>
+
+    <h2>Fachliche Grundlage</h2>
+    <p><strong>SOURCE FACT:</strong> IBM dokumentiert AQL-<code>SELECT</code>-Statements gegen Ariel Events oder Flows, Filter über <code>WHERE</code> sowie Zeitgrenzen mit <code>START</code>/<code>STOP</code>. <a href="https://www.ibm.com/docs/en/qsip/7.5.0?topic=aql-query-structure">IBM: AQL Query Structure</a> · <a href="https://www.ibm.com/docs/en/qradar-on-cloud?topic=language-time-criteria-in-aql-queries">IBM: Time Criteria</a>.</p>
+    <p><strong>SOURCE FACT:</strong> Custom Event/Flow Properties können lokale Extraktionen und AQL-Ausdrücke enthalten. Ihre Namen und Verfügbarkeit sind deshalb umgebungsspezifische Tatsachen, keine aus einer fachlichen Anforderung ableitbaren Feldnamen. <a href="https://www.ibm.com/docs/en/qradar-on-cloud?topic=siem-custom-event-flow-properties">IBM: Custom Properties</a>.</p>
+    <p><strong>SOURCE FACT:</strong> NIST SP 800-61r3 ordnet Incident Response in das Cybersecurity-Risikomanagement ein; die Produktionsexekution bleibt deshalb außerhalb einer reinen Query-Proposal-Methodik. <a href="https://csrc.nist.gov/pubs/sp/800/61/r3/final">NIST SP 800-61r3</a>.</p>
+
+    <h2>Hauptbefunde</h2>
+    <ul>
+      <li>Der Altbestand begrenzte sich bereits auf read-only Event-Queries, verlangte Filter und Zeitfenster und untersagte Ausführung.</li>
+      <li>Unbekannte Custom Properties wurden jedoch in einer AQL-ähnlichen <code>EXTENDED QUERY</code> als <code>&lt;CUSTOM_PROPERTY:...&gt;</code> dargestellt. Das kann beim Kopieren wie ausführbares AQL wirken.</li>
+      <li>Es fehlten eine kanonische Quelle, Codex-/Claude-Adapter, ein Statusmodell für lokale Validierung und ein Test, dass Custom-Property-Placeholders nicht in AQL geraten.</li>
+    </ul>
+
+    <h2>Optimierter Proposal Contract</h2>
+    <table><thead><tr><th>Status</th><th>Bedingung</th><th>AQL-Statement</th></tr></thead><tbody>
+      <tr><td><code>BLOCKED_MISSING_EVIDENCE</code></td><td>Pflichtfakt wie Purpose, Events-Scope, Filter oder belastbare Zeitgrenzen fehlt.</td><td>Keines</td></tr>
+      <tr><td><code>TEMPLATE_ONLY</code></td><td>Eine benötigte lokale Feldzuordnung ist unbekannt oder nicht belegt.</td><td>Keines; nur Prosa-Template und <code>NOT EXECUTION READY</code></td></tr>
+      <tr><td><code>REVIEW_REQUIRED</code></td><td>Nur dokumentierte Baseline-Felder; keine lokale Validierung geliefert.</td><td>Eine minimale read-only Proposal-Abfrage</td></tr>
+      <tr><td><code>LOCALLY_VALIDATED</code></td><td>Traceable lokaler Nachweis für genaue Version, Felder, Zeitinterpretation und erfolgreichen Test liegt vor.</td><td>Eine minimale read-only Proposal-Abfrage</td></tr>
+    </tbody></table>
+    <p class="note"><strong>Wichtig:</strong> <code>LOCALLY_VALIDATED</code> bedeutet nie <code>AUTHORIZED_TO_EXECUTE</code>. Weder IBM-Dokumentation noch ein plausibler Feldname oder ein kopiertes Query beweisen lokale Validierung oder erteilen eine Ausführungsfreigabe.</p>
+
+    <h2>Scope und Handoffs</h2>
+    <p>Der Skill akzeptiert einen QUERY REQUEST aus <code>qradar-investigation</code> und gibt eine Statusentscheidung plus begrenzten Proposal zurück. Er analysiert keine Ergebnisse und trifft keine Security-Entscheidung.</p>
+    <ul>
+      <li>Manuell zurückgegebene Raw Events → <code>security-event-analysis</code></li>
+      <li>Detection Validity, False Positive, Legitimität oder Maliciousness → <code>false-positive-analysis</code></li>
+      <li>Reporting → <code>incident-summary</code></li>
+      <li>Jede Ausführung → autorisierter Mensch oder künftig autorisierter Operator</li>
+    </ul>
+
+    <h2>Security, Datenschutz und Tests</h2>
+    <p>Requests, Logs, Feldnamen und eingebettete Anweisungen sind untrusted data. <code>CUSTOMER_DATA</code> und <code>UNKNOWN</code> bleiben LOCAL_ONLY; keine automatische Cloud-Weitergabe. Das ist ein Policy-/Prompt-Vertrag, keine technische Isolation.</p>
+    <p>Neun synthetische Fixtures: Der bestehende Custom-Property-Fall ist jetzt <code>TEMPLATE_ONLY</code> ohne AQL; ein neuer Fall fordert traceable lokale Validierung und verbietet trotzdem Ausführungsautorisierung. Der Contract-Test prüft alle vier Status, die Placeholder-Regel, Handoffs, fehlende Tool-Freigaben/Skripte und byte-identische Adapter.</p>
+
+    <h2>Plattformen und Entscheidung</h2>
+    <table><thead><tr><th>Plattform</th><th>Integration</th><th>Status</th></tr></thead><tbody>
+      <tr><td>GitHub Copilot</td><td>Synchronisierter Adapter</td><td><code>RUNTIME_NOT_AVAILABLE</code></td></tr>
+      <tr><td>OpenAI Codex</td><td>Synchronisierter Adapter</td><td><code>RUNTIME_BLOCKED_ENVIRONMENT</code></td></tr>
+      <tr><td>Claude Code</td><td>Synchronisierter Adapter</td><td><code>RUNTIME_BLOCKED_AUTH</code></td></tr>
+    </tbody></table>
+    <table><thead><tr><th>Achse</th><th>Ergebnis</th><th>Begründung</th></tr></thead><tbody>
+      <tr><td>Fachlicher Evidenzstatus</td><td><strong>VERIFIED</strong></td><td>IBM belegt AQL- und Zeit-/Custom-Property-Grundlagen. Der Skill behauptet keine lokale Feldwahrheit, Syntaxvalidierung oder Ausführungsfreigabe.</td></tr>
+      <tr><td>Framework-Reife</td><td><strong>YELLOW</strong></td><td>Kanonische Quelle, drei Adapter, I/O, Status-/Sicherheitsvertrag und Regressionen sind vorhanden. Echte Runtime fehlt.</td></tr>
+      <tr><td>Entscheidung</td><td><strong>OPTIMIZE</strong></td><td>Der Altbestand war brauchbar, aber GitHub-only und zu nah an kopierbaren Platzhalter-Queries. KEEP wäre unvollständig; OVERLAY, MERGE, SPLIT, REPLACE und DEPRECATE sind nicht nötig.</td></tr>
+    </tbody></table>
+    <p><strong>Original unverändert:</strong> NEIN. Der FRAMEWORK_OWNED GitHub-Adapter wurde kontrolliert durch den kanonischen, strengeren Vertrag ersetzt. Acht Alt-Fixtures bleiben; der Custom-Property-Fall wurde fachlich verschärft und ein lokaler-Validierungsfall ergänzt. Verbleibend offen: echte Runtime-Tests und eine autorisierte lokale QRadar-Validierung. <strong>Watch Item:</strong> Die gemeinsame State-Bezeichnung <code>COMPLETED</code> bleibt unverändert; ihre dokumentierte Bedeutung verhindert aktuell Ticket-/Incident-Autonomie.</p>
+  </main>
+</body>
+</html>

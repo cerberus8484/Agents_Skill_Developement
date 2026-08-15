@@ -21,6 +21,7 @@ SKILLS = (
     "soc-forensic-hunts",
     "siem-ticket-triage",
     "qradar-investigation",
+    "qradar-aql",
 )
 
 
