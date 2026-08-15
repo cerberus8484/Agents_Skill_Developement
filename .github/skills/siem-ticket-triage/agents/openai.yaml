@@ -1,0 +1,4 @@
+interface:
+  display_name: "SIEM Ticket Triage"
+  short_description: "Structure SIEM tickets for safe investigation."
+  default_prompt: "Use $siem-ticket-triage to structure this ticket into evidence, gaps, and one safe next investigation step."

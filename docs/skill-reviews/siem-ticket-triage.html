@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skill Review – SIEM Ticket Triage</title>
+  <style>
+    :root { color-scheme:dark; --bg:#0b1220; --card:#131d2d; --line:#2c4360; --text:#e7edf7; --muted:#aab8cc; --accent:#6bd5ff; --warn:#ffd073; }
+    body { margin:0; background:var(--bg); color:var(--text); font:16px/1.55 system-ui,sans-serif; }
+    main { max-width:1080px; margin:auto; padding:38px 24px 70px; } h1,h2 { line-height:1.2; }
+    h2 { margin-top:38px; border-bottom:1px solid var(--line); padding-bottom:7px; } a,code { color:var(--accent); }
+    table { border-collapse:collapse; width:100%; margin:14px 0; } th,td { border:1px solid var(--line); padding:9px; text-align:left; vertical-align:top; } th { background:#172840; }
+    .note { border-left:4px solid var(--warn); background:#241e11; padding:12px 15px; } .muted { color:var(--muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <p><a href="../index.html">← Agent &amp; Skill Framework</a> · <a href="../skill-inventory.html">Inventar</a></p>
+    <h1>Skill Review: SIEM Ticket Triage</h1>
+    <p><strong>Evidenz: VERIFIED · Framework-Reife: YELLOW</strong></p>
+    <p class="muted">Entscheidung: OPTIMIZE. Der frühe GitHub-Copilot-Skill wurde als kanonischer Cross-Platform-Skill mit engeren Handoffs weitergeführt.</p>
+
+    <h2>Originalzustand und Provenienz</h2>
+    <table><tbody>
+      <tr><th>Altbestand</th><td><code>.github/skills/siem-ticket-triage/SKILL.md</code></td></tr>
+      <tr><th>Artefakte</th><td>Eine SKILL.md; gemeinsame Repository-Standards/Schemas und drei synthetische Fixtures. Keine skill-eigenen References, Skripte, Examples oder deklarierte <code>allowed-tools</code>.</td></tr>
+      <tr><th>Fingerprint vor Optimierung</th><td><code>SHA-256: AAFF4F84E2A8713D7317A9FDC758CC57C95C60BBAEE369A1091AB6D20D86D4E9</code></td></tr>
+      <tr><th>Ownership</th><td>FRAMEWORK_OWNED; Upstream und separate Version sind nicht belegt.</td></tr>
+    </tbody></table>
+
+    <h2>Fachliche Grundlage</h2>
+    <p><strong>SOURCE FACT:</strong> NIST SP 800-61r3 ordnet Incident Response in das organisatorische Risikomanagement ein; Detection/Analysis, Containment und weitere Response-Aktivitäten sind getrennte Aufgaben. Ein Ticket ist deshalb ein evidenzbedürftiger Startpunkt, keine Incident-Entscheidung. <a href="https://csrc.nist.gov/pubs/sp/800/61/r3/final">NIST SP 800-61r3</a>.</p>
+    <p><strong>SOURCE FACT:</strong> ATT&amp;CK v18 ersetzte die bisherigen technique-internen Detections durch Detection Strategies und Analytics und deprecierte alte Data Sources. ATT&amp;CK liefert somit Detektionskontext, aber keine lokale QRadar-Query- oder Incident-Freigabe. <a href="https://attack.mitre.org/resources/updates/updates-october-2025/">MITRE ATT&amp;CK v18</a>.</p>
+
+    <h2>Hauptbefunde</h2>
+    <ul>
+      <li>Der Altbestand war bereits fachlich konservativ: evidence-only, keine Produktionsaktion, Prompt-Injection-Schutz, fehlende Evidenz statt Vermutung und kein Ticket-Close.</li>
+      <li>Er war nur als GitHub-Adapter vorhanden. Eine kanonische Quelle, Codex-/Claude-Adapter und ein eigener Cross-Platform-Contract fehlten.</li>
+      <li>Die optionale Erstellung einer <code>NEXT QUERY</code> in der Triage war eine mögliche Überschneidung mit <code>qradar-investigation</code> und <code>qradar-aql</code>.</li>
+      <li>Die Grenzen zu Raw-Event-Normalisierung, Detection-Validity/False-Positive-Analyse und Berichtserstellung waren nicht vollständig als Handoffs ausgedrückt.</li>
+    </ul>
+
+    <h2>Optimierter Vertrag</h2>
+    <p>Der kanonische Skill akzeptiert genau einen bereitgestellten Ticket-/Offense-Startzustand, erzeugt attribuierte Start-Evidenz, benennt material gaps und übergibt genau einen sicheren Investigation Step. Er darf weder AQL/SPL erstellen noch Raw Events normalisieren, technische Findings produzieren, Detection Validity bewerten, Incident-Zusammenfassungen erstellen oder eine Response-/Closure-Entscheidung treffen.</p>
+    <p><strong>Evidence Contract:</strong> E001 ist der Ticket-/Offense-Record; weitere IDs entstehen nur für separat gelieferte Records. Fakten zitieren Evidenz. Unbekannte Zeitzonen, Quellen, Entitäten und Payloads bleiben Lücken. Severity oder eine Rule-Firing sind kein Kompromissnachweis und bestimmen keine Confidence.</p>
+
+    <h2>Agent Mapping, Security und Datenschutz</h2>
+    <ul>
+      <li>Kein Agent wurde angelegt oder migriert. Der Skill ist Methodik für einen künftig autorisierten SOC-Triage-Reviewer, nicht dessen Berechtigung.</li>
+      <li>Handoff: <code>qradar-investigation</code> für State-Fortschreibung; <code>qradar-aql</code> für spätere Query-Übersetzung; <code>security-event-analysis</code> für Raw Events; <code>false-positive-analysis</code> für Assessment; <code>incident-summary</code> für Reporting.</li>
+      <li>Ticketinhalt ist untrusted data. <code>CUSTOMER_DATA</code> und <code>UNKNOWN</code> bleiben LOCAL_ONLY; Secrets werden nicht weitergegeben. Das ist ein Policy-/Prompt-Vertrag, keine technische Durchsetzung.</li>
+    </ul>
+
+    <h2>Tests und Plattformen</h2>
+    <p>Die drei bestehenden synthetischen Triage-Fixtures bleiben konservativ: zwei <code>SUSPICIOUS</code>- und ein <code>UNASSESSED</code>-Startzustand, jeweils <code>LOW</code> Confidence und explizite verbotene Schlussfolgerungen. Neue Contract Tests prüfen den kanonischen I/O-Vertrag, fehlende Tool-Freigaben/Skripte, Local-Only, die fünf Folge-Handoffs und byte-identische Adapter.</p>
+    <table><thead><tr><th>Plattform</th><th>Integration</th><th>Status</th></tr></thead><tbody>
+      <tr><td>GitHub Copilot</td><td>Synchronisierter Adapter</td><td><code>RUNTIME_NOT_AVAILABLE</code></td></tr>
+      <tr><td>OpenAI Codex</td><td>Synchronisierter Adapter</td><td><code>RUNTIME_BLOCKED_ENVIRONMENT</code></td></tr>
+      <tr><td>Claude Code</td><td>Synchronisierter Adapter</td><td><code>RUNTIME_BLOCKED_AUTH</code></td></tr>
+    </tbody></table>
+
+    <h2>Abschlussentscheidung</h2>
+    <table><thead><tr><th>Achse</th><th>Ergebnis</th><th>Begründung</th></tr></thead><tbody>
+      <tr><td>Fachlicher Evidenzstatus</td><td><strong>VERIFIED</strong></td><td>Der eng begrenzte Triage-Vertrag ist durch die belegte Trennung von Detection/Analysis und Response sowie durch den eigenen Evidence-/Safety-Contract gedeckt. Er behauptet keine lokale Detection- oder Incident-Wahrheit.</td></tr>
+      <tr><td>Framework-Reife</td><td><strong>YELLOW</strong></td><td>Kanonische Quelle, drei Adapter, I/O, Boundaries, Local-Only und Regressionen sind vorhanden. Echte Plattform-Runtime ist nicht nachgewiesen.</td></tr>
+      <tr><td>Entscheidung</td><td><strong>OPTIMIZE</strong></td><td>Der eigene Altbestand war brauchbar und sicherheitsbewusst, aber nicht cross-platform und teilweise zu nah an der Query-Erstellung. KEEP wäre unvollständig; OVERLAY, MERGE, SPLIT, REPLACE und DEPRECATE sind nicht nötig.</td></tr>
+    </tbody></table>
+    <p><strong>Original unverändert:</strong> NEIN. Der FRAMEWORK_OWNED GitHub-Adapter wurde kontrolliert durch den kanonischen, engeren Vertrag ersetzt. Die ursprünglichen Safety-Prinzipien und Fixtures bleiben erhalten. Verbleibend offen: echte Runtime-Validierung und die lokale Bestätigung von QRadar-Feldern/Query-Syntax in späteren Skills.</p>
+  </main>
+</body>
+</html>
