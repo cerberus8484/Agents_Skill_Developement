@@ -13,7 +13,7 @@ ADAPTERS = (
     ROOT / ".agents" / "skills",
     ROOT / ".claude" / "skills",
 )
-SKILLS = ("clean-code", "security", "dsgvo")
+SKILLS = ("clean-code", "security", "dsgvo", "design-system")
 
 
 def sync_skill(name: str) -> None:
