@@ -6,3 +6,7 @@
 - Flag special-category data, children, profiling, and automated decisions as escalation triggers, not automatic findings.
 
 **SUPERVISORY GUIDANCE:** EDPB guidance explains data protection by design/default and controller-processor responsibilities; authorities and courts apply law to the facts.
+
+**SUPERVISORY GUIDANCE – DRAFT / WATCH ITEM:** EDPB Guidelines 02/2026 on Anonymisation are open for public consultation until 30 October 2026. Do not treat them as final guidance. Continue to distinguish pseudonymisation from anonymisation and escalate uncertain classifications.
+
+Source: https://www.edpb.europa.eu/public-consultations/guidelines-022026-on-anonymisation_en
