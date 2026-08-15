@@ -1,0 +1,4 @@
+interface:
+  display_name: "Security Event Analysis"
+  short_description: "Preserve event evidence and provenance."
+  default_prompt: "Use $security-event-analysis to turn these supplied events into attributable evidence and an investigation handoff."

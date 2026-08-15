@@ -22,6 +22,7 @@ SKILLS = (
     "siem-ticket-triage",
     "qradar-investigation",
     "qradar-aql",
+    "security-event-analysis",
 )
 
 
