@@ -1,0 +1,406 @@
+<title>Claude Code &mdash; Agent Roster</title>
+<meta name="description" content="Searchable reference of the available Claude Code sub-agents: what each one does and which tools it can use.">
+
+<style>
+  :root {
+    /* Light &mdash; warm graphite neutrals, single ochre accent */
+    --ground:      #f5f4f1;
+    --surface:     #fffdf9;
+    --surface-2:   #efece5;
+    --ink:         #211d18;
+    --ink-soft:    #5c554b;
+    --ink-faint:   #8c8478;
+    --line:        #e4dfd5;
+    --line-strong: #cfc7b9;
+    --accent:      #a86a1f;
+    --accent-ink:  #855214;
+    --accent-wash: #f4e8d6;
+    --c-review:  #9a5b2a; --c-review-bg:#f3e6da;
+    --c-lang:    #2f6f6a; --c-lang-bg:#dcecea;
+    --c-build:   #8a4a55; --c-build-bg:#f3e0e3;
+    --c-arch:    #4a5a8a; --c-arch-bg:#e0e5f2;
+    --c-test:    #6a6320; --c-test-bg:#efecd3;
+    --c-docs:    #55617a; --c-docs-bg:#e4e8f0;
+    --c-domain:  #7a4d84; --c-domain-bg:#efe1f2;
+    --c-meta:    #4f6b45; --c-meta-bg:#e2ecdd;
+
+    --font-mono: ui-monospace, "JetBrains Mono", "SFMono-Regular", "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+    --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --maxw: 1240px;
+    --radius: 12px;
+    --shadow: 0 1px 2px rgba(33,29,24,.05), 0 10px 30px -20px rgba(33,29,24,.28);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:#14120d; --surface:#1d1a14; --surface-2:#252118;
+      --ink:#ece6da; --ink-soft:#a49b8b; --ink-faint:#736a5b;
+      --line:#2c281f; --line-strong:#3d372b;
+      --accent:#e0a850; --accent-ink:#f0c37e; --accent-wash:#2b2114;
+      --c-review:#d99a5f; --c-review-bg:#2c2015;
+      --c-lang:#6fb8b0; --c-lang-bg:#132826;
+      --c-build:#d68b98; --c-build-bg:#2c1a1d;
+      --c-arch:#93a4d6; --c-arch-bg:#1a1e2c; --c-test:#c3b96a; --c-test-bg:#282513;
+      --c-docs:#96a3bd; --c-docs-bg:#1b1f28; --c-domain:#c197cc; --c-domain-bg:#251a28;
+      --c-meta:#8fb783; --c-meta-bg:#1a2416;
+      --shadow: 0 1px 2px rgba(0,0,0,.35), 0 12px 34px -20px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground:#14120d; --surface:#1d1a14; --surface-2:#252118;
+    --ink:#ece6da; --ink-soft:#a49b8b; --ink-faint:#736a5b;
+    --line:#2c281f; --line-strong:#3d372b;
+    --accent:#e0a850; --accent-ink:#f0c37e; --accent-wash:#2b2114;
+    --c-review:#d99a5f; --c-review-bg:#2c2015;
+    --c-lang:#6fb8b0; --c-lang-bg:#132826;
+    --c-build:#d68b98; --c-build-bg:#2c1a1d;
+    --c-arch:#93a4d6; --c-arch-bg:#1a1e2c; --c-test:#c3b96a; --c-test-bg:#282513;
+    --c-docs:#96a3bd; --c-docs-bg:#1b1f28; --c-domain:#c197cc; --c-domain-bg:#251a28;
+    --c-meta:#8fb783; --c-meta-bg:#1a2416;
+    --shadow: 0 1px 2px rgba(0,0,0,.35), 0 12px 34px -20px rgba(0,0,0,.7);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin: 0; background: var(--ground); color: var(--ink);
+    font-family: var(--font-sans); font-size: 15.5px; line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--accent-wash); color: var(--accent-ink); }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 22px; }
+
+  header.top {
+    border-bottom: 1px solid var(--line);
+    background:
+      radial-gradient(90% 120% at 92% -30%, var(--accent-wash) 0%, transparent 55%),
+      var(--surface);
+  }
+  .top-inner { padding: 26px 0 22px; display: grid; gap: 16px; }
+  .eyebrow {
+    font-family: var(--font-mono); font-size: .7rem; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--ink-faint);
+    display: flex; align-items: center; gap: 9px;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--accent-wash); }
+  h1 {
+    font-family: var(--font-mono); font-weight: 600; margin: 0;
+    font-size: clamp(1.7rem, 1.2rem + 2vw, 2.6rem); letter-spacing: -.02em; line-height: 1.05;
+  }
+  h1 .a { color: var(--accent-ink); }
+  .lede { margin: 0; max-width: 66ch; color: var(--ink-soft); font-size: 1.02rem; }
+  .lede b { color: var(--ink); font-weight: 600; }
+
+  .controls { display: grid; gap: 12px; padding: 16px 0 4px; position: sticky; top: 0; z-index: 20;
+    background: linear-gradient(var(--ground) 78%, transparent); }
+  .searchrow { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .search {
+    flex: 1 1 280px; min-width: 220px; display: flex; align-items: center; gap: 10px;
+    background: var(--surface); border: 1px solid var(--line-strong); border-radius: 999px;
+    padding: 10px 16px; box-shadow: var(--shadow);
+  }
+  .search svg { flex: none; color: var(--ink-faint); }
+  .search input {
+    border: 0; background: transparent; outline: none; width: 100%;
+    font-family: var(--font-mono); font-size: .92rem; color: var(--ink);
+  }
+  .search input::placeholder { color: var(--ink-faint); }
+  .count { font-family: var(--font-mono); font-size: .8rem; color: var(--ink-faint); white-space: nowrap; }
+  .theme-toggle {
+    font-family: var(--font-mono); font-size: .72rem; letter-spacing: .06em; text-transform: uppercase;
+    background: var(--surface); color: var(--ink-soft); border: 1px solid var(--line-strong);
+    border-radius: 999px; padding: 9px 14px; cursor: pointer;
+  }
+  .theme-toggle:hover { color: var(--accent-ink); border-color: var(--accent); }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip {
+    font-family: var(--font-mono); font-size: .74rem; letter-spacing: .02em;
+    padding: 6px 12px; border-radius: 999px; cursor: pointer; user-select: none;
+    border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink-soft);
+  }
+  .chip:hover { border-color: var(--accent); color: var(--accent-ink); }
+  .chip[aria-pressed="true"] { background: var(--ink); color: var(--ground); border-color: var(--ink); }
+  .chip .n { opacity: .6; margin-left: 5px; }
+
+  a:focus-visible, button:focus-visible, input:focus-visible, .chip:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px;
+  }
+
+  main { padding: 8px 0 90px; }
+  .group { margin-top: 34px; }
+  .group.hidden { display: none; }
+  .group-head { display: flex; align-items: center; gap: 12px; margin: 0 0 6px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+  .group-head h2 { font-family: var(--font-mono); font-weight: 600; font-size: 1.05rem; margin: 0; letter-spacing: -.01em; }
+  .group-head .swatch { width: 11px; height: 11px; border-radius: 3px; flex: none; }
+  .group-head .gc { font-family: var(--font-mono); font-size: .78rem; color: var(--ink-faint); margin-left: auto; }
+  .group-desc { color: var(--ink-soft); font-size: .9rem; margin: 8px 0 14px; max-width: 70ch; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 15px 16px 14px; display: grid; gap: 8px; align-content: start;
+    box-shadow: var(--shadow); border-left: 3px solid var(--cat, var(--line-strong));
+  }
+  .card.hidden { display: none; }
+  .card .name { font-family: var(--font-mono); font-weight: 600; font-size: .96rem; color: var(--ink); word-break: break-word; }
+  .card .name mark { background: var(--accent-wash); color: var(--accent-ink); border-radius: 3px; padding: 0 2px; }
+  .card .desc { font-size: .88rem; color: var(--ink-soft); }
+  .card .tools { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 2px; }
+  .tool {
+    font-family: var(--font-mono); font-size: .66rem; letter-spacing: .02em;
+    padding: 2px 7px; border-radius: 5px; background: var(--surface-2); color: var(--ink-faint);
+    border: 1px solid var(--line);
+  }
+  .tool.star { color: var(--accent-ink); border-color: var(--accent); background: var(--accent-wash); }
+
+  .empty { display: none; text-align: center; padding: 60px 20px; color: var(--ink-faint); font-family: var(--font-mono); }
+  .empty.show { display: block; }
+
+  footer { border-top: 1px solid var(--line); margin-top: 40px; }
+  .foot-inner { padding: 22px 0 50px; font-family: var(--font-mono); font-size: .74rem; color: var(--ink-faint);
+    display: flex; flex-wrap: wrap; gap: 6px 18px; justify-content: space-between; }
+</style>
+
+<header class="top">
+  <div class="wrap top-inner">
+    <div class="eyebrow"><span class="dot"></span> Claude Code &middot; Sub-Agents &middot; Reference</div>
+    <h1>Agent <span class="a">Roster</span></h1>
+    <p class="lede">Every specialized sub-agent you can launch. Each runs in <b>its own context</b> and returns a report &mdash; you spawn one when a task has a clear, self-contained job. Search by name or capability; filter by category.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="controls">
+    <div class="searchrow">
+      <label class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
+        <input id="q" type="search" placeholder="search agents &mdash; e.g. react, security, build, test" autocomplete="off" aria-label="Search agents">
+      </label>
+      <span class="count" id="count"></span>
+      <button class="theme-toggle" id="theme" aria-label="Toggle color theme">&#9680; Theme</button>
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="Filter by category"></div>
+  </div>
+
+  <main id="main"></main>
+  <div class="empty" id="empty">no agent matches &mdash; try a different term</div>
+</div>
+
+<footer><div class="wrap foot-inner">
+  <span>Roster reflects the agents available in this session.</span>
+  <span id="total"></span>
+</div></footer>
+
+<script>
+const CATS = {
+  review: { label: "Review & quality",  desc: "Read your code and report defects - general, or a specific concern." },
+  lang:   { label: "Language reviewers", desc: "Idiomatic review for one language or framework." },
+  build:  { label: "Build fixers",        desc: "Get a broken build / typecheck green with minimal, surgical diffs." },
+  arch:   { label: "Architecture & planning", desc: "Design, plan, and explore before code is written." },
+  test:   { label: "Test & TDD",          desc: "Write tests first, run E2E, or drive a generate/evaluate loop." },
+  docs:   { label: "Docs & lookup",       desc: "Write/update docs, or fetch current library & platform docs." },
+  domain: { label: "Domain specialists",  desc: "Focused expertise: data, networks, ML, a11y, SEO, health, mobile." },
+  meta:   { label: "Meta, infra & misc",  desc: "Operate the harness, open-source a repo, triage comms, catch-alls." },
+};
+const A = [
+  ["code-reviewer","review","Quality, security & maintainability review right after you write or change code.","Read Grep Glob Bash"],
+  ["security-reviewer","review","Vulnerabilities: OWASP Top 10, secrets, SSRF, injection, unsafe crypto.","Read Write Edit Bash Grep Glob"],
+  ["code-simplifier","review","Simplifies & refines recently changed code without changing behavior.","Read Write Edit Bash Grep Glob"],
+  ["refactor-cleaner","review","Finds & safely removes dead code (knip, depcheck, ts-prune).","Read Write Edit Bash Grep Glob"],
+  ["silent-failure-hunter","review","Swallowed errors, bad fallbacks, missing error propagation.","Read Grep Glob Bash"],
+  ["comment-analyzer","review","Checks comments for accuracy, completeness & rot risk.","Read Grep Glob"],
+  ["type-design-analyzer","review","Type design: encapsulation, invariant expression, enforcement.","Read Grep Glob"],
+  ["pr-test-analyzer","review","Reviews a PR's test coverage quality - real behavioral coverage.","Read Grep Glob Bash"],
+
+  ["typescript-reviewer","lang","TS/JS type safety, async correctness, Node/web security, idioms.","Read Grep Glob Bash"],
+  ["python-reviewer","lang","Python PEP 8, type hints, security, Pythonic idioms.","Read Grep Glob Bash"],
+  ["react-reviewer","lang","React hooks, render perf, server/client boundaries, a11y.","Read Grep Glob Bash"],
+  ["go-reviewer","lang","Go idioms, concurrency patterns, error handling, performance.","Read Grep Glob Bash"],
+  ["rust-reviewer","lang","Rust ownership, lifetimes, unsafe usage, idiomatic patterns.","Read Grep Glob Bash"],
+  ["java-reviewer","lang","Java (Spring Boot / Quarkus): layered arch, JPA, security.","Read Grep Glob Bash"],
+  ["cpp-reviewer","lang","C++ memory safety, modern idioms, concurrency, performance.","Read Grep Glob Bash"],
+  ["csharp-reviewer","lang",".NET conventions, async patterns, nullable types, performance.","Read Grep Glob Bash"],
+  ["php-reviewer","lang","PHP PSR-12, type system, Eloquent patterns, security.","Read Grep Glob Bash"],
+  ["swift-reviewer","lang","Swift protocol-oriented design, value semantics, ARC, concurrency.","Read Grep Glob Bash"],
+  ["kotlin-reviewer","lang","Kotlin / Android / KMP idioms, coroutine safety, Compose.","Read Grep Glob Bash"],
+  ["flutter-reviewer","lang","Flutter/Dart widgets, state management, perf, accessibility.","Read Grep Glob Bash"],
+  ["fsharp-reviewer","lang","F# functional idioms, type safety, pattern matching, comp. expr.","Read Grep Glob Bash"],
+  ["django-reviewer","lang","Django ORM correctness, DRF, migration safety, security.","Read Grep Glob Bash"],
+  ["fastapi-reviewer","lang","FastAPI async, dependency injection, Pydantic, OpenAPI, prod-readiness.","Read Grep Glob Bash"],
+  ["mle-reviewer","lang","Production ML: data contracts, feature pipelines, training repro, serving.","Read Grep Glob Bash"],
+  ["healthcare-reviewer","lang","Clinical safety, CDSS accuracy, PHI compliance, EMR/EHR integrity.","Read Grep Glob"],
+
+  ["build-error-resolver","build","Build & TypeScript errors - minimal diffs, no architectural edits.","Read Write Edit Bash Grep Glob"],
+  ["react-build-resolver","build","React builds: Vite, webpack, Next.js, CRA - JSX, hydration, RSC boundaries.","Read Write Edit Bash Grep Glob"],
+  ["go-build-resolver","build","Go build errors, go vet warnings, linter issues.","Read Write Edit Bash Grep Glob"],
+  ["rust-build-resolver","build","Rust build errors, borrow checker, Cargo.toml problems.","Read Write Edit Bash Grep Glob"],
+  ["cpp-build-resolver","build","C++ build, CMake, linker & template errors.","Read Write Edit Bash Grep Glob"],
+  ["java-build-resolver","build","Java/Maven/Gradle - auto-detects Spring Boot or Quarkus.","Read Write Edit Bash Grep Glob"],
+  ["kotlin-build-resolver","build","Kotlin/Gradle build, compiler errors, dependency issues.","Read Write Edit Bash Grep Glob"],
+  ["swift-build-resolver","build","Swift/Xcode build, SPM deps, code signing.","Read Write Edit Bash Grep Glob"],
+  ["dart-build-resolver","build","Dart/Flutter analyze errors, pub conflicts, build_runner.","Read Write Edit Bash Grep Glob"],
+  ["django-build-resolver","build","Django/pip/Poetry, migration conflicts, collectstatic.","Read Write Edit Bash Grep Glob"],
+  ["pytorch-build-resolver","build","PyTorch runtime/CUDA: tensor shapes, device, gradients, DataLoader.","Read Write Edit Bash Grep Glob"],
+
+  ["architect","arch","System design, scalability, and technical decision-making.","Read Grep Glob"],
+  ["code-architect","arch","Feature architecture blueprints from existing codebase patterns.","Read Grep Glob Bash"],
+  ["planner","arch","Implementation plans for complex features & refactors.","Read Grep Glob"],
+  ["Plan","arch","Designs step-by-step implementation plans; names critical files (read-only).","most tools, read-only"],
+  ["code-explorer","arch","Deep-analyzes existing features: execution paths, layers, dependencies.","Read Grep Glob"],
+  ["Explore","arch","Broad read-only fan-out search - returns the conclusion, not file dumps.","most tools, read-only"],
+  ["performance-optimizer","arch","Bottlenecks, bundle size, memory leaks, render optimization.","Read Write Edit Bash Grep Glob"],
+
+  ["tdd-guide","test","Enforces write-tests-first (RED to GREEN to refactor), 80%+ coverage.","Read Write Edit Bash Grep"],
+  ["e2e-runner","test","Generates/maintains/runs E2E tests (Playwright), uploads artifacts, quarantines flaky.","Read Write Edit Bash Grep Glob"],
+  ["gan-planner","test","GAN harness: expands a one-line prompt into a full product spec.","Read Write Grep Glob"],
+  ["gan-generator","test","GAN harness: implements to spec, reads evaluator feedback, iterates.","Read Write Edit Bash Grep Glob"],
+  ["gan-evaluator","test","GAN harness: tests the live app via Playwright, scores against a rubric.","Read Write Bash Grep Glob"],
+
+  ["doc-updater","docs","Updates codemaps & documentation (/update-codemaps, /update-docs).","Read Write Edit Bash Grep Glob"],
+  ["docs-lookup","docs","Fetches current library/API docs & examples via Context7.","Read Grep Context7"],
+  ["claude-code-guide","docs","Answers questions about Claude Code, Agent SDK, Claude API & Claude in Slack.","Glob Grep Read WebFetch WebSearch"],
+
+  ["database-reviewer","domain","PostgreSQL: query optimization, schema design, security, perf (Supabase).","Read Write Edit Bash Grep Glob"],
+  ["a11y-architect","domain","WCAG 2.2 accessibility for web & native; design systems & audits.","Read Write Edit Grep Glob"],
+  ["network-architect","domain","Enterprise / multi-site network architecture from requirements.","Read Grep"],
+  ["network-config-reviewer","domain","Router/switch configs: security, correctness, stale refs, guardrails.","Read Grep"],
+  ["network-troubleshooter","domain","Connectivity/routing/DNS diagnosis via a read-only OSI workflow.","Read Bash Grep"],
+  ["homelab-architect","domain","Home/lab network plans from inventory, with safe staged changes.","Read Grep"],
+  ["harmonyos-app-resolver","domain","HarmonyOS / ArkTS / ArkUI: V2 state, Navigation routing, perf.","Read Write Edit Bash Grep Glob"],
+  ["seo-specialist","domain","Technical SEO audits, on-page, structured data, Core Web Vitals.","Read Grep Glob WebSearch WebFetch"],
+  ["marketing-agent","domain","Campaign planning, copywriting, positioning, content review.","Read Grep Glob WebSearch WebFetch"],
+
+  ["general-purpose","meta","Catch-all: researches complex questions, multi-step search & tasks.","* (all tools)"],
+  ["claude","meta","Default catch-all when no specific agent fits / none is named.","* (all tools)"],
+  ["harness-optimizer","meta","Improves the local agent harness config: reliability, cost, throughput.","Read Grep Glob Bash Edit"],
+  ["loop-operator","meta","Operates autonomous agent loops, monitors, intervenes safely.","Read Grep Glob Bash Edit"],
+  ["conversation-analyzer","meta","Analyzes transcripts for behaviors worth preventing with hooks.","Read Grep"],
+  ["opensource-forker","meta","Forks a repo for open-sourcing: strips secrets, adds placeholders & .env.example.","Read Write Edit Bash Grep Glob"],
+  ["opensource-sanitizer","meta","Verifies a fork is sanitized: secret/PII scan, PASS/FAIL report.","Read Grep Glob Bash"],
+  ["opensource-packager","meta","Generates OSS packaging: CLAUDE.md, setup.sh, README, LICENSE, templates.","Read Write Edit Bash Grep Glob"],
+  ["chief-of-staff","meta","Triages email/Slack/LINE/Messenger into tiers, drafts replies.","Read Grep Glob Bash Edit Write"],
+  ["statusline-setup","meta","Configures your Claude Code status-line setting.","Read Edit"],
+];
+
+const CATVAR = {
+  review:["--c-review","--c-review-bg"], lang:["--c-lang","--c-lang-bg"], build:["--c-build","--c-build-bg"],
+  arch:["--c-arch","--c-arch-bg"], test:["--c-test","--c-test-bg"], docs:["--c-docs","--c-docs-bg"],
+  domain:["--c-domain","--c-domain-bg"], meta:["--c-meta","--c-meta-bg"],
+};
+const order = Object.keys(CATS);
+const main = document.getElementById("main");
+
+function el(tag, cls, text) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text != null) e.textContent = text;
+  return e;
+}
+
+// Build groups + cards via DOM (no innerHTML)
+for (const cat of order) {
+  const [ci, cbg] = CATVAR[cat];
+  const items = A.filter(a => a[1] === cat);
+
+  const sec = el("section", "group");
+  sec.dataset.cat = cat;
+
+  const head = el("div", "group-head");
+  const sw = el("span", "swatch"); sw.style.background = "var(" + ci + ")";
+  head.appendChild(sw);
+  head.appendChild(el("h2", null, CATS[cat].label));
+  const gc = el("span", "gc"); gc.dataset.role = "gc";
+  head.appendChild(gc);
+  sec.appendChild(head);
+
+  sec.appendChild(el("p", "group-desc", CATS[cat].desc));
+
+  const grid = el("div", "grid");
+  for (const [name, , desc, tools] of items) {
+    const card = el("article", "card");
+    card.style.setProperty("--cat", "var(" + ci + ")");
+    card.dataset.name = name.toLowerCase();
+    card.dataset.text = (name + " " + desc + " " + tools).toLowerCase();
+
+    const nm = el("div", "name", name);
+    nm.dataset.raw = name;
+    card.appendChild(nm);
+    card.appendChild(el("div", "desc", desc));
+
+    const tl = el("div", "tools");
+    for (const t of tools.split(" ")) {
+      tl.appendChild(el("span", "tool" + (t === "*" ? " star" : ""), t));
+    }
+    card.appendChild(tl);
+    grid.appendChild(card);
+  }
+  sec.appendChild(grid);
+  main.appendChild(sec);
+}
+
+// Chips
+const chips = document.getElementById("chips");
+let active = "all";
+function mkChip(key, label, n) {
+  const b = el("button", "chip");
+  b.type = "button"; b.dataset.cat = key;
+  b.setAttribute("aria-pressed", String(key === "all"));
+  b.appendChild(document.createTextNode(label));
+  const s = el("span", "n", String(n));
+  b.appendChild(s);
+  b.addEventListener("click", () => { active = key; syncChips(); apply(); });
+  return b;
+}
+chips.appendChild(mkChip("all", "All", A.length));
+for (const cat of order) chips.appendChild(mkChip(cat, CATS[cat].label, A.filter(a => a[1] === cat).length));
+function syncChips() { chips.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", String(c.dataset.cat === active))); }
+
+// Filter + highlight (DOM-safe)
+const q = document.getElementById("q");
+const countEl = document.getElementById("count");
+const emptyEl = document.getElementById("empty");
+document.getElementById("total").textContent = A.length + " agents";
+
+function setName(nameEl, raw, term) {
+  while (nameEl.firstChild) nameEl.removeChild(nameEl.firstChild);
+  const low = raw.toLowerCase();
+  const i = term ? low.indexOf(term) : -1;
+  if (i < 0) { nameEl.textContent = raw; return; }
+  nameEl.appendChild(document.createTextNode(raw.slice(0, i)));
+  nameEl.appendChild(el("mark", null, raw.slice(i, i + term.length)));
+  nameEl.appendChild(document.createTextNode(raw.slice(i + term.length)));
+}
+
+function apply() {
+  const term = q.value.trim().toLowerCase();
+  let shown = 0;
+  document.querySelectorAll(".group").forEach(sec => {
+    const catOk = active === "all" || sec.dataset.cat === active;
+    let vis = 0;
+    sec.querySelectorAll(".card").forEach(card => {
+      const match = catOk && (!term || card.dataset.text.includes(term));
+      card.classList.toggle("hidden", !match);
+      const nameEl = card.querySelector(".name");
+      setName(nameEl, nameEl.dataset.raw, match ? term : "");
+      if (match) { vis++; shown++; }
+    });
+    sec.querySelector('[data-role="gc"]').textContent = vis ? String(vis) : "";
+    sec.classList.toggle("hidden", vis === 0);
+  });
+  countEl.textContent = shown + " / " + A.length + " shown";
+  emptyEl.classList.toggle("show", shown === 0);
+}
+q.addEventListener("input", apply);
+apply();
+
+// Theme toggle
+document.getElementById("theme").addEventListener("click", () => {
+  const root = document.documentElement;
+  const explicit = root.getAttribute("data-theme");
+  const prefersDark = matchMedia("(prefers-color-scheme: dark)").matches;
+  const cur = explicit || (prefersDark ? "dark" : "light");
+  root.setAttribute("data-theme", cur === "dark" ? "light" : "dark");
+});
+</script>

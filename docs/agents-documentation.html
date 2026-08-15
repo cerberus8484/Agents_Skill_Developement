@@ -1,0 +1,399 @@
+<title>Claude Code &mdash; Agent-Dokumentation</title>
+<meta name="description" content="Ausfuehrliche Dokumentation aller Claude-Code-Sub-Agents: was jeder genau macht, wann man ihn einsetzt, welche Tools und nach welchen Standards er arbeitet.">
+
+<style>
+  :root {
+    --ground:#f5f4f1; --surface:#fffdf9; --surface-2:#efece5;
+    --ink:#211d18; --ink-soft:#5c554b; --ink-faint:#8c8478;
+    --line:#e4dfd5; --line-strong:#cfc7b9;
+    --accent:#a86a1f; --accent-ink:#855214; --accent-wash:#f4e8d6;
+    --c-review:#9a5b2a; --c-lang:#2f6f6a; --c-build:#8a4a55; --c-arch:#4a5a8a;
+    --c-test:#6a6320; --c-docs:#55617a; --c-domain:#7a4d84; --c-meta:#4f6b45;
+    --c-review-bg:#f3e6da; --c-lang-bg:#dcecea; --c-build-bg:#f3e0e3; --c-arch-bg:#e0e5f2;
+    --c-test-bg:#efecd3; --c-docs-bg:#e4e8f0; --c-domain-bg:#efe1f2; --c-meta-bg:#e2ecdd;
+    --font-mono: ui-monospace, "JetBrains Mono", "SFMono-Regular", "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+    --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --maxw:1220px; --rail:236px; --radius:11px;
+    --shadow:0 1px 2px rgba(33,29,24,.05), 0 10px 30px -20px rgba(33,29,24,.28);
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --ground:#14120d; --surface:#1d1a14; --surface-2:#252118;
+    --ink:#ece6da; --ink-soft:#a49b8b; --ink-faint:#736a5b;
+    --line:#2c281f; --line-strong:#3d372b;
+    --accent:#e0a850; --accent-ink:#f0c37e; --accent-wash:#2b2114;
+    --c-review:#d99a5f; --c-lang:#6fb8b0; --c-build:#d68b98; --c-arch:#93a4d6;
+    --c-test:#c3b96a; --c-docs:#96a3bd; --c-domain:#c197cc; --c-meta:#8fb783;
+    --c-review-bg:#2c2015; --c-lang-bg:#132826; --c-build-bg:#2c1a1d; --c-arch-bg:#1a1e2c;
+    --c-test-bg:#282513; --c-docs-bg:#1b1f28; --c-domain-bg:#251a28; --c-meta-bg:#1a2416;
+    --shadow:0 1px 2px rgba(0,0,0,.35), 0 12px 34px -20px rgba(0,0,0,.7);
+  }}
+  :root[data-theme="dark"] {
+    --ground:#14120d; --surface:#1d1a14; --surface-2:#252118;
+    --ink:#ece6da; --ink-soft:#a49b8b; --ink-faint:#736a5b;
+    --line:#2c281f; --line-strong:#3d372b;
+    --accent:#e0a850; --accent-ink:#f0c37e; --accent-wash:#2b2114;
+    --c-review:#d99a5f; --c-lang:#6fb8b0; --c-build:#d68b98; --c-arch:#93a4d6;
+    --c-test:#c3b96a; --c-docs:#96a3bd; --c-domain:#c197cc; --c-meta:#8fb783;
+    --c-review-bg:#2c2015; --c-lang-bg:#132826; --c-build-bg:#2c1a1d; --c-arch-bg:#1a1e2c;
+    --c-test-bg:#282513; --c-docs-bg:#1b1f28; --c-domain-bg:#251a28; --c-meta-bg:#1a2416;
+    --shadow:0 1px 2px rgba(0,0,0,.35), 0 12px 34px -20px rgba(0,0,0,.7);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body { margin:0; background:var(--ground); color:var(--ink);
+    font-family:var(--font-sans); font-size:15.5px; line-height:1.62; -webkit-font-smoothing:antialiased; }
+  ::selection { background:var(--accent-wash); color:var(--accent-ink); }
+
+  header.top { border-bottom:1px solid var(--line);
+    background: radial-gradient(80% 120% at 94% -30%, var(--accent-wash) 0%, transparent 55%), var(--surface); }
+  .top-in { max-width:var(--maxw); margin:0 auto; padding:26px 24px 22px; display:grid; gap:14px; }
+  .eyebrow { font-family:var(--font-mono); font-size:.7rem; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--ink-faint); display:flex; align-items:center; gap:9px; }
+  .dot { width:8px; height:8px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px var(--accent-wash); }
+  h1 { font-family:var(--font-mono); font-weight:600; margin:0;
+    font-size:clamp(1.7rem,1.2rem + 2vw,2.5rem); letter-spacing:-.02em; line-height:1.05; }
+  h1 .a { color:var(--accent-ink); }
+  .lede { margin:0; max-width:72ch; color:var(--ink-soft); font-size:1.02rem; }
+  .lede b { color:var(--ink); font-weight:600; }
+  .note { max-width:78ch; display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:start;
+    background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--accent);
+    border-radius:10px; padding:13px 16px; margin-top:4px; box-shadow:var(--shadow); }
+  .note .mk { font-family:var(--font-mono); font-weight:700; color:var(--accent-ink); }
+  .note p { margin:0; font-size:.9rem; color:var(--ink-soft); }
+  .note code { font-family:var(--font-mono); font-size:.86em; color:var(--accent-ink); }
+
+  .shell { max-width:var(--maxw); margin:0 auto; padding:0 24px 90px;
+    display:grid; grid-template-columns:var(--rail) minmax(0,1fr); gap:40px; align-items:start; }
+
+  nav.side { position:sticky; top:0; align-self:start; padding-top:20px; max-height:100vh; overflow-y:auto; }
+  .searchbox { display:flex; align-items:center; gap:9px; background:var(--surface);
+    border:1px solid var(--line-strong); border-radius:10px; padding:9px 12px; box-shadow:var(--shadow); margin-bottom:6px; }
+  .searchbox svg { flex:none; color:var(--ink-faint); }
+  .searchbox input { border:0; background:transparent; outline:none; width:100%;
+    font-family:var(--font-mono); font-size:.84rem; color:var(--ink); }
+  .searchbox input::placeholder { color:var(--ink-faint); }
+  .side .hint { font-family:var(--font-mono); font-size:.68rem; color:var(--ink-faint); padding:2px 4px 10px; }
+  .side .navgroup { font-family:var(--font-mono); font-size:.7rem; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--ink-faint); margin:12px 0 4px; padding-left:10px;
+    display:flex; align-items:center; gap:7px; }
+  .side .navgroup .sw { width:9px; height:9px; border-radius:2px; flex:none; }
+  .side a { display:flex; justify-content:space-between; gap:8px; font-family:var(--font-mono); font-size:.8rem;
+    color:var(--ink-soft); padding:4px 10px; border-left:2px solid transparent; text-decoration:none; border-radius:0 6px 6px 0; }
+  .side a:hover { color:var(--ink); background:var(--surface-2); }
+  .side a.active { color:var(--accent-ink); border-left-color:var(--accent); background:linear-gradient(90deg,var(--accent-wash),transparent); }
+
+  .theme-toggle { width:100%; margin-top:14px; font-family:var(--font-mono); font-size:.72rem; letter-spacing:.06em;
+    text-transform:uppercase; background:var(--surface); color:var(--ink-soft); border:1px solid var(--line-strong);
+    border-radius:8px; padding:9px 12px; cursor:pointer; }
+  .theme-toggle:hover { color:var(--accent-ink); border-color:var(--accent); }
+
+  a:focus-visible, button:focus-visible, input:focus-visible { outline:2px solid var(--accent); outline-offset:2px; border-radius:6px; }
+
+  main { padding-top:20px; min-width:0; }
+  .cat-sec { margin-bottom:44px; scroll-margin-top:16px; }
+  .cat-sec.hidden { display:none; }
+  .cat-head { display:flex; align-items:center; gap:11px; padding-bottom:9px; margin-bottom:6px; border-bottom:1px solid var(--line); }
+  .cat-head .sw { width:12px; height:12px; border-radius:3px; flex:none; }
+  .cat-head h2 { font-family:var(--font-mono); font-weight:600; font-size:1.15rem; margin:0; letter-spacing:-.01em; }
+  .cat-head .cc { font-family:var(--font-mono); font-size:.76rem; color:var(--ink-faint); margin-left:auto; }
+  .cat-desc { color:var(--ink-soft); font-size:.92rem; margin:6px 0 18px; max-width:74ch; }
+
+  .entries { display:grid; gap:14px; }
+  .entry { background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--cat,var(--line-strong));
+    border-radius:var(--radius); padding:16px 18px 15px; box-shadow:var(--shadow); scroll-margin-top:16px; }
+  .entry.hidden { display:none; }
+  .entry-head { display:flex; flex-wrap:wrap; align-items:baseline; gap:10px; }
+  .entry h3 { font-family:var(--font-mono); font-weight:600; font-size:1.02rem; margin:0; color:var(--ink); word-break:break-word; }
+  .entry h3 mark { background:var(--accent-wash); color:var(--accent-ink); border-radius:3px; padding:0 2px; }
+  .catlabel { font-family:var(--font-mono); font-size:.6rem; letter-spacing:.08em; text-transform:uppercase;
+    padding:2px 8px; border-radius:999px; color:var(--cat); background:var(--cat-bg); }
+  .entry .what { margin:10px 0 0; color:var(--ink); font-size:.94rem; }
+  .rowlbl { font-family:var(--font-mono); font-size:.66rem; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--ink-faint); margin:13px 0 5px; }
+  .entry ul { margin:0; padding:0; list-style:none; display:grid; gap:5px; }
+  .entry li { position:relative; padding-left:17px; font-size:.9rem; color:var(--ink-soft); }
+  .entry li::before { content:""; position:absolute; left:2px; top:.6em; width:6px; height:6px; border-radius:1px;
+    background:var(--cat,var(--accent)); transform:rotate(45deg); }
+  .chiprow { display:flex; flex-wrap:wrap; gap:5px; }
+  .tool { font-family:var(--font-mono); font-size:.66rem; letter-spacing:.02em; padding:2px 7px; border-radius:5px;
+    background:var(--surface-2); color:var(--ink-faint); border:1px solid var(--line); }
+  .tool.star { color:var(--accent-ink); border-color:var(--accent); background:var(--accent-wash); }
+  .std { font-family:var(--font-mono); font-size:.68rem; letter-spacing:.01em; padding:3px 9px; border-radius:999px;
+    background:transparent; color:var(--ink-soft); border:1px solid var(--line-strong); }
+  .std.comp { color:var(--accent-ink); border-color:var(--accent); background:var(--accent-wash); }
+  .std.na { color:var(--ink-faint); border-style:dashed; }
+
+  .empty { display:none; text-align:center; padding:60px 20px; color:var(--ink-faint); font-family:var(--font-mono); }
+  .empty.show { display:block; }
+
+  footer { border-top:1px solid var(--line); }
+  .foot-in { max-width:var(--maxw); margin:0 auto; padding:22px 24px 50px; font-family:var(--font-mono);
+    font-size:.74rem; color:var(--ink-faint); display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-between; }
+
+  @media (max-width:860px) {
+    .shell { grid-template-columns:1fr; gap:0; }
+    nav.side { position:static; max-height:none; padding-top:14px; }
+    .side .navgroup, .side a { display:none; }
+    .side .searchbox, .side .theme-toggle, .side .hint { display:flex; }
+    .side .hint { display:block; }
+  }
+</style>
+
+<header class="top">
+  <div class="top-in">
+    <div class="eyebrow"><span class="dot"></span> Claude Code &middot; Sub-Agents &middot; Dokumentation</div>
+    <h1>Agent&#8209;<span class="a">Dokumentation</span></h1>
+    <p class="lede">Was jeder Sub-Agent <b>genau macht</b>, <b>wann</b> man ihn einsetzt, welche <b>Tools</b> er nutzt und nach welchen <b>Standards / Normen</b> er arbeitet.</p>
+    <div class="note">
+      <span class="mk">*</span>
+      <p>Technische Dom&#xe4;nen-Standards (OWASP, PEP 8, WCAG, OpenAPI, OSI/RFCs, SQL &hellip;) wendet der jeweilige Agent direkt an. &#xdc;bergreifende <b>Compliance-Frameworks</b> &mdash; <code>ISO 27001</code>, <code>NIS2</code>, <code>DSGVO/GDPR</code> &mdash; sind mit <b>*</b> markiert: sie kommen in deinem Setup aus den <code>security</code>-/<code>dsgvo</code>-/<code>ccd</code>-<b>Skills</b> und den Projekt-Standards; der <code>security-reviewer</code> pr&#xfc;ft die technischen Kontrollen dagegen. Ein generischer Agent &#x201e;zertifiziert&#x201c; keine Norm &mdash; er arbeitet gegen ihre Regeln. &nbsp;Welche <b>Skills</b> welchen Agenten sch&#xe4;rfen, steht in der <a href="skills-documentation.html" style="color:var(--accent-ink);font-weight:600">Skill-Bibliothek &#8594;</a></p>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="side" aria-label="Navigation">
+    <label class="searchbox">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
+      <input id="q" type="search" placeholder="filtern: owasp, wcag, iso, pep&hellip;" autocomplete="off" aria-label="Agents filtern">
+    </label>
+    <div class="hint" id="hint"></div>
+    <div id="nav"></div>
+    <button class="theme-toggle" id="theme" aria-label="Farbschema wechseln">&#9680; Theme</button>
+  </nav>
+
+  <main id="main"></main>
+</div>
+<div class="empty" id="empty">kein Agent passt &mdash; anderen Begriff versuchen</div>
+
+<footer><div class="foot-in">
+  <span>Spiegelt die in dieser Session verf&uuml;gbaren Agents. Standards nach Dom&#xe4;nen-Konvention zugeordnet.</span>
+  <span id="total"></span>
+</div></footer>
+
+<script>
+const CATS = {
+  review: { label:"Review & Qualit\u00e4t",     desc:"Lesen deinen Code und melden Defekte \u2014 allgemein oder auf eine Sorge fokussiert." },
+  lang:   { label:"Sprach-Reviewer",           desc:"Idiomatisches Review f\u00fcr genau eine Sprache oder ein Framework." },
+  build:  { label:"Build-Fixer",               desc:"Machen einen roten Build / Typecheck mit minimalem Diff wieder gr\u00fcn \u2014 keine Architektur-\u00c4nderungen." },
+  arch:   { label:"Architektur & Planung",     desc:"Entwerfen, planen und erkunden, bevor Code geschrieben wird." },
+  test:   { label:"Test & TDD",                desc:"Tests zuerst schreiben, E2E fahren oder einen Generate/Evaluate-Loop steuern." },
+  docs:   { label:"Doku & Nachschlagen",       desc:"Doku schreiben/aktualisieren oder aktuelle Library- und Plattform-Doku holen." },
+  domain: { label:"Dom\u00e4nen-Spezialisten",      desc:"Fokussierte Expertise: Datenbank, Netzwerk, ML, Accessibility, SEO, Healthcare, Mobile." },
+  meta:   { label:"Meta, Infra & Sonstiges",   desc:"Harness betreiben, Repo open-source-f\u00e4hig machen, Kommunikation triagieren, Auffangbecken." },
+};
+
+// [name, cat, what(de), when(de[]), tools, standards[] \u2014 "*"-Suffix = Compliance-Kontext, "\u2014" = keine]
+const A = [
+  ["code-reviewer","review","Der Standard-Reviewer nach jeder \u00c4nderung: pr\u00fcft Qualit\u00e4t, Muster, Wartbarkeit und offensichtliche Sicherheitsprobleme.",["Direkt nach dem Schreiben/\u00c4ndern von Code","Vor jedem Commit auf geteilte Branches"],"Read Grep Glob Bash",["Clean Code","SOLID \u00b7 DRY \u00b7 KISS","CCD (Clean Code Developer)","CWE"]],
+  ["security-reviewer","review","Sucht gezielt Schwachstellen: OWASP Top 10, hartcodierte Secrets, SSRF, Injection, unsichere Krypto \u2014 und kann Findings direkt entsch\u00e4rfen.",["Code mit User-Input, Auth, API-Endpunkten oder sensiblen Daten","Vor Commits bei sicherheits-/RCE-nahem Code (z. B. P_INSTALL_2)"],"Read Write Edit Bash Grep Glob",["OWASP Top 10 (2025)","OWASP ASVS 5.0","CWE / SANS Top 25","OWASP LLM Top 10","ISO 27001*","NIS2*","DSGVO / GDPR (Art. 32)*"]],
+  ["code-simplifier","review","Vereinfacht und vereinheitlicht k\u00fcrzlich ge\u00e4nderten Code, ohne das Verhalten zu \u00e4ndern \u2014 reine Qualit\u00e4t, keine Bug-Suche.",["Nach einem funktionierenden, aber un\u00fcbersichtlichen Draft","Als Politur vor dem Review"],"Read Write Edit Bash Grep Glob",["Clean Code","YAGNI \u00b7 DRY","CCD"]],
+  ["refactor-cleaner","review","Findet toten Code mit Analyse-Tools (knip, depcheck, ts-prune) und entfernt ihn sicher, mit Verifikation nach jedem Schritt.",["Aufr\u00e4umen/Konsolidieren","Ungenutzte Exports, Dependencies oder Dateien vermutet"],"Read Write Edit Bash Grep Glob",["Clean Code","YAGNI"]],
+  ["silent-failure-hunter","review","Deckt verschluckte Fehler, schlechte Fallbacks und fehlende Fehlerweitergabe auf \u2014 die Bugs, die stumm bleiben.",["catch-Bl\u00f6cke ohne echtes Handling","Build gr\u00fcn, aber Laufzeitverhalten wirkt falsch"],"Read Grep Glob Bash",["Fail-fast","Error-Handling-Best-Practice","CCD (Korrektheit)"]],
+  ["comment-analyzer","review","Pr\u00fcft Kommentare auf Korrektheit, Vollst\u00e4ndigkeit und \u201eKommentar-Rot\u201c-Risiko (Doku, die vom Code wegdriftet).",["Vor Release einer \u00f6ffentlichen API","Bei viel oder altem Kommentarbestand"],"Read Grep Glob",["Doc-/Kommentar-Konventionen","Self-documenting Code"]],
+  ["type-design-analyzer","review","Analysiert Typ-Design: Kapselung, ob Invarianten im Typ ausgedr\u00fcckt und erzwungen werden, N\u00fctzlichkeit.",["Neue Dom\u00e4nen-Typen/Modelle","Wenn ung\u00fcltige Zust\u00e4nde \u00fcberhaupt darstellbar sind"],"Read Grep Glob",["Type-Driven Design","Make illegal states unrepresentable","DDD-Invarianten"]],
+  ["pr-test-analyzer","review","Bewertet die Test-Abdeckung eines PRs \u2014 Fokus auf echte Verhaltensabdeckung, die reale Bugs verhindert (nicht nur Zeilen-Prozente).",["Vor dem Mergen eines PRs","Coverage-Zahl hoch, aber Zweifel an der Qualit\u00e4t"],"Read Grep Glob Bash",["Test-Pyramide","Behavioral Coverage","Coverage-Schwellen (\u2265 80%)"]],
+
+  ["typescript-reviewer","lang","Idiomatisches TS/JS-Review: Typsicherheit, async-Korrektheit, Node-/Web-Security, Muster.",["Jede \u00c4nderung an .ts/.tsx/.js"],"Read Grep Glob Bash",["typescript-eslint","ECMAScript (ES20xx)","Airbnb/Google TS Style","OWASP (Web)"]],
+  ["python-reviewer","lang","Python-Review: PEP 8, Type Hints, Sicherheit, pythonische Idiome.",["Jede Python-\u00c4nderung"],"Read Grep Glob Bash",["PEP 8","PEP 484 (Typing)","PEP 257 (Docstrings)","Bandit-Regeln"]],
+  ["react-reviewer","lang","React/JSX-Review: Hook-Korrektheit, Render-Performance, Server/Client-Component-Grenzen, Accessibility, React-spezifische Security.",["\u00c4nderungen an .tsx/.jsx oder Komponentenlogik"],"Read Grep Glob Bash",["Rules of Hooks","eslint-plugin-react-hooks","WCAG 2.2 (a11y)"]],
+  ["go-reviewer","lang","Go-Review: idiomatisches Go, Concurrency-Muster, Fehlerbehandlung, Performance.",["Jede Go-\u00c4nderung"],"Read Grep Glob Bash",["Effective Go","Go Code Review Comments","gofmt / go vet"]],
+  ["rust-reviewer","lang","Rust-Review: Ownership, Lifetimes, Fehlerbehandlung, unsafe-Nutzung, idiomatische Muster.",["Jede Rust-\u00c4nderung"],"Read Grep Glob Bash",["Rust API Guidelines","Clippy","rustfmt"]],
+  ["java-reviewer","lang","Java-Review (erkennt Spring Boot/Quarkus): Schichtenarchitektur, JPA/Panache, MongoDB, Security, Concurrency.",["Jede Java-\u00c4nderung in Spring-/Quarkus-Projekten"],"Read Grep Glob Bash",["Google Java Style","Effective Java","Spring/Quarkus-Konventionen","OWASP"]],
+  ["cpp-reviewer","lang","C++-Review: Speichersicherheit, moderne C++-Idiome, Concurrency, Performance.",["Jede C++-\u00c4nderung"],"Read Grep Glob Bash",["C++ Core Guidelines","ISO C++ (C++17/20)","RAII"]],
+  ["csharp-reviewer","lang","C#-Review: .NET-Konventionen, async-Muster, Nullable Reference Types, Performance.",["Jede C#-\u00c4nderung"],"Read Grep Glob Bash",[".NET Coding Conventions","Framework Design Guidelines"]],
+  ["php-reviewer","lang","PHP-Review: PSR-12, Typsystem, Eloquent-Muster, Security, Performance.",["Jede PHP-\u00c4nderung"],"Read Grep Glob Bash",["PSR-12","PSR-Standards (PHP-FIG)","OWASP"]],
+  ["swift-reviewer","lang","Swift-Review: protokollorientiertes Design, Value Semantics, ARC-Speicherverwaltung, Swift Concurrency.",["Jede Swift-\u00c4nderung"],"Read Grep Glob Bash",["Swift API Design Guidelines"]],
+  ["kotlin-reviewer","lang","Kotlin-Review (Android/KMP): idiomatische Muster, Coroutine-Sicherheit, Compose, Clean-Architecture-Verletzungen.",["Jede Kotlin-\u00c4nderung"],"Read Grep Glob Bash",["Kotlin Coding Conventions","Android / Compose Guidelines"]],
+  ["flutter-reviewer","lang","Flutter/Dart-Review: Widget-Best-Practices, State-Management, Dart-Idiome, Performance, Accessibility \u2014 library-agnostisch.",["Jede Flutter/Dart-\u00c4nderung"],"Read Grep Glob Bash",["Effective Dart","Flutter Style Guide","WCAG (a11y)"]],
+  ["fsharp-reviewer","lang","F#-Review: funktionale Idiome, Typsicherheit, Pattern Matching, Computation Expressions, Performance.",["Jede F#-\u00c4nderung"],"Read Grep Glob Bash",["F# Style Guide","F# Component Design Guidelines"]],
+  ["django-reviewer","lang","Django-Review: ORM-Korrektheit, DRF-Muster, Migrationssicherheit, Security-Fehlkonfigurationen, produktionsreife Praxis.",["Jede Django-\u00c4nderung"],"Read Grep Glob Bash",["Django Coding Style","DRF-Konventionen","PEP 8","OWASP"]],
+  ["fastapi-reviewer","lang","FastAPI-Review: async-Korrektheit, Dependency Injection, Pydantic-Schemas, Security, OpenAPI-Qualit\u00e4t, Produktionsreife.",["Jede FastAPI-\u00c4nderung"],"Read Grep Glob Bash",["OpenAPI 3.x","REST","Pydantic","PEP 8","OWASP API Top 10"]],
+  ["mle-reviewer","lang","Produktions-ML-Review: Data Contracts, Feature-Pipelines, Trainings-Reproduzierbarkeit, Offline/Online-Eval, Serving, Monitoring, Rollback.",["\u00c4nderungen an ML-/MLOps-/Feature-Store-/Eval-Code"],"Read Grep Glob Bash",["MLOps-Prinzipien","Model Cards","Data Contracts","ML Test Score"]],
+  ["healthcare-reviewer","lang","Review f\u00fcr Healthcare-Code: klinische Sicherheit, CDSS-Genauigkeit, PHI-Compliance, Integrit\u00e4t medizinischer Daten (EMR/EHR, Clinical Decision Support).",["Klinische Entscheidungslogik, PHI-Verarbeitung, Health-Systeme"],"Read Grep Glob",["HIPAA (PHI)","HL7 / FHIR","IEC 62304","ISO 13485","DSGVO \u2014 Gesundheitsdaten (Art. 9)*","Clinical Safety DCB0129/0160"]],
+
+  ["build-error-resolver","build","Behebt Build- und TypeScript-Fehler mit minimalem Diff \u2014 nur gr\u00fcn machen, keine Architektur-Edits.",["CI/Build rot","tsc-/Typfehler"],"Read Write Edit Bash Grep Glob",["SemVer","TypeScript-Compiler-Regeln"]],
+  ["react-build-resolver","build","Diagnostiziert und behebt React-Build-Fehler \u00fcber Vite, webpack, Next.js, CRA, Parcel, esbuild und Bun \u2014 JSX/TSX, Hydration-Mismatches, Server/Client-Grenzen, fehlende Typen.",["React-Build schl\u00e4gt fehl (irgendein Bundler)"],"Read Write Edit Bash Grep Glob",["SemVer","Bundler-Konfig-Standards (Vite/webpack/Next)"]],
+  ["go-build-resolver","build","Behebt Go-Build-Fehler, go-vet-Warnungen und Linter-Probleme minimal.",["Go-Build rot"],"Read Write Edit Bash Grep Glob",["SemVer","Go Modules","go vet"]],
+  ["rust-build-resolver","build","Behebt Rust-Build-Fehler, Borrow-Checker-Probleme und Cargo.toml-Konflikte.",["Rust-Build rot"],"Read Write Edit Bash Grep Glob",["SemVer","Cargo / crates.io"]],
+  ["cpp-build-resolver","build","Behebt C++-Build, CMake-Konfiguration, Linker- und Template-Fehler.",["C++-Build rot"],"Read Write Edit Bash Grep Glob",["ISO C++","CMake-Konventionen"]],
+  ["java-build-resolver","build","Behebt Java/Maven/Gradle-Builds (erkennt Spring Boot oder Quarkus automatisch): Compiler- und Dependency-Fehler.",["Java-Build rot"],"Read Write Edit Bash Grep Glob",["SemVer","Maven / Gradle-Konventionen"]],
+  ["kotlin-build-resolver","build","Behebt Kotlin/Gradle-Build-, Compiler- und Dependency-Fehler.",["Kotlin-Build rot"],"Read Write Edit Bash Grep Glob",["SemVer","Gradle-Konventionen"]],
+  ["swift-build-resolver","build","Behebt Swift/Xcode-Build-Fehler, SPM-Dependency-Probleme und Code-Signing.",["Swift-Build rot"],"Read Write Edit Bash Grep Glob",["SemVer","Swift Package Manager","Xcode Build Settings"]],
+  ["dart-build-resolver","build","Behebt Dart-Analyzer-Fehler, Flutter-Build-Fehler, pub-Dependency-Konflikte und build_runner-Probleme.",["Dart/Flutter-Build rot"],"Read Write Edit Bash Grep Glob",["SemVer","pub / build_runner"]],
+  ["django-build-resolver","build","Behebt Django/pip/Poetry-Fehler, Migrationskonflikte, Import-Fehler, Konfigurations- und collectstatic-Probleme.",["Django-Setup oder -Start schl\u00e4gt fehl"],"Read Write Edit Bash Grep Glob",["SemVer","pip / Poetry","Django-Migrations"]],
+  ["pytorch-build-resolver","build","Behebt PyTorch-Laufzeit-/CUDA-/Trainingsfehler: Tensor-Shape-Mismatches, Device-Fehler, Gradienten, DataLoader, Mixed Precision.",["PyTorch-Training/-Inferenz crasht"],"Read Write Edit Bash Grep Glob",["CUDA-Kompatibilit\u00e4t","PyTorch-Konventionen"]],
+
+  ["architect","arch","Systemdesign, Skalierung und technische Entscheidungen \u2014 read-only, liefert die Richtung.",["Vor neuen Features","Bei gr\u00f6\u00dferen Refactorings oder Architektur-Entscheidungen"],"Read Grep Glob",["C4-Modell","arc42","SOLID","12-Factor App","ADRs"]],
+  ["code-architect","arch","Entwirft Feature-Architekturen aus vorhandenen Codebase-Mustern und liefert einen Blueprint mit konkreten Dateien, Interfaces, Datenfluss und Build-Reihenfolge.",["Neues Feature, das sich sauber in Bestehendes einf\u00fcgen soll"],"Read Grep Glob Bash",["C4-Modell","arc42","bestehende Repo-Muster"]],
+  ["planner","arch","Erstellt Implementierungspl\u00e4ne f\u00fcr komplexe Features/Refactorings; identifiziert Abh\u00e4ngigkeiten und Risiken, bricht in Phasen herunter.",["Komplexes Feature vor dem Bauen","Mehrschrittiges Refactoring"],"Read Grep Glob",["arc42","ADRs","Risiko-/Phasenplanung"]],
+  ["Plan","arch","Architekt-Agent f\u00fcr Implementierungspl\u00e4ne: Schritt-f\u00fcr-Schritt, kritische Dateien, Architektur-Trade-offs (read-only).",["Wenn du eine Strategie brauchst, bevor Code angefasst wird"],"most tools, read-only",["arc42","ADRs"]],
+  ["code-explorer","arch","Analysiert bestehende Features tief: verfolgt Ausf\u00fchrungspfade, mappt Architektur-Schichten, dokumentiert Abh\u00e4ngigkeiten.",["Unbekannten Code verstehen, bevor man ihn erweitert"],"Read Grep Glob",["\u2014"]],
+  ["Explore","arch","Breite read-only Fan-out-Suche \u00fcber viele Dateien und Namenskonventionen; liefert nur die Schlussfolgerung. Findet Code, reviewt ihn aber nicht.",["\u201eWo liegt X?\u201c \u00fcber viele Orte/Konventionen","Schnelle Orientierung ohne Datei-Dumps"],"most tools, read-only",["\u2014"]],
+  ["performance-optimizer","arch","Findet Bottlenecks, optimiert langsamen Code, reduziert Bundle-Gr\u00f6\u00dfen, jagt Memory-Leaks, Render-Optimierung, algorithmische Verbesserungen.",["Messbare Performance-Probleme","Zu gro\u00dfes Bundle / langsame Renders"],"Read Write Edit Bash Grep Glob",["Core Web Vitals","Performance-Budgets","Big-O-Analyse"]],
+
+  ["tdd-guide","test","Erzwingt write-tests-first (RED \u2192 GREEN \u2192 Refactor) und zielt auf 80%+ Coverage. Proaktiv bei neuen Features und Bugfixes.",["Neues Feature test-first bauen","Bug als Regressionstest fixieren"],"Read Write Edit Bash Grep",["TDD (Red-Green-Refactor)","AAA-Muster","Coverage \u2265 80%"]],
+  ["e2e-runner","test","Generiert, pflegt und f\u00fchrt E2E-Tests aus (Playwright), verwaltet Test-Journeys, quarant\u00e4nisiert flaky Tests und l\u00e4dt Artefakte (Screenshots/Videos/Traces) hoch.",["Kritische User-Flows absichern","Flaky/rote E2E-Tests (z. B. navigation.spec.ts bei PR #53)"],"Read Write Edit Bash Grep Glob",["Playwright-Best-Practice","Page-Object-Muster","deterministische Waits"]],
+  ["gan-planner","test","GAN-Harness Planner: expandiert einen Ein-Zeilen-Prompt in eine vollst\u00e4ndige Produktspezifikation mit Features, Sprints, Eval-Kriterien und Design-Richtung.",["Aus einer Idee eine strukturierte Spec machen"],"Read Write Grep Glob",["Rubric-basiert"]],
+  ["gan-generator","test","GAN-Harness Generator: implementiert gem\u00e4\u00df Spec, liest Evaluator-Feedback und iteriert, bis die Qualit\u00e4tsschwelle erreicht ist.",["Teil eines generate/evaluate-Loops"],"Read Write Edit Bash Grep Glob",["Rubric-basiert"]],
+  ["gan-evaluator","test","GAN-Harness Evaluator: testet die laufende App via Playwright, bewertet gegen ein Rubric und gibt umsetzbares Feedback an den Generator.",["Teil eines generate/evaluate-Loops"],"Read Write Bash Grep Glob",["Rubric-basiert","Playwright"]],
+
+  ["doc-updater","docs","Aktualisiert Codemaps und Dokumentation (/update-codemaps, /update-docs), generiert docs/CODEMAPS/*, pflegt READMEs und Guides.",["Nach gr\u00f6\u00dferen Code-\u00c4nderungen","Doku mit dem Code synchron halten"],"Read Write Edit Bash Grep Glob",["Docs-as-Code","Di\u00e1taxis"]],
+  ["docs-lookup","docs","Holt aktuelle Library-/API-Dokumentation und Code-Beispiele \u00fcber Context7.",["Fragen zu Library-/API-Nutzung oder Setup","Aktuelle, versionsgenaue Beispiele"],"Read Grep Context7",["Vendor-Doku (Context7)"]],
+  ["claude-code-guide","docs","Beantwortet Fragen zu Claude Code (CLI, Hooks, Slash-Commands, MCP, Settings, IDE), zum Agent SDK, zur Claude API und zu Claude in Slack.",["\u201eKann Claude \u2026?\u201c / \u201eWie richte ich \u2026 ein?\u201c zu Claude-Tooling"],"Glob Grep Read WebFetch WebSearch",["Anthropic-/Claude-Code-Doku"]],
+
+  ["database-reviewer","domain","PostgreSQL-Spezialist: Query-Optimierung, Schema-Design, Security und Performance \u2014 inkl. Supabase-Best-Practices.",["SQL schreiben, Migrationen/Schema entwerfen","DB-Performance-Probleme"],"Read Write Edit Bash Grep Glob",["SQL:2016","Normalisierung (1NF\u20133NF)","PostgreSQL-Best-Practice","Supabase-Guidelines","OWASP (SQL-Injection)"]],
+  ["a11y-architect","domain","Accessibility-Architekt f\u00fcr WCAG 2.2 (Web + Native) \u2014 beim Entwerfen von UI-Komponenten, Design-Systemen oder beim Audit auf inklusive UX.",["UI-Komponenten/Design-System entwerfen","Auf Barrierefreiheit pr\u00fcfen"],"Read Write Edit Grep Glob",["WCAG 2.2","WAI-ARIA","EN 301 549","Section 508","BITV 2.0"]],
+  ["network-architect","domain","Entwirft Enterprise-/Multi-Site-Netzwerkarchitektur aus Anforderungen; nutzt fokussierte Netzwerk-Skills f\u00fcr Routing, Validierung und Automation.",["Netzwerk-Architektur von Grund auf planen"],"Read Grep",["OSI / TCP-IP","IETF RFCs","IEEE 802","NIST SP 800-Serie","ISO 27001*","NIS2 (KRITIS)*"]],
+  ["network-config-reviewer","domain","Reviewt Router-/Switch-Configs auf Security, Korrektheit, veraltete Referenzen, riskante Change-Window-Kommandos und fehlende Betriebs-Guardrails.",["Vor dem Ausrollen einer Ger\u00e4te-Config"],"Read Grep",["CIS Benchmarks","NIST SP 800-53","Hardening-Guides","IETF RFCs"]],
+  ["network-troubleshooter","domain","Diagnostiziert Konnektivit\u00e4t, Routing, DNS, Interface- und Policy-Symptome mit read-only OSI-Schichten-Workflow und evidenzbasierter Root-Cause.",["\u201eVerbindung geht nicht\u201c systematisch eingrenzen"],"Read Bash Grep",["OSI-Modell","IETF RFCs"]],
+  ["homelab-architect","domain","Plant Heim-/Lab-Netzwerke aus Hardware-Inventar, Zielen und Erfahrungslevel \u2014 mit sicheren gestuften \u00c4nderungen und Rollback-Anleitung.",["Homelab/kleines Lab-Netz aufbauen oder umbauen"],"Read Grep",["RFC 1918","VLAN / IEEE 802.1Q","Netzwerk-Best-Practice"]],
+  ["harmonyos-app-resolver","domain","HarmonyOS/OpenHarmony-Experte (ArkTS/ArkUI): V2-State-Management, Navigation-Routing, API-Nutzung, Performance-Best-Practices.",["HarmonyOS-/ArkTS-Projekte"],"Read Write Edit Bash Grep Glob",["HarmonyOS/ArkTS-Guidelines","ArkUI V2 State"]],
+  ["seo-specialist","domain","Technische SEO-Audits, On-Page-Optimierung, Structured Data, Core Web Vitals, Content-/Keyword-Mapping.",["Site-Audit, Meta-Tags, Schema, robots/sitemap","SEO-Ma\u00dfnahmenplan"],"Read Grep Glob WebSearch WebFetch",["Google Search Essentials","Core Web Vitals","schema.org","Open Graph","robots.txt / Sitemap-Protokoll"]],
+  ["marketing-agent","domain","Marketing-Stratege und Texter: Kampagnenplanung, Zielgruppen-Research, Positionierung, Copy (Landingpages, E-Mail, Social, Ads, Video-Skripte, Content-Kalender).",["Produkt-Launch oder Kampagne planen/umsetzen","Bestehende Copy auf Conversion pr\u00fcfen"],"Read Grep Glob WebSearch WebFetch",["Copy-Frameworks (AIDA / StoryBrand)","DSGVO \u2014 Marketing-Consent*","CAN-SPAM / UWG"]],
+
+  ["general-purpose","meta","Allzweck-Agent: komplexe Recherchen, Code-Suche und mehrstufige Aufgaben \u2014 gut, wenn unsicher ist, ob der erste Treffer passt.",["Offene Suche/Recherche","Aufgabe passt in keinen spezifischen Agent"],"* (alle Tools)",["\u2014"]],
+  ["claude","meta","Standard-Catch-all, wenn kein spezifischerer Agent passt oder keiner namentlich genannt wird.",["Fallback ohne genannten Agent-Typ"],"* (alle Tools)",["\u2014"]],
+  ["harness-optimizer","meta","Analysiert und verbessert die lokale Agent-Harness-Konfiguration f\u00fcr Zuverl\u00e4ssigkeit, Kosten und Durchsatz.",["Harness/Setup tunen"],"Read Grep Glob Bash Edit",["Harness-Konfig-Best-Practice"]],
+  ["loop-operator","meta","Betreibt autonome Agent-Loops, \u00fcberwacht den Fortschritt und greift sicher ein, wenn ein Loop stecken bleibt.",["Autonome Loops steuern/beaufsichtigen"],"Read Grep Glob Bash Edit",["Safety-Guardrails","Stop-Conditions"]],
+  ["conversation-analyzer","meta","Analysiert Konversations-Transkripte, um Verhaltensweisen zu finden, die man per Hook verhindern sollte (z. B. f\u00fcr /hookify).",["Wiederkehrendes Fehlverhalten in Hooks gie\u00dfen"],"Read Grep",["\u2014"]],
+  ["opensource-forker","meta","Forkt ein Projekt f\u00fcrs Open-Sourcing: kopiert Dateien, entfernt Secrets/Credentials (20+ Muster), ersetzt interne Referenzen durch Platzhalter, generiert .env.example, s\u00e4ubert die git-History.",["Erste Stufe der Open-Source-Pipeline"],"Read Write Edit Bash Grep Glob",["Secret-Scanning-Muster","SPDX-Lizenzen","PII-/DSGVO-Entfernung*"]],
+  ["opensource-sanitizer","meta","Verifiziert, dass ein Fork vollst\u00e4ndig bereinigt ist: scannt Secrets, PII und interne Referenzen (20+ Regex), erzeugt PASS/FAIL-Report \u2014 proaktiv vor jedem Public-Release.",["Vor jedem \u00f6ffentlichen Release"],"Read Grep Glob Bash",["Secret-/PII-Scan (20+ Muster)","SPDX","DSGVO \u2014 PII-Minimierung*"]],
+  ["opensource-packager","meta","Erzeugt vollst\u00e4ndiges OSS-Packaging: CLAUDE.md, setup.sh, README, LICENSE, CONTRIBUTING und GitHub-Issue-Templates.",["Repo sofort mit Claude Code nutzbar machen"],"Read Write Edit Bash Grep Glob",["SPDX-Lizenzen","Docs-as-Code","Keep a Changelog"]],
+  ["chief-of-staff","meta","Kommunikations-Chief-of-Staff: triagiert E-Mail/Slack/LINE/Messenger in 4 Stufen (skip / info / meeting / action), erzeugt Antwort-Entw\u00fcrfe und erzwingt Follow-through via Hooks.",["Multi-Channel-Kommunikation managen"],"Read Grep Glob Bash Edit Write",["Inbox-Zero-Prinzip","4-Tier-Triage"]],
+  ["statusline-setup","meta","Konfiguriert die Statuszeile deiner Claude-Code-Installation.",["Statuszeile einrichten/anpassen"],"Read Edit",["\u2014"]],
+];
+
+const CATVAR = { review:"--c-review", lang:"--c-lang", build:"--c-build", arch:"--c-arch",
+  test:"--c-test", docs:"--c-docs", domain:"--c-domain", meta:"--c-meta" };
+const CATBG = { review:"--c-review-bg", lang:"--c-lang-bg", build:"--c-build-bg", arch:"--c-arch-bg",
+  test:"--c-test-bg", docs:"--c-docs-bg", domain:"--c-domain-bg", meta:"--c-meta-bg" };
+const order = Object.keys(CATS);
+const el = (t,c,tx)=>{const e=document.createElement(t); if(c)e.className=c; if(tx!=null)e.textContent=tx; return e;};
+
+const main = document.getElementById("main");
+const nav  = document.getElementById("nav");
+
+for (const cat of order) {
+  const items = A.filter(a=>a[1]===cat);
+  const ci = CATVAR[cat], cbg = CATBG[cat];
+
+  const g = el("div","navgroup");
+  const gsw = el("span","sw"); gsw.style.background="var("+ci+")"; g.appendChild(gsw);
+  g.appendChild(document.createTextNode(CATS[cat].label));
+  nav.appendChild(g);
+  for (const [name] of items) {
+    const a = el("a"); a.href="#a-"+name.toLowerCase(); a.dataset.for=name.toLowerCase();
+    a.appendChild(el("span",null,name));
+    nav.appendChild(a);
+  }
+
+  const sec = el("section","cat-sec"); sec.id="cat-"+cat; sec.dataset.cat=cat;
+  const head = el("div","cat-head");
+  const sw = el("span","sw"); sw.style.background="var("+ci+")"; head.appendChild(sw);
+  head.appendChild(el("h2",null,CATS[cat].label));
+  const cc = el("span","cc"); cc.dataset.role="cc"; head.appendChild(cc);
+  sec.appendChild(head);
+  sec.appendChild(el("p","cat-desc",CATS[cat].desc));
+
+  const wrap = el("div","entries");
+  for (const [name, , what, when, tools, stds] of items) {
+    const art = el("article","entry"); art.id="a-"+name.toLowerCase();
+    art.style.setProperty("--cat","var("+ci+")");
+    art.style.setProperty("--cat-bg","var("+cbg+")");
+    art.dataset.text=(name+" "+what+" "+when.join(" ")+" "+tools+" "+stds.join(" ")).toLowerCase();
+    art.dataset.name=name.toLowerCase();
+
+    const h = el("div","entry-head");
+    const h3 = el("h3",null,name); h3.dataset.raw=name; h.appendChild(h3);
+    h.appendChild(el("span","catlabel",CATS[cat].label));
+    art.appendChild(h);
+
+    art.appendChild(el("p","what",what));
+
+    if (when && when.length) {
+      art.appendChild(el("div","rowlbl","Wann einsetzen"));
+      const ul = el("ul");
+      for (const w of when) ul.appendChild(el("li",null,w));
+      art.appendChild(ul);
+    }
+
+    // Standards / Normen
+    art.appendChild(el("div","rowlbl","Standards / Normen"));
+    const sr = el("div","chiprow");
+    for (const s of stds) {
+      if (s === "\u2014") { sr.appendChild(el("span","std na","keine spezifische Norm")); continue; }
+      const comp = s.endsWith("*");
+      const label = comp ? s.slice(0,-1) : s;
+      sr.appendChild(el("span","std"+(comp?" comp":""), label));
+    }
+    art.appendChild(sr);
+
+    // Tools
+    art.appendChild(el("div","rowlbl","Tools"));
+    const tl = el("div","chiprow");
+    if (tools.includes("(")) { tl.appendChild(el("span","tool star",tools)); }
+    else { for (const t of tools.split(" ")) tl.appendChild(el("span","tool"+(t==="*"?" star":""), t)); }
+    art.appendChild(tl);
+
+    wrap.appendChild(art);
+  }
+  sec.appendChild(wrap);
+  main.appendChild(sec);
+}
+
+const q = document.getElementById("q");
+const hint = document.getElementById("hint");
+const emptyEl = document.getElementById("empty");
+document.getElementById("total").textContent = A.length + " Agents";
+
+function setName(h3, raw, term){
+  while(h3.firstChild) h3.removeChild(h3.firstChild);
+  const low=raw.toLowerCase(); const i=term?low.indexOf(term):-1;
+  if(i<0){ h3.textContent=raw; return; }
+  h3.appendChild(document.createTextNode(raw.slice(0,i)));
+  h3.appendChild(el("mark",null,raw.slice(i,i+term.length)));
+  h3.appendChild(document.createTextNode(raw.slice(i+term.length)));
+}
+function apply(){
+  const term=q.value.trim().toLowerCase(); let shown=0;
+  document.querySelectorAll(".cat-sec").forEach(sec=>{
+    let vis=0;
+    sec.querySelectorAll(".entry").forEach(art=>{
+      const m=!term || art.dataset.text.includes(term);
+      art.classList.toggle("hidden",!m);
+      setName(art.querySelector("h3"), art.querySelector("h3").dataset.raw, m?term:"");
+      const navlink=document.querySelector('.side a[data-for="'+art.dataset.name+'"]');
+      if(navlink) navlink.style.display = m ? "" : "none";
+      if(m){vis++; shown++;}
+    });
+    sec.querySelector('[data-role="cc"]').textContent = vis?vis+"":"";
+    sec.classList.toggle("hidden",vis===0);
+  });
+  hint.textContent = shown+" / "+A.length+" sichtbar";
+  emptyEl.classList.toggle("show",shown===0);
+}
+q.addEventListener("input",apply);
+apply();
+
+if ("IntersectionObserver" in window) {
+  const links = [...document.querySelectorAll('.side a')];
+  const obs = new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting){
+      const id=e.target.id.replace(/^a-/,"");
+      links.forEach(l=>l.classList.toggle("active", l.dataset.for===id));
+    }});
+  }, { rootMargin:"-20% 0px -70% 0px", threshold:0 });
+  document.querySelectorAll(".entry").forEach(x=>obs.observe(x));
+}
+
+document.getElementById("theme").addEventListener("click",()=>{
+  const root=document.documentElement;
+  const explicit=root.getAttribute("data-theme");
+  const prefersDark=matchMedia("(prefers-color-scheme: dark)").matches;
+  const cur=explicit||(prefersDark?"dark":"light");
+  root.setAttribute("data-theme", cur==="dark"?"light":"dark");
+});
+</script>

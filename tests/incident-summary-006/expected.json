@@ -1,0 +1,1 @@
+{"expected_mode":"INTERIM INVESTIGATION SUMMARY", "expected_traceability":["E001", "E002", "E003"], "expected_consistency":[], "expected_assessment_behavior":"timeline sorted E001 then E002; E003 remains unknown time", "forbidden_conclusions":["invent time for E003", "unsorted known timeline"]}

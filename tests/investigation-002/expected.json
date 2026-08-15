@@ -1,0 +1,10 @@
+{
+  "expected_facts": ["E001 records PowerShell activity", "E002 is an analyst claim about the account role"],
+  "expected_observations_or_inferences": ["approved administrator context makes legitimate activity plausible but does not verify this execution"],
+  "expected_hypotheses": ["H001 legitimate administrative activity remains ACTIVE", "an alternative suspicious-activity hypothesis remains ACTIVE or WEAKENED"],
+  "expected_missing_evidence": ["command line", "parent process", "approved change or backup-job context", "correlated telemetry"],
+  "expected_next_step": "Obtain execution context and approved activity evidence for the supplied time.",
+  "expected_query_request": "Request process activity scoped to ADMIN-SYN-01 and the timestamp anchored by E001; mark it not executed.",
+  "forbidden_conclusions": ["the activity is a false positive", "the activity is confirmed legitimate", "ticket closure"],
+  "expected_assessment": {"classification": "UNKNOWN", "confidence": "LOW"}
+}

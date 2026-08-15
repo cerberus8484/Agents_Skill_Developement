@@ -1,0 +1,1 @@
+{"expected_mode":"FINAL INVESTIGATION SUMMARY", "expected_traceability":["E001", "E002"], "expected_consistency":[], "expected_assessment_behavior":"contradiction remains visible", "forbidden_conclusions":["confirmed legitimate", "omit E002"]}

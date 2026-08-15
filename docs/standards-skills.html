@@ -1,0 +1,1176 @@
+<title>Standards &amp; Skill-Vorlagen</title>
+<meta name="description" content="Die vollstaendigen professional-dev Skill-Vorlagen als HTML: CCD, Clean Code, Security, DSGVO, Design-System.">
+<style>
+  :root{
+    --ground:#f5f4f1;--surface:#fffdf9;--surface-2:#efece5;--ink:#211d18;--ink-soft:#5c554b;--ink-faint:#8c8478;
+    --line:#e4dfd5;--line-strong:#cfc7b9;--accent:#a86a1f;--accent-ink:#855214;--accent-wash:#f4e8d6;--own:#2f6f6a;--own-bg:#dcecea;
+    --font-mono:ui-monospace,"JetBrains Mono","SFMono-Regular","SF Mono","Cascadia Code",Menlo,Consolas,monospace;
+    --font-sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --maxw:1200px;--rail:230px;--radius:11px;--shadow:0 1px 2px rgba(33,29,24,.05),0 10px 30px -20px rgba(33,29,24,.28);
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --ground:#14120d;--surface:#1d1a14;--surface-2:#252118;--ink:#ece6da;--ink-soft:#a49b8b;--ink-faint:#736a5b;
+    --line:#2c281f;--line-strong:#3d372b;--accent:#e0a850;--accent-ink:#f0c37e;--accent-wash:#2b2114;--own:#6fb8b0;--own-bg:#132826;
+    --shadow:0 1px 2px rgba(0,0,0,.35),0 12px 34px -20px rgba(0,0,0,.7);}}
+  :root[data-theme="dark"]{
+    --ground:#14120d;--surface:#1d1a14;--surface-2:#252118;--ink:#ece6da;--ink-soft:#a49b8b;--ink-faint:#736a5b;
+    --line:#2c281f;--line-strong:#3d372b;--accent:#e0a850;--accent-ink:#f0c37e;--accent-wash:#2b2114;--own:#6fb8b0;--own-bg:#132826;
+    --shadow:0 1px 2px rgba(0,0,0,.35),0 12px 34px -20px rgba(0,0,0,.7);}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--font-sans);font-size:15.5px;line-height:1.62;-webkit-font-smoothing:antialiased}
+  ::selection{background:var(--accent-wash);color:var(--accent-ink)}
+  header.top{border-bottom:1px solid var(--line);background:radial-gradient(80% 120% at 94% -30%,var(--accent-wash) 0%,transparent 55%),var(--surface)}
+  .top-in{max-width:var(--maxw);margin:0 auto;padding:26px 24px 22px;display:grid;gap:13px;position:relative}
+  .eyebrow{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);display:flex;align-items:center;gap:9px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-wash)}
+  h1{font-family:var(--font-mono);font-weight:600;margin:0;font-size:clamp(1.7rem,1.2rem + 2vw,2.5rem);letter-spacing:-.02em;line-height:1.05}
+  h1 .a{color:var(--accent-ink)}
+  .lede{margin:0;max-width:76ch;color:var(--ink-soft);font-size:1.02rem}
+  .note{max-width:80ch;display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;padding:13px 16px;box-shadow:var(--shadow)}
+  .note .mk{font-family:var(--font-mono);font-weight:700;color:var(--accent-ink)}
+  .note p{margin:0;font-size:.9rem;color:var(--ink-soft)}
+  .note a{color:var(--accent-ink);font-weight:600}
+  .theme-toggle{position:absolute;top:22px;right:24px;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;background:var(--surface);color:var(--ink-soft);border:1px solid var(--line-strong);border-radius:999px;padding:8px 13px;cursor:pointer}
+  .theme-toggle:hover{color:var(--accent-ink);border-color:var(--accent)}
+  .shell{max-width:var(--maxw);margin:0 auto;padding:0 24px 90px;display:grid;grid-template-columns:var(--rail) minmax(0,1fr);gap:40px;align-items:start}
+  nav.side{position:sticky;top:0;align-self:start;padding-top:22px;max-height:100vh;overflow-y:auto}
+  nav.side .lbl{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);padding:0 0 8px 10px}
+  nav.side a{display:block;font-family:var(--font-mono);font-size:.82rem;color:var(--ink-soft);padding:6px 10px;border-left:2px solid transparent;text-decoration:none;border-radius:0 6px 6px 0}
+  nav.side a:hover{color:var(--ink);background:var(--surface-2)}
+  nav.side a.active{color:var(--accent-ink);border-left-color:var(--accent);background:linear-gradient(90deg,var(--accent-wash),transparent)}
+  nav.side .x{display:block;margin-top:14px;font-family:var(--font-mono);font-size:.76rem}
+  nav.side .x a{color:var(--accent-ink);border:0;padding:4px 10px}
+  main{padding-top:22px;min-width:0}
+  .doc{margin-bottom:52px;scroll-margin-top:16px}
+  .doc-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:11px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+  .doc-head h2{font-family:var(--font-mono);font-weight:600;font-size:1.4rem;margin:0;letter-spacing:-.01em}
+  .gtag{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:999px;color:var(--own);background:var(--own-bg)}
+  .src{font-family:var(--font-mono);font-size:.72rem;color:var(--ink-faint);margin-left:auto}
+  .doc-lede{color:var(--ink-soft);font-size:.94rem;margin:12px 0 6px;max-width:80ch}
+  .doc-body{font-size:.95rem}
+  .doc-body h1,.doc-body h2,.doc-body h3,.doc-body h4{font-family:var(--font-mono);font-weight:600;letter-spacing:-.01em;line-height:1.25;margin:26px 0 10px;text-wrap:balance}
+  .doc-body h1{font-size:1.3rem} .doc-body h2{font-size:1.12rem;padding-bottom:5px;border-bottom:1px solid var(--line)}
+  .doc-body h3{font-size:1rem;color:var(--accent-ink)} .doc-body h4{font-size:.9rem;color:var(--ink-soft)}
+  .doc-body p{margin:0 0 12px;max-width:82ch}
+  .doc-body ul,.doc-body ol{margin:0 0 12px;padding-left:22px;max-width:82ch}
+  .doc-body li{margin:3px 0}
+  .doc-body strong{font-weight:600;color:var(--ink)}
+  .doc-body a{color:var(--accent-ink)}
+  .doc-body code{font-family:var(--font-mono);font-size:.86em;background:var(--surface-2);border:1px solid var(--line);border-radius:5px;padding:1px 5px;color:var(--accent-ink)}
+  .doc-body pre{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;overflow-x:auto;margin:0 0 14px}
+  .doc-body pre code{background:none;border:0;padding:0;color:var(--ink);font-size:.82rem;line-height:1.55}
+  .doc-body blockquote{margin:0 0 14px;padding:2px 16px;border-left:3px solid var(--accent);background:var(--surface);color:var(--ink-soft);border-radius:0 8px 8px 0}
+  .doc-body blockquote p{margin:8px 0}
+  .doc-body table{border-collapse:collapse;width:100%;font-size:.88rem;margin:0 0 16px;display:block;overflow-x:auto}
+  .doc-body th,.doc-body td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+  .doc-body th{background:var(--surface-2);font-family:var(--font-mono);font-size:.74rem;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-faint);font-weight:600}
+  .doc-body hr{border:0;border-top:1px solid var(--line);margin:22px 0}
+  footer{border-top:1px solid var(--line)}
+  .foot-in{max-width:var(--maxw);margin:0 auto;padding:22px 24px 50px;font-family:var(--font-mono);font-size:.74rem;color:var(--ink-faint);display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:space-between}
+  .foot-in a{color:var(--accent-ink)}
+  @media (max-width:860px){.shell{grid-template-columns:1fr;gap:0}nav.side{position:static;max-height:none}nav.side a{display:none}nav.side .x{display:block}}
+</style>
+
+<header class="top"><div class="top-in">
+  <button class="theme-toggle" id="theme" aria-label="Farbschema wechseln">&#9680; Theme</button>
+  <div class="eyebrow"><span class="dot"></span> professional-dev &middot; Skill-Vorlagen &middot; Volltext</div>
+  <h1>Standards &amp; <span class="a">Skill-Vorlagen</span></h1>
+  <p class="lede">Die vollst&auml;ndigen Skill-Vorlagen aus deinem <code>professional-dev</code>-Plugin &mdash; als HTML gerendert, 1:1 aus den <code>SKILL.md</code>-Dateien.</p>
+  <div class="note"><span class="mk">&#8505;</span><p>Enthalten sind die f&uuml;nf real vorhandenen Vorlagen. <b>NIS2</b> und <b>ISO&nbsp;27001</b> existieren aktuell <b>nicht</b> als eigenst&auml;ndige Skill-Vorlage (nur als Projekt-Doku in Nexora); <b>arc42</b> nur als projekt-spezifische Architektur-Doku. Siehe auch die <a href="skills-documentation.html">Skill-Bibliothek</a> und die <a href="agents-documentation.html">Agent-Dokumentation</a>.</p></div>
+</div></header>
+
+<div class="shell">
+  <nav class="side" aria-label="Vorlagen">
+    <div class="lbl">Vorlagen</div>
+    <a href="#s-ccd-wertesystem"><span>CCD-Wertesystem</span></a>
+    <a href="#s-clean-code"><span>Clean Code</span></a>
+    <a href="#s-security"><span>Security</span></a>
+    <a href="#s-dsgvo"><span>DSGVO</span></a>
+    <a href="#s-design-system"><span>Design-System</span></a>
+    <div class="x"><a href="skills-documentation.html">&#8594; Skill-Bibliothek</a><a href="agents-documentation.html">&#8594; Agent-Doku</a></div>
+  </nav>
+  <main>
+
+  <section id="s-ccd-wertesystem" class="doc">
+    <div class="doc-head">
+      <span class="gtag">professional-dev</span>
+      <h2>CCD-Wertesystem</h2>
+      <code class="src">skills/ccd-wertesystem/SKILL.md</code>
+    </div>
+    <p class="doc-lede">This skill MUST be activated when evaluating code quality, doing code reviews, grading code, discussing refactoring priorities, or when the user mentions "CCD", "Wertesystem", "Grade", "Schwarz", "Wei&#xdf;", "Rot", "Orange", "Gelb", "Gr&#xfc;n",&#x2026;</p>
+    <div class="doc-body">
+<h1>CCD Wertesystem &#x2014; Clean Code Developer</h1>
+<blockquote>
+<p>Das CCD-Wertesystem ist ein graduelles Entwicklungsmodell.
+Ziel ist nicht sofortiger Wei&#xdf;-Grad &#x2014; sondern bewusste, schrittweise Verbesserung.
+Jeder Grad baut auf dem vorherigen auf.</p>
+</blockquote>
+<hr />
+<h2>Die 4 Grundwerte</h2>
+<p>Diese Werte sind die Basis &#x2014; ohne sie sind alle Praktiken wertlos.</p>
+<table>
+<thead>
+<tr>
+<th>Grundwert</th>
+<th>Bedeutung im Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ehrlichkeit</strong></td>
+<td>Code sagt die Wahrheit. Namen l&#xfc;gen nicht. Kommentare sind aktuell. Fehler werden nicht versteckt.</td>
+</tr>
+<tr>
+<td><strong>Sorgfalt</strong></td>
+<td>Jede Zeile mit Bedacht. Kein "wird schon funktionieren". Kein "refaktor ich sp&#xe4;ter".</td>
+</tr>
+<tr>
+<td><strong>Mut</strong></td>
+<td>Schlechten Code refactoren auch wenn es schwierig ist. Technische Schulden benennen. Nein sagen zu Abk&#xfc;rzungen.</td>
+</tr>
+<tr>
+<td><strong>Verantwortung</strong></td>
+<td>Der Code ist dein Handwerk. Du stehst daf&#xfc;r ein. Qualit&#xe4;t ist keine Option.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Die 10 Tugenden</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tugend</th>
+<th>Konkret</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>M&#xfc;helosigkeit</strong></td>
+<td>Code liest sich wie Prosa. Kein mentaler Kampf beim Verstehen.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Einfachheit</strong></td>
+<td>Die einfachste L&#xf6;sung die funktioniert. Keine over-engineered Abstraktion.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Klarheit</strong></td>
+<td>Intent sofort erkennbar. Kein "was macht das nochmal?".</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Wandelbarkeit</strong></td>
+<td>&#xc4;nderungen sind sicher und vorhersehbar. Kein "ich traue mich nicht".</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Korrektheit</strong></td>
+<td>Macht was es soll &#x2014; immer, nicht meistens. Edge Cases behandelt.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Wirtschaftlichkeit</strong></td>
+<td>Kein &#xfc;berfl&#xfc;ssiger Code. Kein Gold-Plating. Kein Dead Code.</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Vertrauen</strong></td>
+<td>Entwickler vertrauen dem Code. Keine Angst vor dem System.</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>Sichere Basis</strong></td>
+<td>Tests geben Sicherheit f&#xfc;r jede &#xc4;nderung. Kein Blindflug.</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>Emergente Struktur</strong></td>
+<td>Struktur entsteht aus Anforderungen &#x2014; nicht aus Vorstellung.</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>Professionalit&#xe4;t</strong></td>
+<td>Code als Handwerk. Craft over Career.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Die 7 Grade</h2>
+<h3>&#x2b1b; Grad 7 &#x2014; Schwarz (Ausgangspunkt)</h3>
+<p><strong>Charakteristik:</strong> Funktioniert irgendwie. Niemand versteht warum.</p>
+<pre><code>- Keine Struktur erkennbar
+- Alles in einer Datei / einer Funktion
+- Magic Numbers &#xfc;berall
+- Kein Fehler-Handling
+- Keine Tests
+- Copy-Paste-Code in gro&#xdf;en Mengen
+- Namen: a, b, x, temp, data2
+</code></pre>
+<p><strong>Bewertungs-Indikator:</strong> Neuer Entwickler braucht Tage um zu verstehen was eine Funktion macht.</p>
+<hr />
+<h3>&#x1f7eb; Grad 6 &#x2014; Braun</h3>
+<p><strong>Charakteristik:</strong> Grundlegende Strukturierung vorhanden. Aber Prinzipien fehlen.</p>
+<p><strong>Praktiken die einzuhalten sind:</strong>
+- Funktionen vorhanden (keine God-Functions)
+- Sinnvolle Dateinamen
+- Keine offensichtlichen Magic Numbers
+- Grundlegendes Fehler-Handling</p>
+<p><strong>Noch nicht vorhanden:</strong>
+- DRY (viel Duplikation)
+- Kein einheitlicher Stil
+- Keine Tests</p>
+<hr />
+<h3>&#x1f534; Grad 5 &#x2014; Rot</h3>
+<p><strong>Charakteristik:</strong> Entwickler hat Clean Code geh&#xf6;rt aber nicht verinnerlicht.</p>
+<p><strong>Praktiken:</strong>
+- &#x2705; Sinnvolle Variablen- und Funktionsnamen
+- &#x2705; Keine Magic Numbers (Konstanten)
+- &#x2705; Grundlegendes DRY (keine offensichtliche Duplikation)
+- &#x2705; Fehler werden nicht stillschweigend ignoriert</p>
+<p><strong>Verletzungen die hier enden:</strong>
+- &#x274c; SRP: Funktionen machen noch mehrere Dinge
+- &#x274c; Keine Tests oder nur Pseudo-Tests
+- &#x274c; Kommentare erkl&#xe4;ren WAS, nicht WARUM</p>
+<p><strong>Bewertungs-Indikator:</strong> Code ist lesbar aber noch nicht wartbar.</p>
+<hr />
+<h3>&#x1f7e0; Grad 4 &#x2014; Orange</h3>
+<p><strong>Charakteristik:</strong> Solide Grundlagen. Einzelne Prinzipien konsequent eingehalten.</p>
+<p><strong>Praktiken (alle aus Rot + zus&#xe4;tzlich):</strong>
+- &#x2705; SRP: jede Funktion eine Verantwortung
+- &#x2705; DRY konsequent: keine Duplikation
+- &#x2705; KISS: keine unn&#xf6;tige Komplexit&#xe4;t
+- &#x2705; Erste Tests vorhanden
+- &#x2705; Kommentare erkl&#xe4;ren WARUM</p>
+<p><strong>Noch ausbauf&#xe4;hig:</strong>
+- &#x26a0;&#xfe0f; Tests nicht systematisch (l&#xfc;ckenhaft)
+- &#x26a0;&#xfe0f; OCP / DIP noch nicht konsequent
+- &#x26a0;&#xfe0f; Interfaces noch zu gro&#xdf;</p>
+<p><strong>Bewertungs-Indikator:</strong> Neue Features k&#xf6;nnen hinzugef&#xfc;gt werden ohne Angst.</p>
+<hr />
+<h3>&#x1f7e1; Grad 5 &#x2014; Gelb <em>(korrigiert: Grad 3)</em></h3>
+<p><strong>Charakteristik:</strong> Meiste Prinzipien eingehalten. Code macht Freude.</p>
+<p><strong>Praktiken (alle aus Orange + zus&#xe4;tzlich):</strong>
+- &#x2705; SOLID vollst&#xe4;ndig eingehalten
+- &#x2705; Dependency Injection konsequent
+- &#x2705; Kleine, fokussierte Interfaces
+- &#x2705; Tests mit guter Coverage (Happy + Error + Edge)
+- &#x2705; CQS: Query/Command getrennt
+- &#x2705; IOSP: Integration/Operation getrennt
+- &#x2705; LoD eingehalten</p>
+<p><strong>Bewertungs-Indikator:</strong> Refactoring ist sicher. CI gibt Vertrauen.</p>
+<hr />
+<h3>&#x1f7e2; Grad 2 &#x2014; Gr&#xfc;n (<strong>Ziel-Standard</strong>)</h3>
+<p><strong>Charakteristik:</strong> Alle Kernprinzipien eingehalten. Professioneller Code.</p>
+<p><strong>Praktiken (alle aus Gelb + zus&#xe4;tzlich):</strong>
+- &#x2705; TDD oder Test-First-Mentalit&#xe4;t
+- &#x2705; SLA: eine Abstraktionsebene pro Funktion
+- &#x2705; FCoI: Komposition statt Vererbung
+- &#x2705; PoLA: keine &#xdc;berraschungen
+- &#x2705; Kein Dead Code, kein auskommentierter Code
+- &#x2705; Alle Abh&#xe4;ngigkeiten explizit (keine globalen States)
+- &#x2705; Dokumentation wo wirklich n&#xf6;tig (Warum, nicht Was)
+- &#x2705; Emergente Architektur &#x2014; nichts over-engineered</p>
+<p><strong>Bewertungs-Indikator:</strong> Jeder Entwickler kann jeden Teil des Codes sofort verstehen und &#xe4;ndern.</p>
+<hr />
+<h3>&#x2b1c; Grad 1 &#x2014; Wei&#xdf; (Exzellenz)</h3>
+<p><strong>Charakteristik:</strong> Musterg&#xfc;ltig. Code als Lehrbeispiel.</p>
+<p><strong>Praktiken (alle aus Gr&#xfc;n + zus&#xe4;tzlich):</strong>
+- &#x2705; Continuous Refactoring (Boy Scout Rule: hinterlasse es besser als du es gefunden hast)
+- &#x2705; Evolution&#xe4;re Architektur
+- &#x2705; Technische Schulden werden sofort beglichen
+- &#x2705; Code kommuniziert Intent auf allen Ebenen
+- &#x2705; Kein Kommentar n&#xf6;tig &#x2014; Code erkl&#xe4;rt sich selbst
+- &#x2705; Jede Abh&#xe4;ngigkeit bewusst und dokumentiert
+- &#x2705; Metriken werden beobachtet und reagiert</p>
+<p><strong>Bewertungs-Indikator:</strong> Der Code ist wartbarer als alles was man bisher gesehen hat.</p>
+<hr />
+<h2>Code-Review mit CCD-Wertesystem</h2>
+<h3>Grading-Prozess</h3>
+<pre><code>1. Lese den Code ohne ihn auszuf&#xfc;hren
+2. Welche Prinzipien sind verletzt? &#x2192; bestimmt Mindestgrad
+3. Welche Praktiken sind eingehalten? &#x2192; bestimmt maximalen Grad
+4. Wo auf der Skala liegt der Code? &#x2192; Grad festlegen
+5. Was ist der n&#xe4;chste konkrete Schritt zur Verbesserung?
+</code></pre>
+<h3>Typische Grade in der Praxis</h3>
+<pre><code>Grad 6-5 (Braun-Rot):  Legacy-Code, Hack-Sessions, &quot;es musste schnell gehen&quot;
+Grad 4   (Orange):     Durchschnittlicher Produktionscode
+Grad 3   (Gelb):       Bewusst geschriebener, gepflegter Code
+Grad 2   (Gr&#xfc;n):       Ziel f&#xfc;r jedes professionelle Projekt
+Grad 1   (Wei&#xdf;):       Selten &#x2014; aber der Ma&#xdf;stab
+</code></pre>
+<hr />
+<h2>Praktische Bewertungs-Schnellchecks</h2>
+<h3>30-Sekunden-Check (Grad 5 oder schlechter?)</h3>
+<pre><code>- Gibt es Funktionen &gt; 20 Zeilen?          &#x2192; Rot oder schlechter
+- Gibt es Kommentare die WAS erkl&#xe4;ren?     &#x2192; Orange oder schlechter
+- Gibt es Magic Numbers?                   &#x2192; Rot oder schlechter
+- Gibt es copy-paste Code?                 &#x2192; Braun oder schlechter
+- Sind Namen kryptisch?                    &#x2192; Schwarz oder schlechter
+</code></pre>
+<h3>5-Minuten-Check (Grad 3 oder besser?)</h3>
+<pre><code>- Kann ich jede Funktion in einem Satz beschreiben?  &#x2192; SRP eingehalten
+- Kann ich eine Abh&#xe4;ngigkeit austauschen?             &#x2192; DIP eingehalten
+- Haben alle Funktionen Tests?                        &#x2192; Sichere Basis
+- Gibt es &#xdc;berraschungen beim Lesen?                  &#x2192; PoLA eingehalten
+- Sind alle Pfade abgedeckt (Happy + Error)?          &#x2192; Korrektheit
+</code></pre>
+<hr />
+<h2>Verkn&#xfc;pfung mit anderen Skills</h2>
+<table>
+<thead>
+<tr>
+<th>CCD-Aspekt</th>
+<th>Verkn&#xfc;pfter Skill</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Korrektheit &#x2192; Tests</td>
+<td><code>clean-code</code></td>
+</tr>
+<tr>
+<td>Integrit&#xe4;t &#x2192; kein Fehler-Verstecken</td>
+<td><code>security</code></td>
+</tr>
+<tr>
+<td>Sorgfalt &#x2192; kein PII in Logs</td>
+<td><code>dsgvo</code></td>
+</tr>
+<tr>
+<td>Ehrlichkeit &#x2192; keine falschen DSGVO-Aussagen</td>
+<td><code>dsgvo</code></td>
+</tr>
+<tr>
+<td>Mut &#x2192; Sicherheitsl&#xfc;cken benennen</td>
+<td><code>security</code></td>
+</tr>
+</tbody>
+</table>
+    </div>
+  </section>
+
+  <section id="s-clean-code" class="doc">
+    <div class="doc-head">
+      <span class="gtag">professional-dev</span>
+      <h2>Clean Code</h2>
+      <code class="src">skills/clean-code/SKILL.md</code>
+    </div>
+    <p class="doc-lede">This skill MUST be activated for every coding session &#x2014; when writing new code, reviewing existing code, refactoring, writing tests, or making architecture decisions. Activates on any task involving Go, TypeScript, Python, SQL, shell&#x2026;</p>
+    <div class="doc-body">
+<h1>Clean Code Skill &#x2014; Professional Development Standards</h1>
+<blockquote>
+<p><strong>PFLICHT:</strong> Dieser Skill ist bei JEDER Coding-Session aktiv.
+Kein Code ohne diese Standards &#x2014; das ist nicht optional.</p>
+</blockquote>
+<hr />
+<h2>CCD Wertesystem &#x2014; 7 Grade</h2>
+<table>
+<thead>
+<tr>
+<th>Grad</th>
+<th>Farbe</th>
+<th>Bedeutung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>7</td>
+<td>&#x2b1b; Schwarz</td>
+<td>Unverst&#xe4;ndlich, nicht wartbar</td>
+</tr>
+<tr>
+<td>6</td>
+<td>&#x1f7eb; Braun</td>
+<td>Funktioniert, aber schlecht strukturiert</td>
+</tr>
+<tr>
+<td>5</td>
+<td>&#x1f534; Rot</td>
+<td>Grundlegende Prinzipien verletzt</td>
+</tr>
+<tr>
+<td>4</td>
+<td>&#x1f7e0; Orange</td>
+<td>Manche Prinzipien eingehalten</td>
+</tr>
+<tr>
+<td>3</td>
+<td>&#x1f7e1; Gelb</td>
+<td>Meiste Prinzipien eingehalten</td>
+</tr>
+<tr>
+<td>2</td>
+<td>&#x1f7e2; Gr&#xfc;n</td>
+<td>Alle Kernprinzipien eingehalten</td>
+</tr>
+<tr>
+<td>1</td>
+<td>&#x2b1c; Wei&#xdf;</td>
+<td>Exzellenter, musterg&#xfc;ltiger Code</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Ziel: Gr&#xfc;n (2) als Standard. Wei&#xdf; (1) als Ambition.</strong></p>
+<hr />
+<h2>SOLID-Prinzipien</h2>
+<h3>S &#x2014; Single Responsibility Principle</h3>
+<ul>
+<li>Eine Klasse/Funktion hat genau <strong>eine</strong> Verantwortung</li>
+<li>Wenn du "und" brauchst um eine Funktion zu beschreiben &#x2192; aufteilen</li>
+<li>Max. ~20 Zeilen pro Funktion als Faustregel</li>
+</ul>
+<h3>O &#x2014; Open/Closed Principle</h3>
+<ul>
+<li>Offen f&#xfc;r Erweiterung, geschlossen f&#xfc;r Modifikation</li>
+<li>Verhalten &#xfc;ber Interfaces/Komposition erweitern, nicht durch if-Ketten</li>
+<li>Neue Features &#x2192; neuer Code, nicht alter Code ver&#xe4;ndert</li>
+</ul>
+<h3>L &#x2014; Liskov Substitution Principle</h3>
+<ul>
+<li>Subtypen m&#xfc;ssen Supertypen ersetzen k&#xf6;nnen ohne &#xdc;berraschungen</li>
+<li>Interfaces: alle Methoden m&#xfc;ssen sinnvoll implementierbar sein</li>
+<li>Keine "NotImplementedException" in Implementierungen</li>
+</ul>
+<h3>I &#x2014; Interface Segregation Principle</h3>
+<ul>
+<li>Kleine, fokussierte Interfaces statt fetter Monolith-Interfaces</li>
+<li>Client soll nicht von Methoden abh&#xe4;ngen, die er nicht nutzt</li>
+<li>Go: kleine Interfaces (1-3 Methoden) bevorzugen</li>
+</ul>
+<h3>D &#x2014; Dependency Inversion Principle</h3>
+<ul>
+<li>High-level Module h&#xe4;ngen nicht von Low-level Modulen ab</li>
+<li>Beide h&#xe4;ngen von Abstraktionen (Interfaces) ab</li>
+<li>Abh&#xe4;ngigkeiten von au&#xdf;en injizieren (Constructor Injection)</li>
+</ul>
+<hr />
+<h2>OOP &amp; Clean Code Prinzipien</h2>
+<h3>DRY &#x2014; Don't Repeat Yourself</h3>
+<ul>
+<li>Jede Information hat genau <strong>eine</strong> autoritative Quelle</li>
+<li>Duplikation ist die Wurzel aller Wartungsprobleme</li>
+<li>Aber: Falsche Abstraktion ist schlimmer als Duplikation &#x2014; YAGNI beachten</li>
+</ul>
+<h3>KISS &#x2014; Keep It Simple, Stupid</h3>
+<ul>
+<li>Die einfachste L&#xf6;sung ist fast immer die beste</li>
+<li>Komplexit&#xe4;t rechtfertigen m&#xfc;ssen &#x2014; nicht Einfachheit</li>
+<li>"Perfection is achieved not when there's nothing more to add, but when there's nothing left to remove"</li>
+</ul>
+<h3>YAGNI &#x2014; You Ain't Gonna Need It</h3>
+<ul>
+<li>Keine Features f&#xfc;r hypothetische zuk&#xfc;nftige Anforderungen bauen</li>
+<li>Jede Zeile Code ist eine Wartungslast</li>
+<li>Erst wenn der Bedarf real ist &#x2192; implementieren</li>
+</ul>
+<h3>IOSP &#x2014; Integration Operation Segregation Principle</h3>
+<ul>
+<li>Funktionen entweder <strong>integrieren</strong> (andere aufrufen) ODER <strong>operieren</strong> (Logik ausf&#xfc;hren)</li>
+<li>Nicht beides gemischt</li>
+<li>Macht Unit-Tests trivial</li>
+</ul>
+<h3>LoD &#x2014; Law of Demeter</h3>
+<ul>
+<li>Sprich nur mit direkten Nachbarn</li>
+<li><code>a.b.c.doSomething()</code> &#x2192; Verletzung</li>
+<li>Jede Klasse kennt nur ihre unmittelbaren Abh&#xe4;ngigkeiten</li>
+</ul>
+<h3>SoC &#x2014; Separation of Concerns</h3>
+<ul>
+<li>Verschiedene Belange in verschiedene Module/Schichten</li>
+<li>HTTP-Handler kennt keine DB-Details</li>
+<li>Business-Logik kennt kein HTTP</li>
+</ul>
+<h3>CQS &#x2014; Command Query Separation</h3>
+<ul>
+<li>Funktionen entweder Daten <strong>lesen</strong> (Query) ODER <strong>ver&#xe4;ndern</strong> (Command)</li>
+<li>Nie beides</li>
+<li><code>GetUser()</code> ver&#xe4;ndert nichts. <code>DeleteUser()</code> gibt nichts zur&#xfc;ck.</li>
+</ul>
+<h3>PoLA &#x2014; Principle of Least Astonishment</h3>
+<ul>
+<li>Code soll sich so verhalten wie der Leser erwartet</li>
+<li>Keine &#xdc;berraschungen, keine versteckten Nebenwirkungen</li>
+<li>Namen m&#xfc;ssen ehrlich sein</li>
+</ul>
+<h3>SLA &#x2014; Single Level of Abstraction</h3>
+<ul>
+<li>Innerhalb einer Funktion nur eine Abstraktionsebene</li>
+<li>Nicht: SQL-Query + Business-Logik + HTTP-Response in einer Funktion</li>
+</ul>
+<h3>FCoI &#x2014; Favour Composition over Inheritance</h3>
+<ul>
+<li>Komposition flexibler und testbarer als Vererbung</li>
+<li>Go hat keine Vererbung &#x2014; das ist ein Feature, kein Bug</li>
+</ul>
+<hr />
+<h2>10 CCD Tugenden</h2>
+<ol>
+<li><strong>M&#xfc;helosigkeit</strong> &#x2014; Code liest sich wie Prosa, kein Kampf</li>
+<li><strong>Einfachheit</strong> &#x2014; die einfachste L&#xf6;sung w&#xe4;hlen</li>
+<li><strong>Klarheit</strong> &#x2014; Intent sofort erkennbar</li>
+<li><strong>Wandelbarkeit</strong> &#x2014; leicht zu &#xe4;ndern ohne Angst</li>
+<li><strong>Korrektheit</strong> &#x2014; macht was es soll, immer</li>
+<li><strong>Wirtschaftlichkeit</strong> &#x2014; kein &#xfc;berfl&#xfc;ssiger Code</li>
+<li><strong>Vertrauen</strong> &#x2014; Entwickler vertrauen dem Code</li>
+<li><strong>Sichere Basis</strong> &#x2014; Tests geben Sicherheit f&#xfc;r &#xc4;nderungen</li>
+<li><strong>Emergente Struktur</strong> &#x2014; Struktur entsteht aus den Anforderungen</li>
+<li><strong>Professionalit&#xe4;t</strong> &#x2014; Code als Handwerk, nicht als Hack</li>
+</ol>
+<hr />
+<h2>4 CCD Grundwerte</h2>
+<ol>
+<li><strong>Ehrlichkeit</strong> &#x2014; Code sagt die Wahrheit (Namen, Kommentare)</li>
+<li><strong>Sorgfalt</strong> &#x2014; jede Zeile mit Bedacht geschrieben</li>
+<li><strong>Mut</strong> &#x2014; schlechten Code refactoren, auch wenn es schwierig ist</li>
+<li><strong>Verantwortung</strong> &#x2014; der Code ist dein Handwerk</li>
+</ol>
+<hr />
+<h2>Go-spezifische Standards (dieses Projekt)</h2>
+<pre><code class="language-go">// &#x2705; Gut: kleines Interface, klarer Name
+type SystemStore interface {
+    Get(ctx context.Context, id uuid.UUID) (*System, error)
+    List(ctx context.Context) ([]System, error)
+    Create(ctx context.Context, s *System) error
+    Delete(ctx context.Context, id uuid.UUID) error
+}
+
+// &#x2705; Gut: Fehler explizit, kein panic
+func (s *PostgresStore) Get(ctx context.Context, id uuid.UUID) (*System, error) {
+    // ...
+    if err != nil {
+        return nil, fmt.Errorf(&quot;get system %s: %w&quot;, id, err)
+    }
+    return &amp;sys, nil
+}
+
+// &#x274c; Schlecht: Fehler ignoriert
+result, _ := store.Get(ctx, id)
+
+// &#x2705; Gut: slog mit strukturierten Feldern
+log.Error(&quot;system not found&quot;, &quot;id&quot;, id, &quot;error&quot;, err)
+
+// &#x274c; Schlecht: fmt.Println in Produktion
+fmt.Println(&quot;error:&quot;, err)
+</code></pre>
+<hr />
+<h2>Checkliste vor jedem Commit</h2>
+<ul>
+<li>[ ] Macht jede Funktion genau eine Sache?</li>
+<li>[ ] Sind alle Namen ehrlich und selbsterkl&#xe4;rend?</li>
+<li>[ ] Gibt es Duplikation die entfernt werden sollte?</li>
+<li>[ ] Werden alle Fehler explizit behandelt?</li>
+<li>[ ] Gibt es Tests f&#xfc;r das neue/ge&#xe4;nderte Verhalten?</li>
+<li>[ ] Ist der Code so einfach wie m&#xf6;glich (KISS)?</li>
+<li>[ ] Keine unn&#xf6;tige Komplexit&#xe4;t (YAGNI)?</li>
+<li>[ ] Kein Code der auf zuk&#xfc;nftige Features "vorbereitet"?</li>
+</ul>
+    </div>
+  </section>
+
+  <section id="s-security" class="doc">
+    <div class="doc-head">
+      <span class="gtag">professional-dev</span>
+      <h2>Security</h2>
+      <code class="src">skills/security/SKILL.md</code>
+    </div>
+    <p class="doc-lede">This skill MUST be activated when writing or reviewing any security-relevant code &#x2014; authentication, authorization, session management, token handling, password hashing, API endpoints, middleware, input validation, database queries,&#x2026;</p>
+    <div class="doc-body">
+<h1>Security Skill &#x2014; Professional Security Standards</h1>
+<blockquote>
+<p><strong>PFLICHT:</strong> Jede sicherheitsrelevante Funktion braucht:
+Tests &#xb7; Audit-Log-Verhalten &#xb7; Secret-Leak-Pr&#xfc;fung &#xb7; Threat-Model-Update &#xb7; Privacy-Check</p>
+</blockquote>
+<hr />
+<h2>Sicherheits-Grundregeln (absolut, keine Ausnahmen)</h2>
+<pre><code>1. Secrets geh&#xf6;ren NIEMALS in Logs, Code, Git oder Response-Bodies
+2. Passw&#xf6;rter werden IMMER gehasht (bcrypt, argon2) &#x2014; niemals plaintext
+3. Tokens werden IMMER gehasht (SHA-256) in der DB &#x2014; niemals plaintext
+4. SQL-Queries IMMER parametrisiert &#x2014; niemals string-konkateniert
+5. User-Input IMMER validieren BEVOR er verarbeitet wird
+6. Fehler NIEMALS mit Stack-Traces an den Client &#x2014; nur intern loggen
+7. IPs im Audit-Log IMMER hashen (SHA-256) &#x2014; kein PII in Klartext
+8. TLS in Produktion IMMER &#x2014; niemals HTTP ohne explizite Dev-Markierung
+</code></pre>
+<hr />
+<h2>OWASP Top 10 &#x2014; Checkliste</h2>
+<h3>A01: Broken Access Control</h3>
+<ul>
+<li>[ ] Jede Route hat explizite Auth-Pr&#xfc;fung</li>
+<li>[ ] Agent-Routen und Admin-Routen strikt getrennt</li>
+<li>[ ] Ressourcen-Ownership wird gepr&#xfc;ft (kein IDOR)</li>
+<li>[ ] RBAC-Rollen vor Zugriff validieren</li>
+</ul>
+<h3>A02: Cryptographic Failures</h3>
+<ul>
+<li>[ ] bcrypt (Cost &#x2265; 12) f&#xfc;r Passw&#xf6;rter</li>
+<li>[ ] SHA-256 f&#xfc;r Token-Hashes</li>
+<li>[ ] AES-256 f&#xfc;r Backup-Verschl&#xfc;sselung (Restic)</li>
+<li>[ ] TLS 1.2+ f&#xfc;r alle Netzwerkverbindungen</li>
+<li>[ ] Keine schwachen Algorithmen (MD5, SHA1, DES)</li>
+</ul>
+<h3>A03: Injection</h3>
+<ul>
+<li>[ ] Ausschlie&#xdf;lich parametrisierte Queries (pgx Prepared Statements)</li>
+<li>[ ] Keine string-konkatenierte SQL</li>
+<li>[ ] Input-Validierung an allen Trust-Boundaries</li>
+<li>[ ] Pfad-Traversal-Schutz bei File-Operationen</li>
+</ul>
+<h3>A04: Insecure Design</h3>
+<ul>
+<li>[ ] Threat Model vor Implementation</li>
+<li>[ ] STRIDE-Analyse f&#xfc;r neue Features</li>
+<li>[ ] Privacy by Design (Art. 25 DSGVO)</li>
+<li>[ ] Fail-Secure (bei Fehler &#x2192; Zugriff verweigert, nicht gew&#xe4;hrt)</li>
+</ul>
+<h3>A05: Security Misconfiguration</h3>
+<ul>
+<li>[ ] Keine Default-Credentials in Produktion</li>
+<li>[ ] Debug-Mode ausgeschaltet</li>
+<li>[ ] Fehler-Messages ohne Stack-Traces an Client</li>
+<li>[ ] Security-Header gesetzt (CSP, HSTS, X-Frame-Options)</li>
+<li>[ ] CORS restriktiv konfiguriert</li>
+</ul>
+<h3>A06: Vulnerable Components</h3>
+<ul>
+<li>[ ] <code>go mod audit</code> / <code>npm audit</code> vor Release</li>
+<li>[ ] Dependencies minimal halten</li>
+<li>[ ] Keine bekannten CVEs in direkten Dependencies</li>
+</ul>
+<h3>A07: Authentication Failures</h3>
+<ul>
+<li>[ ] Brute-Force-Schutz (Rate-Limiting)</li>
+<li>[ ] Session-Invalidierung bei Logout</li>
+<li>[ ] Session-TTL (max. 8h f&#xfc;r Admin)</li>
+<li>[ ] HttpOnly + SameSite=Strict f&#xfc;r Session-Cookies</li>
+<li>[ ] CSRF-Schutz f&#xfc;r alle mutierenden Requests</li>
+</ul>
+<h3>A08: Software Integrity Failures</h3>
+<ul>
+<li>[ ] Go-Module mit go.sum verifiziert</li>
+<li>[ ] Keine unkontrollierten Remote-Skript-Ausf&#xfc;hrungen</li>
+<li>[ ] Build-Pipeline nicht manipulierbar</li>
+</ul>
+<h3>A09: Logging Failures</h3>
+<ul>
+<li>[ ] Alle Auth-Events im Audit-Log</li>
+<li>[ ] Keine Secrets in Logs</li>
+<li>[ ] Audit-Log append-only (RLS)</li>
+<li>[ ] IPs gehasht (SHA-256)</li>
+</ul>
+<h3>A10: SSRF</h3>
+<ul>
+<li>[ ] Keine unkontrollierten HTTP-Requests zu User-supplied URLs</li>
+<li>[ ] Whitelist f&#xfc;r erlaubte externe URLs</li>
+</ul>
+<hr />
+<h2>Security-Code-Review-Checkliste</h2>
+<h3>Vor jedem sicherheitsrelevanten Merge:</h3>
+<p><strong>Auth &amp; Session:</strong>
+- [ ] Passwort-Hash mit bcrypt (Cost &#x2265; 12)?
+- [ ] Session-Token kryptografisch zuf&#xe4;llig (32+ Bytes)?
+- [ ] Cookie: HttpOnly=true, SameSite=Strict, Secure (bei TLS)?
+- [ ] Session server-seitig invalidierbar?
+- [ ] CSRF-Token bei mutierenden Requests?</p>
+<p><strong>Tokens:</strong>
+- [ ] Token nur als SHA-256-Hash in DB?
+- [ ] Token nie in Logs, Responses oder Errors?
+- [ ] Einmal-Tokens wirklich invalidiert nach Verwendung?
+- [ ] TTL gesetzt und durchgesetzt?</p>
+<p><strong>Input:</strong>
+- [ ] Alle User-Inputs validiert?
+- [ ] Body-Size limitiert (MaxBytesReader)?
+- [ ] Pfad-Traversal ausgeschlossen?
+- [ ] UUID-Parsing mit uuid.Parse() (nicht string-compare)?</p>
+<p><strong>Datenbank:</strong>
+- [ ] Alle Queries parametrisiert?
+- [ ] Kein fmt.Sprintf in SQL?
+- [ ] Migrations idempotent?</p>
+<p><strong>Logging:</strong>
+- [ ] Kein env.RESTIC_PASSWORD, ADMIN_PASSWORD, token in Logs?
+- [ ] IP gehasht (security.ClientIPHashed)?
+- [ ] Details-Feld im Audit-Log enth&#xe4;lt kein PII?</p>
+<hr />
+<h2>Security-Headers &#x2014; Pflichtset</h2>
+<pre><code class="language-go">// Minimum f&#xfc;r jeden Response:
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+Referrer-Policy: strict-origin-when-cross-origin
+Permissions-Policy: geolocation=(), microphone=(), camera=()
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+Content-Security-Policy: default-src 'self'; ...
+</code></pre>
+<hr />
+<h2>Threat-Model-Update &#x2014; wann erforderlich</h2>
+<p>Bei jedem neuen Feature pr&#xfc;fen:
+1. Neue Angriffsoberfl&#xe4;che? &#x2192; STRIDE-Analyse
+2. Neue Daten verarbeitet? &#x2192; Privacy-Check + DSGVO-Skill
+3. Neue externe Abh&#xe4;ngigkeit? &#x2192; CVE-Check
+4. Neuer Auth-Pfad? &#x2192; Auth-Flow-Review
+5. Neue DB-Tabelle? &#x2192; RLS pr&#xfc;fen</p>
+<p>&#x2192; Ergebnis in <code>docs/security/threat-model.md</code> dokumentieren</p>
+<hr />
+<h2>Referenz-Dokumente dieses Projekts</h2>
+<table>
+<thead>
+<tr>
+<th>Dokument</th>
+<th>Inhalt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SECURITY.md</code></td>
+<td>&#xd6;ffentliche Security Policy</td>
+</tr>
+<tr>
+<td><code>docs/security/threat-model.md</code></td>
+<td>STRIDE-Analyse, offene Risiken</td>
+</tr>
+<tr>
+<td><code>docs/security/tom.md</code></td>
+<td>TOMs nach Art. 32 DSGVO</td>
+</tr>
+<tr>
+<td><code>docs/security/audit-log.md</code></td>
+<td>Audit-Log-Design</td>
+</tr>
+<tr>
+<td><code>internal/security/</code></td>
+<td>Rate-Limiter, CSRF, IP-Hashing</td>
+</tr>
+<tr>
+<td><code>internal/auth/</code></td>
+<td>Token-Store, Web-Auth, bcrypt</td>
+</tr>
+</tbody>
+</table>
+    </div>
+  </section>
+
+  <section id="s-dsgvo" class="doc">
+    <div class="doc-head">
+      <span class="gtag">professional-dev</span>
+      <h2>DSGVO</h2>
+      <code class="src">skills/dsgvo/SKILL.md</code>
+    </div>
+    <p class="doc-lede">This skill MUST be activated when writing code that processes personal data, handles user data, implements deletion or export functions, touches audit logging, deals with data retention, implements consent mechanisms, or when the user&#x2026;</p>
+    <div class="doc-body">
+<h1>DSGVO/GDPR Skill &#x2014; Datenschutz by Design</h1>
+<blockquote>
+<p><strong>Wichtige Einordnung:</strong>
+Code kann technische Bausteine f&#xfc;r DSGVO-konformen Betrieb implementieren.
+DSGVO-Konformit&#xe4;t als Gesamtzustand entsteht durch:
+<strong>Rechtsgrundlage + TOMs + Prozesse + Dokumentation + Betriebskonzept</strong>
+&#x2014; nicht allein durch Code.</p>
+</blockquote>
+<hr />
+<h2>Privacy by Design &#x2014; Art. 25 DSGVO</h2>
+<p>Beim Schreiben von Code IMMER pr&#xfc;fen:</p>
+<pre><code>1. Datenminimierung: Brauchen wir dieses Datum wirklich?
+2. Zweckbindung: Wird es nur f&#xfc;r den dokumentierten Zweck genutzt?
+3. Speicherbegrenzung: Gibt es eine Retention-Policy?
+4. Pseudonymisierung: Kann PII durch Pseudonyme ersetzt werden?
+5. Default-Privacy: Restriktivste Einstellung als Standard
+</code></pre>
+<hr />
+<h2>Personenbezogene Daten &#x2014; Erkennungsmuster</h2>
+<h3>Im Code als PII zu behandeln:</h3>
+<ul>
+<li>IP-Adressen (auch IPv6) &#x2192; <strong>IMMER hashen</strong> vor Speicherung</li>
+<li>E-Mail-Adressen</li>
+<li>Namen, Vornamen, Benutzernamen</li>
+<li>Hostnamen wenn personenbeziehbar</li>
+<li>Dateipfade die auf Personen hinweisen</li>
+<li>Ger&#xe4;te-IDs, Session-IDs wenn persistiert</li>
+<li>Backup-Inhalte (k&#xf6;nnen beliebige PII enthalten)</li>
+</ul>
+<h3>Technische Identifikatoren (kein direktes PII):</h3>
+<ul>
+<li>UUIDs (pseudonym, aber korrelierbar)</li>
+<li>SHA-256-Hashes von IPs</li>
+<li>System-IDs im OpenSourceBackup-Kontext</li>
+</ul>
+<hr />
+<h2>Betroffenenrechte &#x2014; Code-Umsetzung</h2>
+<h3>Art. 15 &#x2014; Auskunftsrecht</h3>
+<pre><code class="language-go">// Implementierung: Export-Endpunkt
+GET /v1/gdpr/systems/{id}/export
+// Liefert: alle Metadaten, Jobs, Snapshots, Audit-Eintr&#xe4;ge
+// NICHT: Backup-Inhalte (liegen im Restic-Repository)
+</code></pre>
+<h3>Art. 17 &#x2014; Recht auf L&#xf6;schung</h3>
+<pre><code class="language-go">// Implementierung: Purge-Endpunkt
+DELETE /v1/gdpr/systems/{id}/purge
+// L&#xf6;scht: Katalogdaten kaskadierend
+// NICHT automatisch: Backup-Inhalte im Repository
+// &#x2192; Manueller Prozess: restic forget --prune + Dokumentation
+// WORM-Ausnahme dokumentieren wenn Object-Lock aktiv
+</code></pre>
+<h3>Art. 20 &#x2014; Datenportabilit&#xe4;t</h3>
+<pre><code class="language-go">// Implementierung: Export als JSON
+GET /v1/gdpr/systems/{id}/export
+// Format: maschinenlesbar, strukturiert, vollst&#xe4;ndig
+</code></pre>
+<h3>Art. 17 Abs. 3 &#x2014; Ausnahmen von der L&#xf6;schpflicht</h3>
+<ul>
+<li>Gesetzliche Aufbewahrungspflichten (z.B. GoBD, Steuerrecht)</li>
+<li>Geltendmachung von Rechtsanspr&#xfc;chen</li>
+<li>WORM/Object-Lock-Retention
+&#x2192; In Datenschutzkonzept dokumentieren, nicht im Code verstecken</li>
+</ul>
+<hr />
+<h2>Audit-Log &#x2014; DSGVO-Anforderungen</h2>
+<h3>Was MUSS geloggt werden:</h3>
+<ul>
+<li>Alle GDPR-Aktionen (Export, Purge) &#x2014; VOR Ausf&#xfc;hrung</li>
+<li>Alle Auth-Events (Login, LoginFail, Logout)</li>
+<li>Alle Datenl&#xf6;schungen</li>
+</ul>
+<h3>Was DARF NICHT geloggt werden:</h3>
+<ul>
+<li>Passw&#xf6;rter (auch gehasht geh&#xf6;ren nicht in den Audit-Log)</li>
+<li>Tokens (weder Klartext noch Hash)</li>
+<li>Backup-Inhalte</li>
+<li>Authorization-Header</li>
+<li>RESTIC_PASSWORD, ADMIN_PASSWORD</li>
+<li>Vollst&#xe4;ndige Request-Bodies</li>
+</ul>
+<h3>IP-Behandlung:</h3>
+<pre><code class="language-go">// FALSCH:
+audit.Entry{IP: security.ClientIP(r)}  // Klartext-PII
+
+// RICHTIG:
+audit.Entry{IP: security.ClientIPHashed(r)}  // SHA-256-Hash
+</code></pre>
+<hr />
+<h2>Datenminimierung &#x2014; Checkliste</h2>
+<p>Vor jeder neuen DB-Spalte oder neuen gespeicherten Daten:</p>
+<ul>
+<li>[ ] Wird dieses Datum f&#xfc;r den dokumentierten Zweck ben&#xf6;tigt?</li>
+<li>[ ] Kann es pseudonymisiert werden?</li>
+<li>[ ] Gibt es eine Retention-Policy?</li>
+<li>[ ] Ist es im Verarbeitungsverzeichnis dokumentiert?</li>
+<li>[ ] F&#xe4;llt es unter eine Rechtsgrundlage (Art. 6)?</li>
+</ul>
+<hr />
+<h2>Rechtsgrundlagen (Art. 6 DSGVO) &#x2014; &#xdc;bersicht</h2>
+<table>
+<thead>
+<tr>
+<th>Grundlage</th>
+<th>Wann anwendbar</th>
+<th>Beispiel im Projekt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Art. 6 Abs. 1 lit. b</td>
+<td>Vertragserf&#xfc;llung</td>
+<td>Backup-Dienst f&#xfc;r Kunden</td>
+</tr>
+<tr>
+<td>Art. 6 Abs. 1 lit. c</td>
+<td>Rechtliche Verpflichtung</td>
+<td>Aufbewahrungspflichten</td>
+</tr>
+<tr>
+<td>Art. 6 Abs. 1 lit. f</td>
+<td>Berechtigtes Interesse</td>
+<td>IT-Sicherheit, Audit-Log</td>
+</tr>
+<tr>
+<td>Art. 6 Abs. 1 lit. a</td>
+<td>Einwilligung</td>
+<td>Wenn keine andere Grundlage</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Wichtig:</strong> Rechtsgrundlage muss VOR der Verarbeitung feststehen und dokumentiert sein. Das ist Betreiber-Aufgabe, nicht Code-Aufgabe.</p>
+<hr />
+<h2>Privacy-Check &#x2014; vor jedem Feature-Merge</h2>
+<pre><code>&#x25a1; Verarbeitet dieses Feature personenbezogene Daten?
+  &#x2192; Ja: Zweck dokumentiert? Rechtsgrundlage klar?
+
+&#x25a1; Werden neue Daten in DB gespeichert?
+  &#x2192; Ja: Retention-Policy? Pseudonymisierung m&#xf6;glich?
+
+&#x25a1; Werden Daten an externe Systeme gesendet?
+  &#x2192; Ja: Auftragsverarbeitungsvertrag (AVV) vorhanden?
+
+&#x25a1; Gibt es neue Logging-Statements?
+  &#x2192; Ja: Enth&#xe4;lt kein PII (Name, IP, E-Mail, Pfade mit Personenbezug)?
+
+&#x25a1; Gibt es neue Fehler-Responses?
+  &#x2192; Ja: Enth&#xe4;lt keine internen Daten, Stack-Traces, IDs die PII sind?
+
+&#x25a1; Betrifft es Backup-Inhalte?
+  &#x2192; Ja: L&#xf6;schprozess f&#xfc;r Restic-Repository dokumentiert?
+</code></pre>
+<hr />
+<h2>Verarbeitungsverzeichnis &#x2014; Art. 30 DSGVO</h2>
+<p><strong>Betreiber-Pflicht</strong> (nicht im Code, aber im Deployment-Prozess):</p>
+<pre><code class="language-yaml">Verarbeitungst&#xe4;tigkeit: Datensicherung
+Verantwortlicher: [Betreiber]
+Zweck: IT-Betriebskontinuit&#xe4;t, Datenverf&#xfc;gbarkeit
+Kategorien Betroffener: Mitarbeiter, ggf. Kunden
+Datenkategorien: Dateien, Datenbanken (systemabh&#xe4;ngig)
+Empf&#xe4;nger: [Cloud-Provider bei S3/Azure]
+Drittlandtransfer: [Nein/Ja + Grundlage]
+L&#xf6;schfristen: Snapshots [X] Tage, Katalog [Y] Tage
+TOMs: siehe docs/security/tom.md
+</code></pre>
+<hr />
+<h2>Korrekte Sprache &#x2014; was wir NICHT sagen</h2>
+<table>
+<thead>
+<tr>
+<th>&#x274c; Falsch</th>
+<th>&#x2705; Richtig</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"DSGVO-konform"</td>
+<td>"Implementiert technische Bausteine f&#xfc;r DSGVO-konformen Betrieb"</td>
+</tr>
+<tr>
+<td>"GDPR compliant code"</td>
+<td>"Implements technical controls supporting GDPR compliance"</td>
+</tr>
+<tr>
+<td>"Datenschutz garantiert"</td>
+<td>"Privacy by Design umgesetzt &#x2014; Konformit&#xe4;t erfordert Betriebsprozesse"</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Verkn&#xfc;pfung mit Security-Skill</h2>
+<p><strong>DSGVO und Security sind untrennbar.</strong></p>
+<p>Art. 32 DSGVO verlangt "geeignete technische und organisatorische Ma&#xdf;nahmen" &#x2014;
+das ist exakt was der Security-Skill sicherstellt.</p>
+<p>Beide Skills sind immer zusammen aktiv wenn:
+- Personenbezogene Daten verarbeitet werden
+- Auth-Code geschrieben wird
+- Audit-Log bef&#xfc;llt wird
+- L&#xf6;sch- oder Export-Funktionen implementiert werden</p>
+<p>&#x2192; Referenz: <code>docs/security/tom.md</code> enth&#xe4;lt die vollst&#xe4;ndige TOM-Tabelle
+   mit dem Mapping zwischen Security-Ma&#xdf;nahmen und DSGVO-Artikeln</p>
+    </div>
+  </section>
+
+  <section id="s-design-system" class="doc">
+    <div class="doc-head">
+      <span class="gtag">professional-dev</span>
+      <h2>Design-System</h2>
+      <code class="src">skills/design-system/SKILL.md</code>
+    </div>
+    <p class="doc-lede">Aktiviere diesen Skill bei JEDER UI/Frontend-Aufgabe im OpenSourceBackup-Projekt &#x2014; wenn Komponenten gebaut, Seiten redesignt, Styles ge&#xe4;ndert, oder neue UI-Elemente erstellt werden. Auch aktivieren bei Fragen zu Farben, Layout, Spacing,&#x2026;</p>
+    <div class="doc-body">
+<h1>Design System Skill &#x2014; OpenSourceBackup</h1>
+<blockquote>
+<p>Dieses Skill l&#xe4;dt das vollst&#xe4;ndige Design- und Branding-System f&#xfc;r OpenSourceBackup.
+Jede UI-Entscheidung basiert auf diesen Regeln &#x2014; keine Abweichungen ohne Grund.</p>
+</blockquote>
+<hr />
+<h2>Produkt</h2>
+<ul>
+<li>Name: <strong>OpenSourceBackup</strong> / Kurzform <strong>OSB</strong></li>
+<li>Tagline: <em>Restore Assured</em></li>
+<li>Ton: professionell &#xb7; technisch &#xb7; ruhig &#x2014; keine Panik, keine grellen Farben</li>
+</ul>
+<hr />
+<h2>Farben &#x2014; Dark Theme (Standard)</h2>
+<pre><code>Hintergr&#xfc;nde:
+  --bg:           #070b12   Seite
+  --bg-sidebar:   #060a11   Sidebar
+  --bg-card:      #111827   Cards
+  --bg-card-soft: #151c2e   Card-Header
+  --bg-topbar:    #080d17   Topbar
+
+Borders:
+  --border:       #1e2a3d
+  --border-soft:  #253044
+
+Text:
+  --text:         #f1f5f9   Prim&#xe4;r
+  --text-muted:   #94a3b8   Sekund&#xe4;r
+  --text-dim:     #4a5568   Terti&#xe4;r / Hints
+
+Akzent (OSB-Gr&#xfc;n):
+  --accent:       #89BD28
+  --accent-dim:   rgba(137,189,40,0.12)
+
+Status:
+  --success:      #22c55e   gr&#xfc;n
+  --warning:      #f59e0b   gelb
+  --error:        #ef4444   rot
+  --running:      #38bdf8   blau
+  --pending:      #6b7280   grau
+
+Weitere:
+  --accent-blue:  #38bdf8
+  --accent-teal:  #14b8a6
+</code></pre>
+<hr />
+<h2>Typografie</h2>
+<ul>
+<li>Body: Inter, 14px, 400</li>
+<li>Mono: JetBrains Mono &#x2014; f&#xfc;r Pfade, IDs, Code</li>
+<li>Section Labels: 9&#x2013;10px, 700, UPPERCASE, letter-spacing 0.1em</li>
+<li>KPI-Werte: 28&#x2013;32px, 800, letter-spacing -0.5px</li>
+<li>Card-Titel: 13&#x2013;14px, 700</li>
+<li>Buttons: 12&#x2013;13px, 600&#x2013;700</li>
+</ul>
+<hr />
+<h2>Card-Stile</h2>
+<p><strong>Dashboard Card</strong> (<code>.dash-card</code> CSS-Klasse):</p>
+<pre><code class="language-css">background: linear-gradient(180deg, rgba(21,28,46,0.95), rgba(10,15,27,0.95));
+border: 1px solid rgba(148,163,184,0.10);
+border-radius: 14px;
+box-shadow: 0 4px 24px rgba(0,0,0,0.22);
+</code></pre>
+<p><strong>Systems/Repos Card</strong>:</p>
+<pre><code class="language-css">background: linear-gradient(180deg, rgba(21,28,46,0.95), rgba(10,15,27,0.95));
+border: 1px solid rgba(148,163,184,0.12);
+border-radius: 16px;
+</code></pre>
+<p><strong>KPI Card</strong>:</p>
+<pre><code class="language-css">background: linear-gradient(160deg, var(--bg-card-soft) 0%, var(--bg-card) 100%);
+border-radius: 14px;
+</code></pre>
+<hr />
+<h2>Buttons</h2>
+<pre><code>Primary:  bg var(--accent), color #000, bold, radius 8px
+Outline:  bg rgba(137,189,40,0.06), border rgba(137,189,40,0.3), color var(--accent)
+Ghost:    bg var(--bg-card), border var(--border), color var(--text-muted)
+Danger:   bg rgba(239,68,68,0.1), border rgba(239,68,68,0.3), color var(--error)
+</code></pre>
+<hr />
+<h2>Status-Badges</h2>
+<pre><code>Low/Standard &#x2192; #22c55e  bg rgba(34,197,94,0.10)
+Medium       &#x2192; #f59e0b  bg rgba(245,158,11,0.12)
+High         &#x2192; #f97316  bg rgba(249,115,22,0.12)
+Critical     &#x2192; #ef4444  bg rgba(239,68,68,0.12)
+
+Online  &#x2192; &#x25cf; #22c55e
+Idle    &#x2192; &#x25cf; #f59e0b
+Offline &#x2192; &#x25cf; #64748b
+</code></pre>
+<p>Badge: font-size 10px, font-weight 700, padding 2px 8px, border-radius 4px</p>
+<hr />
+<h2>Tabellen</h2>
+<pre><code>Header: 9&#x2013;10px, 700, UPPERCASE, letter-spacing 0.1em, color var(--text-dim)
+        bg rgba(255,255,255,0.015), border-bottom var(--border)
+Row:    border-bottom rgba(255,255,255,0.04), hover bg var(--bg-hover)
+Active: bg rgba(137,189,40,0.07), border-left 2px solid var(--accent)
+Cell:   11&#x2013;13px, color var(--text-muted), padding 9&#x2013;11px 12&#x2013;14px
+</code></pre>
+<hr />
+<h2>Tabs</h2>
+<pre><code>Inaktiv: color var(--text-dim), border-bottom 2px transparent
+Aktiv:   color var(--accent), border-bottom 2px var(--accent), bg rgba(137,189,40,0.04)
+</code></pre>
+<hr />
+<h2>Icons &#x2014; Systemtypen</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Icon</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kubernetes</td>
+<td>&#x2638;</td>
+</tr>
+<tr>
+<td>VMware/ESXi</td>
+<td>&#x2b21;</td>
+</tr>
+<tr>
+<td>NAS/TrueNAS</td>
+<td>&#x1f5c4;</td>
+</tr>
+<tr>
+<td>DB/PostgreSQL</td>
+<td>&#x1f5c3;</td>
+</tr>
+<tr>
+<td>Windows</td>
+<td>&#x229e;</td>
+</tr>
+<tr>
+<td>Server</td>
+<td>&#x1f5a5;</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Layout</h2>
+<pre><code>Sidebar:      224px, sticky
+Topbar:       ~56px, sticky, border-bottom
+Detail Panel: 680px rechts, border-left, bei Auswahl sichtbar
+Content:      flex:1, overflow-y auto, padding 20&#x2013;28px
+
+KPI-Row:      grid 1fr 1fr 1fr 1fr 1fr 1.5fr, gap 10px
+</code></pre>
+<hr />
+<h2>Leer-Zust&#xe4;nde</h2>
+<p>Immer: Icon (opacity 0.3, fontSize 40) + Titel (15px, 600) + Sub (12px, dim)</p>
+<hr />
+<h2>Schreib-Regeln</h2>
+<ul>
+<li>Fehlende Werte: <code>&#x2014;</code> (nicht "N/A", nicht "null")</li>
+<li>Keine Fake-Daten, kein hardcoded Content</li>
+<li>Status capitalize: "Success", "Failed", "Running"</li>
+<li>Zeiten: <code>timeAgo()</code> &#x2014; "6m ago", "never"</li>
+<li>Bytes: <code>fmt()</code> &#x2014; "2.34 GB", "&#x2014;"</li>
+<li>Keine "Enterprise Plan"- oder "Industry top 10%"-Texte</li>
+</ul>
+<hr />
+<h2>CSS-Konvention</h2>
+<pre><code class="language-tsx">// Styles am Datei-Ende:
+const s: Record&lt;string, React.CSSProperties&gt; = { ... }
+
+// Dynamisch:
+&lt;div style={{ ...s.card, borderColor: warn ? 'var(--error)' : 'var(--border)' }}&gt;
+
+// Globale Klassen NUR:
+className=&quot;dash-card&quot;
+</code></pre>
+<hr />
+<h2>Vollst&#xe4;ndige Referenz</h2>
+<p><code>C:\Users\Admin\.claude\projects\C--Users-Admin-Documents-Unternemens-Struktur-development-projects-OpensourceBackup\memory\design_branding.md</code></p>
+    </div>
+  </section>
+  </main>
+</div>
+
+<footer><div class="foot-in">
+  <span>5 professional-dev Skill-Vorlagen &middot; 1:1 aus SKILL.md gerendert.</span>
+  <span><a href="skills-documentation.html">Skill-Bibliothek</a> &middot; <a href="agents-documentation.html">Agent-Doku</a></span>
+</div></footer>
+
+<script>
+document.getElementById("theme").addEventListener("click",function(){
+  var r=document.documentElement,e=r.getAttribute("data-theme"),
+  d=matchMedia("(prefers-color-scheme: dark)").matches,c=e||(d?"dark":"light");
+  r.setAttribute("data-theme",c==="dark"?"light":"dark");
+});
+if("IntersectionObserver" in window){
+  var links=[].slice.call(document.querySelectorAll("nav.side a[href^='#']"));
+  var obs=new IntersectionObserver(function(es){es.forEach(function(x){
+    if(x.isIntersecting){var id=x.target.id;links.forEach(function(l){
+      l.classList.toggle("active",l.getAttribute("href")==="#"+id);});}});},
+    {rootMargin:"-15% 0px -75% 0px",threshold:0});
+  document.querySelectorAll("section.doc").forEach(function(s){obs.observe(s);});
+}
+</script>

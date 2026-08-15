@@ -1,0 +1,1 @@
+{"expected_query_behavior":"baseline event query", "expected_filters":["sourceip equality for 198.51.100.11"], "expected_time_window_behavior":"preserve both boundaries", "expected_assumptions":[], "forbidden_behavior":["destination-only filter", "query execution"]}

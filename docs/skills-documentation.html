@@ -1,0 +1,262 @@
+<title>Skill-Bibliothek &amp; Agent-Zuordnung</title>
+<meta name="description" content="Deine eigenen Claude-Skills (clean-code, ccd, security, dsgvo, design-system, soc-forensic-hunts, professional-uml, ship) und wie jeder Skill zu den Agenten gehoert.">
+
+<style>
+  :root {
+    --ground:#f5f4f1; --surface:#fffdf9; --surface-2:#efece5;
+    --ink:#211d18; --ink-soft:#5c554b; --ink-faint:#8c8478;
+    --line:#e4dfd5; --line-strong:#cfc7b9;
+    --accent:#a86a1f; --accent-ink:#855214; --accent-wash:#f4e8d6;
+    --own:#2f6f6a; --own-bg:#dcecea; --proj:#7a4d84; --proj-bg:#efe1f2;
+    --font-mono: ui-monospace, "JetBrains Mono", "SFMono-Regular", "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+    --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --maxw:1160px; --radius:12px;
+    --shadow:0 1px 2px rgba(33,29,24,.05), 0 10px 30px -20px rgba(33,29,24,.28);
+  }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) {
+    --ground:#14120d; --surface:#1d1a14; --surface-2:#252118;
+    --ink:#ece6da; --ink-soft:#a49b8b; --ink-faint:#736a5b;
+    --line:#2c281f; --line-strong:#3d372b;
+    --accent:#e0a850; --accent-ink:#f0c37e; --accent-wash:#2b2114;
+    --own:#6fb8b0; --own-bg:#132826; --proj:#c197cc; --proj-bg:#251a28;
+    --shadow:0 1px 2px rgba(0,0,0,.35), 0 12px 34px -20px rgba(0,0,0,.7);
+  }}
+  :root[data-theme="dark"] {
+    --ground:#14120d; --surface:#1d1a14; --surface-2:#252118;
+    --ink:#ece6da; --ink-soft:#a49b8b; --ink-faint:#736a5b;
+    --line:#2c281f; --line-strong:#3d372b;
+    --accent:#e0a850; --accent-ink:#f0c37e; --accent-wash:#2b2114;
+    --own:#6fb8b0; --own-bg:#132826; --proj:#c197cc; --proj-bg:#251a28;
+    --shadow:0 1px 2px rgba(0,0,0,.35), 0 12px 34px -20px rgba(0,0,0,.7);
+  }
+
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+  body { margin:0; background:var(--ground); color:var(--ink);
+    font-family:var(--font-sans); font-size:15.5px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  ::selection { background:var(--accent-wash); color:var(--accent-ink); }
+  .wrap { max-width:var(--maxw); margin:0 auto; padding:0 24px; }
+
+  header.top { border-bottom:1px solid var(--line);
+    background: radial-gradient(80% 120% at 94% -30%, var(--accent-wash) 0%, transparent 55%), var(--surface); }
+  .top-in { max-width:var(--maxw); margin:0 auto; padding:26px 24px 22px; display:grid; gap:14px; position:relative; }
+  .eyebrow { font-family:var(--font-mono); font-size:.7rem; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--ink-faint); display:flex; align-items:center; gap:9px; }
+  .dot { width:8px; height:8px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px var(--accent-wash); }
+  h1 { font-family:var(--font-mono); font-weight:600; margin:0; font-size:clamp(1.7rem,1.2rem + 2vw,2.5rem);
+    letter-spacing:-.02em; line-height:1.05; }
+  h1 .a { color:var(--accent-ink); }
+  .lede { margin:0; max-width:74ch; color:var(--ink-soft); font-size:1.02rem; }
+  .lede b { color:var(--ink); font-weight:600; }
+  .note { max-width:80ch; display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:start;
+    background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--accent);
+    border-radius:10px; padding:13px 16px; box-shadow:var(--shadow); }
+  .note .mk { font-family:var(--font-mono); font-weight:700; color:var(--accent-ink); font-size:1.05rem; line-height:1; }
+  .note p { margin:0; font-size:.9rem; color:var(--ink-soft); }
+  .note code { font-family:var(--font-mono); font-size:.86em; color:var(--accent-ink); }
+  .note a { color:var(--accent-ink); font-weight:600; }
+  .theme-toggle { position:absolute; top:22px; right:24px; font-family:var(--font-mono); font-size:.72rem;
+    letter-spacing:.06em; text-transform:uppercase; background:var(--surface); color:var(--ink-soft);
+    border:1px solid var(--line-strong); border-radius:999px; padding:8px 13px; cursor:pointer; }
+  .theme-toggle:hover { color:var(--accent-ink); border-color:var(--accent); }
+
+  main { padding:34px 0 90px; display:grid; gap:44px; }
+  .sec-head { display:flex; align-items:baseline; gap:12px; padding-bottom:9px; margin-bottom:4px; border-bottom:1px solid var(--line); }
+  .sec-head h2 { font-family:var(--font-mono); font-weight:600; font-size:1.2rem; margin:0; letter-spacing:-.01em; }
+  .sec-head .idx { font-family:var(--font-mono); font-size:.8rem; color:var(--ink-faint); }
+  .sec-desc { color:var(--ink-soft); font-size:.92rem; margin:8px 0 18px; max-width:76ch; }
+
+  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(340px,1fr)); gap:14px; }
+  .skill { background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--gc,var(--accent));
+    border-radius:var(--radius); padding:17px 18px 16px; box-shadow:var(--shadow); display:grid; gap:9px; align-content:start; }
+  .skill-head { display:flex; flex-wrap:wrap; align-items:baseline; gap:9px; }
+  .skill h3 { font-family:var(--font-mono); font-weight:600; font-size:1.04rem; margin:0; color:var(--ink); }
+  .gtag { font-family:var(--font-mono); font-size:.6rem; letter-spacing:.08em; text-transform:uppercase;
+    padding:2px 8px; border-radius:999px; color:var(--gcol); background:var(--gbg); }
+  .skill .what { font-size:.92rem; color:var(--ink); margin:2px 0 0; }
+  .rowlbl { font-family:var(--font-mono); font-size:.64rem; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--ink-faint); margin:8px 0 4px; }
+  .chiprow { display:flex; flex-wrap:wrap; gap:5px; }
+  .chip { font-family:var(--font-mono); font-size:.66rem; padding:2px 8px; border-radius:5px;
+    background:var(--surface-2); color:var(--ink-soft); border:1px solid var(--line); }
+  .chip.ag { border-color:var(--line-strong); color:var(--ink); border-radius:999px; }
+  .chip.norm { border-color:var(--accent); color:var(--accent-ink); background:var(--accent-wash); border-radius:999px; }
+  .skill .when { font-size:.86rem; color:var(--ink-soft); }
+  .skill .when b { color:var(--ink); font-weight:600; }
+
+  /* Matrix */
+  .matrix-wrap { overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); }
+  table.matrix { border-collapse:collapse; width:100%; font-size:.86rem; min-width:720px; background:var(--surface); }
+  table.matrix th, table.matrix td { padding:10px 12px; border-bottom:1px solid var(--line); text-align:center; }
+  table.matrix thead th { font-family:var(--font-mono); font-size:.68rem; letter-spacing:.04em; text-transform:uppercase;
+    color:var(--ink-faint); background:var(--surface-2); position:sticky; top:0; }
+  table.matrix tbody th { font-family:var(--font-mono); font-weight:600; text-align:left; color:var(--ink);
+    background:var(--surface); position:sticky; left:0; white-space:nowrap; border-right:1px solid var(--line); }
+  table.matrix tbody tr:last-child td, table.matrix tbody tr:last-child th { border-bottom:none; }
+  .core { color:var(--accent-ink); font-weight:700; }
+  .rel  { color:var(--ink-faint); }
+  .legend { font-family:var(--font-mono); font-size:.76rem; color:var(--ink-soft); margin-top:12px; display:flex; flex-wrap:wrap; gap:16px; }
+  .legend .core { color:var(--accent-ink); }
+
+  footer { border-top:1px solid var(--line); }
+  .foot-in { max-width:var(--maxw); margin:0 auto; padding:22px 24px 50px; font-family:var(--font-mono);
+    font-size:.74rem; color:var(--ink-faint); display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-between; }
+  .foot-in a { color:var(--accent-ink); }
+</style>
+
+<header class="top">
+  <div class="top-in">
+    <button class="theme-toggle" id="theme" aria-label="Farbschema wechseln">&#9680; Theme</button>
+    <div class="eyebrow"><span class="dot"></span> Claude &middot; Skills &middot; Bibliothek &amp; Agent-Zuordnung</div>
+    <h1>Skill&#8209;<span class="a">Bibliothek</span></h1>
+    <p class="lede">Deine eigenen Skills &mdash; und <b>wie jeder Skill zu den Agenten geh&ouml;rt</b>. Ein <b>Skill</b> ist ein Regelwerk/Playbook, das sich in den Kontext l&auml;dt (das <i>Wie/Was</i>). Ein <b>Agent</b> ist der ausf&uuml;hrende Worker (das <i>Wer</i>). Agenten wenden die f&uuml;r ihre Aufgabe passenden Skills an.</p>
+    <div class="note">
+      <span class="mk">&#8594;</span>
+      <p>Diese Seite dokumentiert nur <b>deine</b> Skills (professional-dev-Plugin + Projekt-Skills). Die Agenten selbst stehen in der <a href="agents-documentation.html">Agent-Dokumentation</a>. Zuordnung: <span class="core">&#9679;</span> = Kern-Agent (Skill definiert dessen Ma&szlig;stab), &#9675; = relevant (Skill greift situativ).</p>
+    </div>
+  </div>
+</header>
+
+<div class="wrap"><main>
+  <section id="skills">
+    <div class="sec-head"><span class="idx">1</span><h2>Deine Skills</h2></div>
+    <p class="sec-desc">Aus dem <code>professional-dev</code>-Plugin (projekt&uuml;bergreifend erzwungen) und den projektspezifischen Skills. Jede Karte zeigt Inhalt, Aktivierung, verk&ouml;rperte Normen und die Agenten, auf die der Skill wirkt.</p>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="matrix">
+    <div class="sec-head"><span class="idx">2</span><h2>Skill &#8596; Agent-Matrix</h2></div>
+    <p class="sec-desc">Welcher Skill welche Agenten-Gruppe pr&auml;gt. <span class="core">&#9679;</span> Kern &middot; &#9675; relevant &middot; leer = kaum Bezug.</p>
+    <div class="matrix-wrap"><table class="matrix" id="mtx"></table></div>
+    <div class="legend"><span><span class="core">&#9679;</span> Kern-Agent</span><span>&#9675; relevant</span><span>&#8212; kein direkter Bezug</span></div>
+  </section>
+</main></div>
+
+<footer><div class="foot-in">
+  <span>8 Skills &middot; Zuordnung nach Aktivierungs-Matrix (CLAUDE.md) + Agent-Dom&auml;ne.</span>
+  <span><a href="agents-documentation.html">&#8594; Agent-Dokumentation</a></span>
+</div></footer>
+
+<script>
+// group: own | proj
+const SK = [
+  ["clean-code","own","Prinzipien f\u00fcr sauberen Code \u2014 der Dauerbrenner jeder Coding-Session.",
+    "SOLID \u00b7 DRY \u00b7 KISS \u00b7 YAGNI \u00b7 IOSP \u00b7 LoD \u00b7 SoC \u00b7 CQS \u00b7 PoLA \u00b7 SLA \u00b7 FCoI",
+    "Immer aktiv beim Schreiben von neuem Code.",
+    ["Clean Code","SOLID"],
+    ["code-reviewer","code-simplifier","refactor-cleaner","typescript-reviewer","python-reviewer","\u2026 alle *-reviewer","code-architect"]],
+  ["ccd-wertesystem","own","Bewertungsma\u00dfstab f\u00fcr Codequalit\u00e4t \u2014 7 Grade von Schwarz bis Wei\u00df.",
+    "4 Grundwerte \u00b7 10 Tugenden \u00b7 7 Grade \u00b7 Grading-Prozess \u00b7 Review-Format",
+    "Bei Code-Reviews, Qualit\u00e4tsbewertung und Refactoring.",
+    ["CCD"],
+    ["code-reviewer","code-simplifier","refactor-cleaner","silent-failure-hunter","pr-test-analyzer"]],
+  ["security","own","Sicherheits-Regelwerk f\u00fcr sicherheitsrelevanten Code.",
+    "OWASP Top 10 \u00b7 Auth-/Token-Regeln \u00b7 Security-Header \u00b7 Threat-Model \u00b7 Secret-Handling",
+    "Bei Auth, Token, API-Endpunkten, sensiblen Daten, RCE-nahem Code.",
+    ["OWASP Top 10","ISO 27001","NIS2"],
+    ["security-reviewer","database-reviewer","fastapi-reviewer","django-reviewer","typescript-reviewer","opensource-sanitizer"]],
+  ["dsgvo","own","Datenschutz-Regelwerk f\u00fcr Code mit Personenbezug \u2014 untrennbar von security (Art. 32 = TOMs).",
+    "Privacy by Design \u00b7 Betroffenenrechte \u00b7 DSGVO-Artikel \u00b7 TOM \u00b7 PII-Minimierung",
+    "Bei PII, Audit-Logs, L\u00f6sch-/Export-Funktionen, Gesundheitsdaten.",
+    ["DSGVO / GDPR","ISO 27001"],
+    ["security-reviewer","database-reviewer","healthcare-reviewer","opensource-forker","opensource-sanitizer"]],
+  ["design-system","own","UI-/Branding-Regelwerk (OpenSourceBackup): einheitliches Aussehen und Schreib-Regeln.",
+    "Farben \u00b7 Typografie \u00b7 Cards \u00b7 Buttons \u00b7 Badges \u00b7 Icons \u00b7 Layout \u00b7 Schreib-Regeln",
+    "Bei jeder Frontend-/UI-Aufgabe (Pflicht im OSB-Projekt).",
+    ["WCAG (a11y)"],
+    ["a11y-architect","react-reviewer","react-build-resolver"]],
+  ["soc-forensic-hunts","proj","Enterprise-SOC-Framework f\u00fcr Threat Hunting, Detection-Rules und forensische Analyse (Tier 1\u20133).",
+    "MITRE ATT&CK \u00b7 SIEM-Rules (QRadar/Splunk) \u00b7 IOC/C2/LSASS \u00b7 Lateral Movement \u00b7 Confidence-Scoring",
+    "Beim Bau von Hunt-Logik, Detection-Rules, Hunt-Tests, forensischer Analyse.",
+    ["MITRE ATT&CK","NIST"],
+    ["security-reviewer","tdd-guide","general-purpose"]],
+  ["professional-uml","proj","Erzeugt vollst\u00e4ndige, geschichtete UML-/Architektur-Doku aus der Codebasis.",
+    "C4 \u00b7 alle UML-2.5-Diagramme (Mermaid) \u00b7 Funktions-Index \u00b7 md + html Dark-Theme",
+    "Bei \u201emach ein UML / Klassendiagramm / zeig die Architektur / wie h\u00e4ngt das zusammen\u201c.",
+    ["C4-Modell","UML 2.5","arc42"],
+    ["doc-updater","architect","code-architect","code-explorer"]],
+  ["ship","proj","Feature-Pipeline als Kette \u2014 orchestriert mehrere Agenten in der richtigen Phase.",
+    "Plan \u2192 TDD \u2192 Parallel-Review \u2192 Test \u2192 Commit (eine Ansage statt vieler Runden)",
+    "Wenn ein ganzes Feature end-to-end gebaut werden soll.",
+    ["TDD","CCD"],
+    ["planner","tdd-guide","security-reviewer","typescript-reviewer","database-reviewer","code-reviewer"]],
+];
+
+const GROUP = { own:{label:"professional-dev", col:"--own", bg:"--own-bg"}, proj:{label:"Projekt-Skill", col:"--proj", bg:"--proj-bg"} };
+const el=(t,c,tx)=>{const e=document.createElement(t); if(c)e.className=c; if(tx!=null)e.textContent=tx; return e;};
+
+const grid=document.getElementById("grid");
+for (const [name,grp,what,contains,when,norms,agents] of SK) {
+  const card=el("article","skill");
+  card.style.setProperty("--gc","var("+GROUP[grp].col+")");
+  card.style.setProperty("--gcol","var("+GROUP[grp].col+")");
+  card.style.setProperty("--gbg","var("+GROUP[grp].bg+")");
+
+  const h=el("div","skill-head");
+  h.appendChild(el("h3",null,name));
+  h.appendChild(el("span","gtag",GROUP[grp].label));
+  card.appendChild(h);
+
+  card.appendChild(el("p","what",what));
+
+  card.appendChild(el("div","rowlbl","Enth\u00e4lt"));
+  card.appendChild(el("div","when",contains));
+
+  card.appendChild(el("div","rowlbl","Wann aktiv"));
+  const w=el("p","when"); w.appendChild(document.createTextNode(when)); card.appendChild(w);
+
+  card.appendChild(el("div","rowlbl","Verk\u00f6rperte Normen"));
+  const nr=el("div","chiprow");
+  for (const n of norms) nr.appendChild(el("span","chip norm",n));
+  card.appendChild(nr);
+
+  card.appendChild(el("div","rowlbl","Geh\u00f6rt zu diesen Agenten"));
+  const ar=el("div","chiprow");
+  for (const a of agents) ar.appendChild(el("span","chip ag",a));
+  card.appendChild(ar);
+
+  grid.appendChild(card);
+}
+
+// Matrix: skills x agent-categories
+const CATS=["Review","Sprach-Rev.","Build","Architektur","Test","Doku","Dom\u00e4ne","Meta"];
+// per skill: array matching CATS, values: 2=core, 1=rel, 0=none
+const M = {
+  "clean-code":       [2,2,1,1,1,0,1,0],
+  "ccd-wertesystem":  [2,1,0,1,1,0,0,0],
+  "security":         [2,1,0,1,1,0,2,1],
+  "dsgvo":            [2,0,0,1,0,0,2,1],
+  "design-system":    [0,1,1,0,0,0,2,0],
+  "soc-forensic-hunts":[1,0,0,1,1,0,2,1],
+  "professional-uml": [0,0,0,2,0,2,0,0],
+  "ship":             [2,1,0,2,2,0,0,0],
+};
+const mtx=document.getElementById("mtx");
+const thead=el("thead"); const htr=el("tr");
+htr.appendChild(el("th",null,"Skill \\ Agent-Gruppe"));
+for (const c of CATS) htr.appendChild(el("th",null,c));
+thead.appendChild(htr); mtx.appendChild(thead);
+const tb=el("tbody");
+for (const [name] of SK) {
+  const tr=el("tr");
+  tr.appendChild(el("th",null,name));
+  M[name].forEach(v=>{
+    const td=el("td");
+    if (v===2){ const s=el("span","core","\u25cf"); td.appendChild(s); }
+    else if (v===1){ const s=el("span","rel","\u25cb"); td.appendChild(s); }
+    else { td.appendChild(document.createTextNode("\u2014")); td.style.color="var(--line-strong)"; }
+    tr.appendChild(td);
+  });
+  tb.appendChild(tr);
+}
+mtx.appendChild(tb);
+
+document.getElementById("theme").addEventListener("click",()=>{
+  const root=document.documentElement;
+  const explicit=root.getAttribute("data-theme");
+  const prefersDark=matchMedia("(prefers-color-scheme: dark)").matches;
+  const cur=explicit||(prefersDark?"dark":"light");
+  root.setAttribute("data-theme", cur==="dark"?"light":"dark");
+});
+</script>

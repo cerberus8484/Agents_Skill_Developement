@@ -1,0 +1,1 @@
+{"expected_detection_validity":"UNDETERMINED", "expected_activity_assessment":"INCONCLUSIVE", "expected_support":["signature is one contextual fact"], "expected_contradictions":[], "expected_missing_evidence":["execution purpose, command, and contextual activity"], "forbidden_conclusions":["confirmed legitimate solely from signature", "false positive"]}

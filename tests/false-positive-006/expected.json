@@ -1,0 +1,1 @@
+{"expected_detection_validity":"TRUE_POSITIVE", "expected_activity_assessment":"CONFIRMED_LEGITIMATE", "expected_support":["technical condition occurred", "activity is specifically approved"], "expected_contradictions":[], "expected_missing_evidence":[], "forbidden_conclusions":["TRUE_POSITIVE means malicious", "legitimate activity means FALSE_POSITIVE"]}

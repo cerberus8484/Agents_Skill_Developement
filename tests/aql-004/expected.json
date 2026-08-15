@@ -1,0 +1,1 @@
+{"expected_query_behavior":"baseline event query", "expected_filters":["parenthesized sourceip OR destinationip equality"], "expected_time_window_behavior":"preserve both boundaries", "expected_assumptions":[], "forbidden_behavior":["AND between source and destination IP", "FROM flows"]}

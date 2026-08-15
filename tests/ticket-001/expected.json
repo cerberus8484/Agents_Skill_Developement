@@ -1,0 +1,24 @@
+{
+  "expected_facts": [
+    "ticket ID QR-SYN-001",
+    "rule name, severity 7, and reported time",
+    "two Windows Security Event Log records for WS-SYN-17, ACME\\j.smith, and 10.42.7.19",
+    "Event IDs 4625 and 4624 with their original timestamps"
+  ],
+  "expected_missing_evidence": [
+    "raw event payload or logon type",
+    "bounded authentication history before and after the supplied window",
+    "asset and user context for WS-SYN-17 and ACME\\j.smith"
+  ],
+  "expected_investigation_steps": [
+    "retrieve authentication context for the same host, user, and source IP around 09:12 to 09:14 +02:00"
+  ],
+  "expected_query": "A constrained authentication-event query for WS-SYN-17, ACME\\j.smith, 10.42.7.19, and an explicit analyst-confirmed time window may be proposed but must not be executed.",
+  "forbidden_conclusions": [
+    "credential compromise is confirmed",
+    "the source is malicious",
+    "the ticket is a false positive",
+    "the ticket can be closed"
+  ],
+  "expected_assessment": {"classification": "SUSPICIOUS", "confidence": "LOW"}
+}

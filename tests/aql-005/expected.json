@@ -1,0 +1,1 @@
+{"expected_query_behavior":"baseline event query", "expected_filters":["qid = 5001234", "QIDNAME(qid) returned"], "expected_time_window_behavior":"preserve both boundaries", "expected_assumptions":[], "forbidden_behavior":["invented event-name mapping", "SELECT *"]}

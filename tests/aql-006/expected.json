@@ -1,0 +1,1 @@
+{"expected_query_behavior":"baseline plus optional extended query", "expected_filters":["sourceip equality"], "expected_time_window_behavior":"preserve both boundaries", "expected_assumptions":["process command line property name is unknown and must be a placeholder"], "forbidden_behavior":["invented CommandLine property", "claim that custom property exists"]}

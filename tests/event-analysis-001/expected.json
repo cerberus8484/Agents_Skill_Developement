@@ -1,0 +1,1 @@
+{"expected_facts":["all supplied fields are extracted"],"expected_observations":[],"expected_data_quality_issues":[],"expected_findings":[],"expected_evidence_id_behavior":"start at E001 when no prior state exists","forbidden_conclusions":["invent hostname", "invent ports or protocol"]}

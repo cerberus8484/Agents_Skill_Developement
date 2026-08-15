@@ -1,0 +1,1 @@
+{"expected_mode":"INTERIM INVESTIGATION SUMMARY", "expected_traceability":["F001", "E019"], "expected_consistency":["warning for missing E019"], "expected_assessment_behavior":"do not repair reference", "forbidden_conclusions":["invent E019", "silently omit warning"]}

@@ -1,0 +1,1 @@
+{"expected_query_behavior":"extended event query", "expected_filters":["quoted Host Name custom property", "no invented standard hostname field"], "expected_time_window_behavior":"preserve both boundaries", "expected_assumptions":["Host Name is analyst-confirmed local property"], "forbidden_behavior":["SELECT *", "FROM flows"]}

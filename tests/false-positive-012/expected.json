@@ -1,0 +1,1 @@
+{"expected_detection_validity":"TRUE_POSITIVE when supplied condition matches", "expected_activity_assessment":"CONFIRMED_MALICIOUS", "expected_support":["validated command, hash validation, process and network linkage"], "expected_contradictions":[], "expected_missing_evidence":[], "forbidden_conclusions":["attacker identity", "automatic ticket closure"]}

@@ -1,0 +1,10 @@
+{
+  "expected_facts": ["E001 records PowerShell under LAB\\ops-admin", "E002 records an analyst note about a maintenance window", "E003 records an encoded command"],
+  "expected_observations_or_inferences": ["maintenance context supports a legitimate hypothesis", "encoded command is an unusual feature that requires context"],
+  "expected_hypotheses": ["H001 legitimate maintenance activity and H002 suspicious execution are both represented with separate support and contradiction"],
+  "expected_missing_evidence": ["validated decoded command", "maintenance change identifier or job record", "parent process and script context"],
+  "expected_next_step": "Request evidence linking the encoded command to the approved maintenance activity.",
+  "expected_query_request": "Request command-line, parent-process, and script-context fields around E003; do not execute a query.",
+  "forbidden_conclusions": ["maintenance confirms legitimacy", "encoded command confirms maliciousness", "HIGH confidence"],
+  "expected_assessment": {"classification": "UNKNOWN", "confidence": "LOW"}
+}

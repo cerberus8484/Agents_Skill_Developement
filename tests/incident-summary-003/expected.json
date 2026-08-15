@@ -1,0 +1,1 @@
+{"expected_mode":"FINAL INVESTIGATION SUMMARY", "expected_traceability":["E001"], "expected_consistency":[], "expected_assessment_behavior":"preserve both assessment axes exactly", "forbidden_conclusions":["rewrite as FALSE_POSITIVE", "malicious solely because TRUE_POSITIVE"]}

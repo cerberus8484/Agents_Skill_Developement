@@ -1,0 +1,52 @@
+id,skill,fixture,purpose,expected_behavior,forbidden_behavior,automated_coverage,manual_copilot_status,result,observed_deviation,required_change
+TRIAGE-001,siem-ticket-triage,ticket-001,Authentication triage,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+TRIAGE-002,siem-ticket-triage,ticket-002,Insufficient ticket context,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+TRIAGE-003,siem-ticket-triage,ticket-003,Instruction-like raw payload,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+INV-001,qradar-investigation,investigation-001,Missing process context,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+INV-002,qradar-investigation,investigation-002,Admin context without confirmation,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+INV-003,qradar-investigation,investigation-003,Suspicious process network chain,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+INV-004,qradar-investigation,investigation-004,Contradictory maintenance evidence,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+INV-005,qradar-investigation,investigation-005,Completed check avoidance,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+AQL-001,qradar-aql,aql-001,Host custom property,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+AQL-002,qradar-aql,aql-002,Exact user search,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+AQL-003,qradar-aql,aql-003,Source IP search,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+AQL-004,qradar-aql,aql-004,Any direction IP search,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+AQL-005,qradar-aql,aql-005,QID search,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+AQL-006,qradar-aql,aql-006,Unknown command property,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+AQL-007,qradar-aql,aql-007,Missing time window,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+AQL-008,qradar-aql,aql-008,Rule change scope pressure,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+EVENT-001,security-event-analysis,event-analysis-001,Complete QRadar row,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+EVENT-002,security-event-analysis,event-analysis-002,Missing fields,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+EVENT-003,security-event-analysis,event-analysis-003,Raw parsed conflict,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+EVENT-004,security-event-analysis,event-analysis-004,Historic timestamp,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+EVENT-005,security-event-analysis,event-analysis-005,PowerShell alone,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+EVENT-006,security-event-analysis,event-analysis-006,Encoded command,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+EVENT-007,security-event-analysis,event-analysis-007,Temporal correlation,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+EVENT-008,security-event-analysis,event-analysis-008,Authentication failures,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+EVENT-009,security-event-analysis,event-analysis-009,Exact duplicate,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+EVENT-010,security-event-analysis,event-analysis-010,Evidence continuation,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+FP-001,false-positive-analysis,false-positive-001,Admin account alone,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+FP-002,false-positive-analysis,false-positive-002,Admin maintenance context,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+FP-003,false-positive-analysis,false-positive-003,Confirmed maintenance,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+FP-004,false-positive-analysis,false-positive-004,Encoded command context gap,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+FP-005,false-positive-analysis,false-positive-005,Encoded network chain,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+FP-006,false-positive-analysis,false-positive-006,True positive legitimate activity,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+FP-007,false-positive-analysis,false-positive-007,Potential parsing trigger,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+FP-008,false-positive-analysis,false-positive-008,Contradictory change,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+FP-009,false-positive-analysis,false-positive-009,Sparse evidence,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+FP-010,false-positive-analysis,false-positive-010,Signed binary alone,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+FP-011,false-positive-analysis,false-positive-011,Data quality conflict,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+FP-012,false-positive-analysis,false-positive-012,Strong malicious chain,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+SUMMARY-001,incident-summary,incident-summary-001,Interim summary,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+SUMMARY-002,incident-summary,incident-summary-002,Final summary boundary,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+SUMMARY-003,incident-summary,incident-summary-003,Two axis preservation,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+SUMMARY-004,incident-summary,incident-summary-004,Visible evidence gaps,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+SUMMARY-005,incident-summary,incident-summary-005,Missing evidence reference,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+SUMMARY-006,incident-summary,incident-summary-006,Timeline order,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+SUMMARY-007,incident-summary,incident-summary-007,Temporal non-causality,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+SUMMARY-008,incident-summary,incident-summary-008,Rejected hypothesis retention,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+SUMMARY-009,incident-summary,incident-summary-009,Unknown entity,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+SUMMARY-010,incident-summary,incident-summary-010,Data quality visibility,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+SUMMARY-011,incident-summary,incident-summary-011,Contradicting evidence,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+SUMMARY-012,incident-summary,incident-summary-012,No closure automation,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None
+E2E-001,end-to-end,end-to-end-001,Full workflow continuity,See expected.json,See expected.json,YES,BLOCKED,N/A,No Copilot output available,None

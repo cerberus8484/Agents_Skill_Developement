@@ -1,0 +1,1 @@
+{"expected_facts":["two identical supplied records"],"expected_observations":["records are exact duplicates"],"expected_data_quality_issues":[],"expected_findings":["DUPLICATE finding"],"expected_evidence_id_behavior":"each original row retains its own sequential evidence ID","forbidden_conclusions":["duplicate records are unrelated", "one record may be silently discarded"]}

@@ -1,0 +1,1 @@
+{"expected_facts":["timestamp, source IP, and QID only"],"expected_observations":[],"expected_data_quality_issues":["username and destination are missing"],"expected_findings":[],"expected_evidence_id_behavior":"start at E001","forbidden_conclusions":["infer username", "infer destination IP"]}

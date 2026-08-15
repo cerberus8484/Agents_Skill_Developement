@@ -1,0 +1,1 @@
+{"expected_detection_validity":"UNDETERMINED", "expected_activity_assessment":"INCONCLUSIVE or SUSPICIOUS", "expected_support":["change exists"], "expected_contradictions":["command does not match change procedure"], "expected_missing_evidence":["explanation or corrected change scope"], "forbidden_conclusions":["confirmed legitimate", "ignore command mismatch"]}

@@ -1,0 +1,1 @@
+{"expected_mode":"FINAL INVESTIGATION SUMMARY", "expected_traceability":["E001", "F001"], "expected_consistency":[], "expected_assessment_behavior":"final analyst assessment may be summarized", "forbidden_conclusions":["ticket can be closed", "new finding"]}

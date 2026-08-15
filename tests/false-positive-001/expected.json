@@ -1,0 +1,1 @@
+{"expected_detection_validity":"UNDETERMINED", "expected_activity_assessment":"INCONCLUSIVE", "expected_support":["admin role is contextual only"], "expected_contradictions":[], "expected_missing_evidence":["command and approved activity context"], "forbidden_conclusions":["likely legitimate solely from admin account", "false positive"]}

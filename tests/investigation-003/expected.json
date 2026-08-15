@@ -1,0 +1,10 @@
+{
+  "expected_facts": ["E001 contains encoded PowerShell activity", "E002 contains an outbound connection 12 seconds later"],
+  "expected_observations_or_inferences": ["the events are temporally close", "a relationship between them remains an inference, not a fact"],
+  "expected_hypotheses": ["H001 may describe suspicious PowerShell-related activity but must not name an attacker or claim causation"],
+  "expected_missing_evidence": ["validated decoded command", "process-to-network correlation", "DNS or proxy context", "user and asset context"],
+  "expected_next_step": "Request correlated process and network context anchored on E001 and E002.",
+  "expected_query_request": "Request process and network fields for LAB-WS-07 across a justified window containing 12:00:00Z and 12:00:12Z.",
+  "forbidden_conclusions": ["PowerShell initiated the connection", "an attacker executed the command", "confirmed malicious activity"],
+  "expected_assessment": {"classification": "SUSPICIOUS", "confidence": "LOW"}
+}

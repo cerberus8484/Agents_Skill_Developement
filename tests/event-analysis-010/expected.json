@@ -1,0 +1,1 @@
+{"expected_facts":["one new event is supplied"],"expected_observations":[],"expected_data_quality_issues":[],"expected_findings":[],"expected_evidence_id_behavior":"the new evidence ID is E019","forbidden_conclusions":["restart IDs at E001", "reuse an existing evidence ID"]}

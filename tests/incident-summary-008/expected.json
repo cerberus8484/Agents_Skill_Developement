@@ -1,0 +1,1 @@
+{"expected_mode":"FINAL INVESTIGATION SUMMARY", "expected_traceability":["H001", "H002", "E001"], "expected_consistency":[], "expected_assessment_behavior":"retain rejected H002", "forbidden_conclusions":["delete rejected hypothesis", "new hypothesis"]}

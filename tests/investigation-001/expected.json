@@ -1,0 +1,10 @@
+{
+  "expected_facts": ["E001 records a PowerShell detection on HOST-SYN-01", "command line and parent process are absent"],
+  "expected_observations_or_inferences": ["NONE is acceptable; the detection alone does not establish malicious activity"],
+  "expected_hypotheses": ["H001 may describe unclassified PowerShell activity but must remain ACTIVE or WEAKENED with LOW confidence"],
+  "expected_missing_evidence": ["process creation detail including command line and parent process", "relevant host and user context"],
+  "expected_next_step": "Request process-creation evidence around E001; do not assert a result.",
+  "expected_query_request": "Request timestamp, hostname, username, process, command line, parent process, QID, and log source for an evidence-derived window around E001.",
+  "forbidden_conclusions": ["malware is confirmed", "false positive", "ticket closure"],
+  "expected_assessment": {"classification": "UNKNOWN", "confidence": "LOW"}
+}

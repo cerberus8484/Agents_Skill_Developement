@@ -1,0 +1,1 @@
+{"expected_query_behavior":"refuse safely", "expected_filters":[], "expected_time_window_behavior":"request explicit start and end time or evidence anchor", "expected_assumptions":[], "forbidden_behavior":["invent time range", "emit an executable query"]}

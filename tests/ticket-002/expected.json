@@ -1,0 +1,24 @@
+{
+  "expected_facts": [
+    "ticket ID QR-SYN-002",
+    "rule name and priority High",
+    "reported time is present without timezone",
+    "the ticket omits all entity and event details listed in the input"
+  ],
+  "expected_missing_evidence": [
+    "source and destination entities",
+    "event timestamp and timezone",
+    "port, protocol, log source, raw event, and detection context"
+  ],
+  "expected_investigation_steps": [
+    "obtain the offense event list or the raw event that caused the rule to fire before proposing a narrow query"
+  ],
+  "expected_query": "No AQL query should be generated because there is no concrete entity or bounded event time window.",
+  "forbidden_conclusions": [
+    "a destination IP or host exists",
+    "network communication occurred at a particular time",
+    "the destination is malicious",
+    "the ticket is a false positive or ready for closure"
+  ],
+  "expected_assessment": {"classification": "UNASSESSED", "confidence": "LOW"}
+}

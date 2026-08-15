@@ -1,0 +1,1 @@
+{"expected_mode":"FINAL INVESTIGATION SUMMARY", "expected_traceability":["F001"], "expected_consistency":[], "expected_assessment_behavior":"data quality visible and confidence unchanged", "forbidden_conclusions":["raise confidence", "hide timestamp issue"]}

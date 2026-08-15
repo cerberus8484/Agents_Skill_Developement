@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SIEM AI Skills – Entwicklungsstand Phase 1</title>
+  <style>
+    :root { --bg:#0b1220; --card:#131d2d; --text:#e6edf7; --muted:#aab8cc; --accent:#63d3ff; --ok:#62d69b; --warn:#f5c86d; --border:#26364d; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif; }
+    main { max-width:1100px; margin:auto; padding:44px 24px 72px; }
+    h1,h2,h3 { line-height:1.2; } h1 { font-size:2.2rem; margin:0 0 10px; } h2 { margin-top:42px; border-bottom:1px solid var(--border); padding-bottom:10px; } h3 { color:var(--accent); }
+    .lead,.muted { color:var(--muted); } .badge { display:inline-block; padding:3px 9px; border-radius:999px; font-size:.82rem; font-weight:700; margin-right:6px; }
+    .ok { color:#072719; background:var(--ok); } .warn { color:#362300; background:var(--warn); }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; } .card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:18px; }
+    code,pre { font-family:ui-monospace,SFMono-Regular,Consolas,monospace; } code { color:#9cdbff; } pre { background:#08101d; border:1px solid var(--border); border-radius:8px; padding:16px; overflow:auto; }
+    table { width:100%; border-collapse:collapse; margin:16px 0; } th,td { border:1px solid var(--border); padding:10px; text-align:left; vertical-align:top; } th { background:#17243a; }
+    a { color:var(--accent); } li { margin:6px 0; } .callout { border-left:4px solid var(--warn); background:#211c11; padding:14px 16px; border-radius:4px; }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>SIEM AI Skills – Entwicklungsstand</h1>
+    <p class="lead">Konsolidierte Dokumentation der Phase-1-Skill-Library für die evidenzbasierte SIEM-/SOC-Arbeit mit GitHub Copilot.</p>
+    <span class="badge warn">Phase 1 nicht fachlich abgenommen</span>
+    <span class="badge ok">17 automatisierte Tests grün</span>
+  </header>
+
+  <section>
+    <h2>Ziel und aktueller Status</h2>
+    <p>Die Library bildet die Arbeitsweise eines erfahrenen SIEM-Analysten als modularen GitHub-Copilot-Skills ab. Sie verarbeitet ausschließlich vom Analysten bereitgestellte Informationen, erzeugt keine Produktionsaktionen und führt keine SIEM-Abfragen aus.</p>
+    <p>Der technische Phase-1-Aufbau ist vollständig: sechs Kern-Skills, gemeinsame Standards, JSON-Schemas, 61 synthetische Vertrags-Fixtures, ein End-to-End-Vertrag und Datenschutz-Policy-Tests sind vorhanden. Die automatisierten Tests prüfen Verträge und Dateistruktur, jedoch keine reale Modellantwort.</p>
+    <div class="callout"><strong>Acceptance-Status: PHASE_1_NOT_ACCEPTED.</strong> Die reale manuelle Copilot-Regression ist in der aktuellen nicht-interaktiven Umgebung blockiert. Vor einer fachlichen Abnahme müssen alle 51 SOC-Szenarien sowie die kritischen Wiederholungstests auf einem Copilot-fähigen Arbeitsplatz ausgeführt werden.</div>
+  </section>
+
+  <section>
+    <h2>Architektur und Ablauf</h2>
+    <pre>SIEM-Ticket
+  → siem-ticket-triage
+  → qradar-investigation
+  → QUERY REQUEST → qradar-aql → Analyst führt Query manuell aus
+  → Query Result / Raw Events → security-event-analysis
+  → qradar-investigation
+  → false-positive-analysis
+  → incident-summary</pre>
+    <p>Die Übergaben bewahren Evidence-IDs (<code>E###</code>), Hypothesen (<code>H###</code>), Findings (<code>F###</code>), offene Evidenzlücken und das getrennte Assessment von Detection und Aktivität.</p>
+  </section>
+
+  <section>
+    <h2>Entwicklung nach Phasen</h2>
+    <table>
+      <thead><tr><th>Phase</th><th>Ergebnis</th></tr></thead>
+      <tbody>
+        <tr><td>1.1</td><td>Gemeinsame Investigation-, Evidence-, Confidence-, Assessment- und Safety-Standards; Schemas; Triage-Skill und drei Testfälle.</td></tr>
+        <tr><td>1.2</td><td>Investigation-Orchestrator, Hypothesen-Lifecycle, Check-Tracking und fünf Investigation-Szenarien.</td></tr>
+        <tr><td>1.3</td><td>Read-only QRadar-AQL-Erzeugung aus Query Requests; konservative Feldbasis und acht AQL-Szenarien.</td></tr>
+        <tr><td>1.4</td><td>Raw-/Parsed-Eventanalyse als Evidence Producer, Findings und zehn Eventanalyse-Szenarien.</td></tr>
+        <tr><td>1.5</td><td>False-Positive-Assessment mit zwei Achsen und zwölf Assessment-Szenarien.</td></tr>
+        <tr><td>1.6</td><td>Interim-/Final-Summary, zwölf Summary-Szenarien und synthetischer End-to-End-Vertrag.</td></tr>
+        <tr><td>1.7</td><td>Vollständiges manuelles Testinventar. Live-Copilot-Regression bleibt blockiert und ist nicht als bestanden bewertet.</td></tr>
+        <tr><td>1.8</td><td>Customer-Data-/Local-Only-Vertrag, Sanitization- und Routing-Standards sowie zehn Policy-Tests.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Die sechs Skills</h2>
+    <div class="grid">
+      <article class="card"><h3>siem-ticket-triage</h3><p><strong>Zweck:</strong> Ein neues Ticket oder eine QRadar-Offense strukturiert verstehen.</p><p><strong>Macht:</strong> Extrahiert nur bereitgestellte Ticketfelder, erstellt initiale Evidence und benennt fehlende Informationen sowie einen ersten Investigation-Plan.</p><p><strong>Dient dazu:</strong> Aus unstrukturiertem Alarmkontext einen nachvollziehbaren Startzustand zu machen.</p><p><strong>Grenze:</strong> Keine Fakten erfinden, keine Query ausführen und kein Ticket schließen.</p></article>
+      <article class="card"><h3>qradar-investigation</h3><p><strong>Zweck:</strong> Eine einzelne Investigation schrittweise steuern.</p><p><strong>Macht:</strong> Aktualisiert Fakten, Beobachtungen, Hypothesen, Completed Checks und Missing Evidence; wählt genau einen begründeten nächsten Untersuchungsschritt.</p><p><strong>Dient dazu:</strong> Wiederholungen zu vermeiden und die Untersuchung evidenzbasiert fortzuführen.</p><p><strong>Grenze:</strong> Erzeugt nur strukturierte Query Requests, keine ausgeführte AQL oder Produktionsaktion.</p></article>
+      <article class="card"><h3>qradar-aql</h3><p><strong>Zweck:</strong> Einen Query Request in eine kleine, read-only QRadar-AQL-Eventabfrage übersetzen.</p><p><strong>Macht:</strong> Erhält Zeitfenster und Hypothesenbezug, erklärt Filter/Felder und fordert bei fehlenden Einschränkungen weitere Angaben an.</p><p><strong>Dient dazu:</strong> Dem Analysten eine manuell ausführbare, sichere Abfrage zu liefern.</p><p><strong>Grenze:</strong> Kein <code>SELECT *</code>, keine unbekannten Custom Properties als Fakten, keine Flow-Vermischung und keine Ausführung.</p></article>
+      <article class="card"><h3>security-event-analysis</h3><p><strong>Zweck:</strong> Query-Ergebnisse und Raw Events in nachvollziehbare Evidence und technische Findings überführen.</p><p><strong>Macht:</strong> Normalisiert vorhandene Felder, bewahrt Provenance, erkennt Raw-vs-Parsed-Konflikte, Datenqualitätsprobleme, Zeitanomalien und exakte Duplikate.</p><p><strong>Dient dazu:</strong> Dem Orchestrator belastbare, referenzierte technische Daten bereitzustellen.</p><p><strong>Grenze:</strong> Zeitliche Nähe wird nicht als Kausalität und ein Prozessname nicht als Malware-Beweis dargestellt.</p></article>
+      <article class="card"><h3>false-positive-analysis</h3><p><strong>Zweck:</strong> Vorhandene Evidence auf Legitimität oder Bösartigkeit bewerten, ohne Raw-Eventanalyse zu wiederholen.</p><p><strong>Macht:</strong> Hält <code>DETECTION VALIDITY</code> und <code>ACTIVITY ASSESSMENT</code getrennt; zeigt Supporting/Contradicting Evidence, Data-Quality-Bedenken und Lücken.</p><p><strong>Dient dazu:</strong> Voreilige False-Positive- oder Malware-Entscheidungen zu verhindern.</p><p><strong>Grenze:</strong> Admin-Account, Microsoft-Signatur, PowerShell oder EncodedCommand allein reichen nie für eine finale Bewertung.</p></article>
+      <article class="card"><h3>incident-summary</h3><p><strong>Zweck:</strong> Einen laufenden oder abgeschlossenen Investigation State als Analysten-Handoff zusammenfassen.</p><p><strong>Macht:</strong> Erstellt Interim- oder Final-Summary, Timeline, Evidence-Traceability und Consistency Warnings für ungültige Referenzen.</p><p><strong>Dient dazu:</strong> Einen reproduzierbaren, sachlichen Bericht ohne Informationsverlust bereitzustellen.</p><p><strong>Grenze:</strong> Erfindet keine Findings, ändert keine Assessments und empfiehlt niemals Ticket-Schließung.</p></article>
+    </div>
+  </section>
+
+  <section>
+    <h2>Gemeinsame Fachregeln</h2>
+    <ul>
+      <li>Nur vom Analysten gelieferte Evidence analysieren; Rohdaten bleiben unverändert.</li>
+      <li>Facts, Observations, Inferences und Hypotheses strikt trennen.</li>
+      <li>Wichtige Aussagen mit <code>E###</code>- oder <code>F###</code>-Referenzen belegen.</li>
+      <li>Fehlende Informationen sichtbar machen, statt plausible Details zu raten.</li>
+      <li>Kein API-, SSH-, Jumpserver-, Remote- oder Produktionszugriff; keine automatische Ticket-Schließung.</li>
+      <li>Confidence ist ausschließlich <code>LOW</code>, <code>MEDIUM</code> oder <code>HIGH</code> und keine frei erfundene Prozentzahl.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Customer Data Protection und Local-Only</h2>
+    <p><strong>SIEM-AI-001:</strong> Kundendaten dürfen nie an einen nicht freigegebenen Cloud-AI-Service übertragen oder dort verarbeitet werden.</p>
+    <table>
+      <thead><tr><th>Klasse</th><th>Vertrag</th></tr></thead>
+      <tbody><tr><td>PUBLIC / SYNTHETIC</td><td>Verarbeitung nach Unternehmensrichtlinie.</td></tr><tr><td>SANITIZED / INTERNAL</td><td>Nur nach Unternehmensrichtlinie; Sanitization muss nachweisbar sein.</td></tr><tr><td>CUSTOMER_DATA</td><td><strong>LOCAL_ONLY</strong>; Cloud-Verarbeitung verboten.</td></tr><tr><td>SECRET</td><td>LOCAL_ONLY oder blockieren; keine pauschale Freigabe.</td></tr><tr><td>UNKNOWN</td><td><strong>Fail closed: LOCAL_ONLY</strong>.</td></tr></tbody>
+    </table>
+    <p>Fällt ein lokaler Provider aus, muss die Verarbeitung stoppen. Ein automatischer Cloud-Fallback ist verboten. Prompt-Instructions sind nur Defense in Depth, aber keine technische Security Boundary.</p>
+    <div class="callout"><strong>Wichtige aktuelle Grenze:</strong> Dieses GitHub-Copilot-Repository ist keine technisch erzwungene Local-Only-Verarbeitungsumgebung. Die Regeln, Tests und Skill-Referenzen definieren den Vertrag; ein produktiver Router, DLP, Egress-Control und lokaler Modellpfad fehlen bewusst noch. Reale Kundendaten dürfen deshalb nicht eingeführt werden.</div>
+  </section>
+
+  <section>
+    <h2>Tests und Validierung</h2>
+    <table>
+      <thead><tr><th>Bereich</th><th>Fixtures</th><th>Automatisiert</th><th>Manuell mit Copilot</th></tr></thead>
+      <tbody><tr><td>Sechs SOC-Skills und E2E</td><td>51</td><td>Ja</td><td>0/51 – blockiert</td></tr><tr><td>Data-Protection-Policy</td><td>10</td><td>Ja</td><td>Nicht anwendbar; Repository-Vertrag</td></tr><tr><td>Gesamt</td><td>61</td><td>17 Tests grün</td><td>Keine echte Modellantwort validiert</td></tr></tbody>
+    </table>
+    <p>Ausführung: <code>python -m unittest</code></p>
+    <p>Die Live-Copilot-Regression ist blockiert, weil in der aktuellen nicht-interaktiven Umgebung kein nutzbarer Copilot-Client verfügbar war. Für die spätere Abnahme müssen insbesondere unvollständige Evidence, suggestive False-Positive-/Malware-Anweisungen, unbekannte Custom Properties, widersprüchliche Evidence, fehlende IDs, Closure-Druck und der vollständige End-to-End-Workflow wiederholt geprüft werden.</p>
+  </section>
+
+  <section>
+    <h2>Was bewusst nicht gebaut wurde</h2>
+    <p>Keine QRadar-API, keine AQL-Ausführung, kein SSH/Jumphost-Zugriff, keine Rule-/Firewall-/EDR-Änderung, keine Ticketautomatisierung, keine Weboberfläche, kein Local LLM, kein Model Router, keine DLP-Engine und keine Produktionsintegration.</p>
+  </section>
+
+  <section>
+    <h2>Nächste Schritte vor Phase 2</h2>
+    <ol>
+      <li>Alle 51 SOC-Fixtures in einem Copilot-fähigen, genehmigten Umfeld manuell ausführen und Ergebnisse dokumentieren.</li>
+      <li>Kritische Sicherheitsfälle dreimal wiederholen und Stabilität bewerten.</li>
+      <li>QRadar-AQL-Syntax, Custom Properties, QIDs und Zeitzonen im freigegebenen Umfeld validieren.</li>
+      <li>Nur belegte S3/S4-Abweichungen minimal auf der richtigen Ebene härten: Fixture, Standard oder einzelner Skill.</li>
+      <li>Vor realen Kundendaten die Local-Only-Enforcement-Architektur technisch implementieren und freigeben.</li>
+      <li>Erst danach Phase 2 anhand der validierten Lücken planen.</li>
+    </ol>
+  </section>
+</main>
+</body>
+</html>

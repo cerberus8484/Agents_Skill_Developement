@@ -1,0 +1,10 @@
+{
+  "expected_facts": ["C002 Process activity is completed", "E001 contains the retrieved process fields", "network and authentication evidence are absent"],
+  "expected_observations_or_inferences": ["the completed process check must not be selected again without new evidence"],
+  "expected_hypotheses": ["H001 may remain ACTIVE if it is tied to the supplied process facts"],
+  "expected_missing_evidence": ["network activity or authentication context"],
+  "expected_next_step": "Select one open, uncompleted area such as network activity as the primary action.",
+  "expected_query_request": "Request network telemetry for HOST-SYN-05 using an evidence-derived time window; do not repeat process activity as the primary request.",
+  "forbidden_conclusions": ["repeat process activity as the next best action", "assume network activity occurred", "ticket closure"],
+  "expected_assessment": {"classification": "UNKNOWN", "confidence": "LOW"}
+}
