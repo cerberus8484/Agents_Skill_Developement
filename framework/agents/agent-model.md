@@ -24,15 +24,15 @@ Example: code-simplifier is an EXECUTOR; whether it may write a file remains env
 | `security` | Method / reference | Supplies bounded security-review guidance; it does not scan, exploit, or modify. |
 | `security-reviewer` | REVIEWER | Identifies and qualifies evidence-backed potential findings. |
 | `code-reviewer` | REVIEWER | Uses the security method when a code review has a security-relevant focus. |
-| `security-fixer` | Proposed EXECUTOR role | May implement an approved remediation only when separately authorized; it is not currently an installed agent. |
+| `security-fixer` | EXECUTOR | Implements one explicitly approved remediation in the active workspace; it never receives production authority by default. |
 
 ## DSGVO skill mapping
 
 | Component | Role | Boundary |
 |---|---|---|
 | `dsgvo` | Method / reference | Structures data-protection considerations; it provides no legal conclusion. |
-| `privacy-reviewer` | Proposed REVIEWER role | Reviews artefact evidence and routes legal questions to accountable expertise. |
-| `dsgvo-fixer` | Proposed EXECUTOR role | May implement approved technical changes only with separate authorization; it is not currently installed. |
+| `privacy-reviewer` | REVIEWER | Reviews artefact evidence and routes legal questions to accountable expertise. |
+| `dsgvo-fixer` | EXECUTOR | Implements one explicitly approved technical privacy change in the active workspace; it never receives production authority by default. |
 
 ## Cross-Platform Definition of Done
 
