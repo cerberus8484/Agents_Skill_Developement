@@ -9,6 +9,8 @@ Ein versionierbares Framework für wiederverwendbare Agent Skills, fachliche Ref
 | Ziel | Einstieg |
 |---|---|
 | Framework verstehen | [Framework Foundation](framework/README.md) |
+| IT-/SOC-Agenten nutzen und vergleichen | [Team-Handbuch und Runtime-Testplan](docs/it-soc-team.md) |
+| Code Review mit DSGVO, NIS2 und ISO 27001 | [Reviewer-Dokumentation](docs/code-reviewer.html) |
 | Gesamtdokumentation im Browser | [Dokumentationsportal](docs/index.html) |
 | Clean-Code-Skill | [Kanonische Skill-Quelle](framework/skills/clean-code/SKILL.md) |
 | CCD-Referenzreview | [CCD-Wertesystem](docs/skill-reviews/ccd-wertesystem.html) |
@@ -25,7 +27,9 @@ Ein versionierbares Framework für wiederverwendbare Agent Skills, fachliche Ref
               │
               └─ tools/sync_skills.py
                       │
-                      └─ .github/skills/name/  (GitHub-Copilot-Adapter)
+                      ├─ .github/skills/name/  (GitHub Copilot)
+                      ├─ .agents/skills/name/  (Codex)
+                      └─ .claude/skills/name/  (Claude Code)
 
 - **Skill** beschreibt eine wiederverwendbare Methode; ein **Agent** besitzt eine Rolle.
 - **Capability** beschreibt, was möglich ist; **Permission** beschreibt, was die Laufzeit erlaubt.
@@ -64,7 +68,7 @@ Siehe [Data Handling](standards/data-handling-standard.md) und [Local-Only-Archi
     python tools/sync_skills.py
     python -m unittest
 
-Der Sync erzeugt ausschließlich den Copilot-Adapter für framework-eigene Skills. Die Tests prüfen bestehende SIEM-Verträge, CCD-Paketgrenzen sowie den Clean-Code-Contract und die Nicht-Divergenz zwischen kanonischer Quelle und Adapter.
+Der Skill-Sync erzeugt die drei Plattformfassungen aus kanonischen Quellen. Team-Agenten werden separat mit `python tools/sync_agents.py` synchronisiert; `--check` prüft sie ohne Änderungen. Die Tests prüfen Dateiverträge und Synchronität, nicht native Plattform-Laufzeitwirkung.
 
 ## Beitrag leisten
 

@@ -14,6 +14,10 @@ ADAPTERS = (
     ROOT / ".claude" / "skills",
 )
 SKILLS = (
+    "code-review-workflow",
+    "test-review",
+    "nis2-technical-review",
+    "iso27001-control-review",
     "clean-code",
     "security",
     "dsgvo",

@@ -1,0 +1,123 @@
+[
+  {
+    "id": "team-lead",
+    "name": "IT Team Lead",
+    "description": "Coordinate bounded development and SOC tasks with explicit ownership and independent review.",
+    "tools": [
+      "read",
+      "search",
+      "agent"
+    ],
+    "skills": [
+      "clean-code",
+      "qradar-investigation"
+    ]
+  },
+  {
+    "id": "software-engineer",
+    "name": "IT Software Engineer",
+    "description": "Implement small scoped software changes with tests and explicit failure handling.",
+    "tools": [
+      "read",
+      "search",
+      "edit",
+      "execute"
+    ],
+    "skills": [
+      "clean-code",
+      "security"
+    ]
+  },
+  {
+    "id": "code-security-reviewer",
+    "name": "IT Code Security Reviewer",
+    "description": "Review code, security and tests with bounded DSGVO, NIS2 and ISO 27001 evidence mapping; no legal or certification decisions.",
+    "tools": [
+      "read",
+      "search"
+    ],
+    "skills": [
+      "code-review-workflow",
+      "clean-code",
+      "security",
+      "test-review",
+      "dsgvo",
+      "nis2-technical-review",
+      "iso27001-control-review"
+    ]
+  },
+  {
+    "id": "soc-analyst",
+    "name": "SOC Analyst",
+    "description": "Analyze supplied SOC evidence using staged SIEM skills without autonomous response or ticket closure.",
+    "tools": [
+      "read",
+      "search"
+    ],
+    "skills": [
+      "siem-ticket-triage",
+      "qradar-investigation",
+      "security-event-analysis",
+      "false-positive-analysis",
+      "incident-summary",
+      "soc-forensic-hunts"
+    ]
+  },
+  {
+    "id": "detection-engineer",
+    "name": "SOC Detection Engineer",
+    "description": "Design reviewable detection and QRadar AQL proposals with explicit local validation gaps.",
+    "tools": [
+      "read",
+      "search",
+      "edit"
+    ],
+    "skills": [
+      "qradar-aql",
+      "soc-forensic-hunts",
+      "security"
+    ]
+  },
+  {
+    "id": "infrastructure-engineer",
+    "name": "IT Infrastructure Engineer",
+    "description": "Prepare evidence-based infrastructure diagnostics and reversible change plans without touching live systems.",
+    "tools": [
+      "read",
+      "search",
+      "edit"
+    ],
+    "skills": [
+      "security",
+      "clean-code"
+    ]
+  },
+  {
+    "id": "privacy-reviewer",
+    "name": "Privacy Reviewer",
+    "description": "Review technical privacy gaps with accountable legal handoffs and no compliance determination.",
+    "tools": [
+      "read",
+      "search"
+    ],
+    "skills": [
+      "dsgvo",
+      "security"
+    ]
+  },
+  {
+    "id": "qa-documentation",
+    "name": "IT QA Documentation",
+    "description": "Verify scoped behavior with meaningful tests and maintain evidence-backed documentation.",
+    "tools": [
+      "read",
+      "search",
+      "edit",
+      "execute"
+    ],
+    "skills": [
+      "clean-code",
+      "security"
+    ]
+  }
+]
