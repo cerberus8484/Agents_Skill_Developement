@@ -1,6 +1,6 @@
-# Agent & Skill Framework
+# Nexora Agents & Nexora Skills
 
-Ein versionierbares Framework für wiederverwendbare Agent Skills, fachliche Referenzen, Governance und reproduzierbare Qualitätsprüfungen. GitHub Copilot wird strukturell unterstützt; Codex und Claude Code sind bewusst noch als ungetestete Adapter dokumentiert.
+**Nexora Agents** ist ein versionierbares, evidenzbasiertes Agenten-Framework für SOC, SIEM, Enterprise-IT und regulierte Entwicklungsumgebungen. **Nexora Skills** liefert die wiederverwendbaren Untersuchungs-, Review- und Engineering-Methoden. GitHub Copilot wird strukturell unterstützt; Codex und Claude Code sind bewusst noch als ungetestete Adapter dokumentiert.
 
 > SIEM/SOC ist eine Fachdomäne des Frameworks – nicht dessen alleiniger Zweck.
 
@@ -16,6 +16,14 @@ Ein versionierbares Framework für wiederverwendbare Agent Skills, fachliche Ref
 | CCD-Referenzreview | [CCD-Wertesystem](docs/skill-reviews/ccd-wertesystem.html) |
 | Clean-Code-Referenzreview | [Clean Code](docs/skill-reviews/clean-code.html) |
 | SIEM-Entwicklungsstand | [Phase-1-Status](docs/entwicklungsstand.html) |
+
+## Produktfamilie
+
+- **Nexora Agents**: klar begrenzte Rollen mit überprüfbaren Ein- und Ausgaben.
+- **Nexora Skills**: kanonische, plattformübergreifende Methoden.
+- **Nexora Agent Framework**: Verträge, Standards, Schemas und Adapter.
+- **Nexora Agent Bench**: geplante Runtime-Evaluation und vergleichbare Benchmarks.
+- **Nexora Agent Shield**: geplante technische Prüfung von Rechten, Konfiguration und Datenwegen.
 
 ## Architektur
 
