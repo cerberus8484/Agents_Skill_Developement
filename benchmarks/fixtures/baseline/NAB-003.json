@@ -1,7 +1,7 @@
 {
   "case_id": "NAB-003",
   "status": "NEEDS_INPUT",
-  "summary": "E001 does not establish that the activity is a false positive. The proposed field availability must be verified before preparing a bounded read-only query proposal.",
+  "summary": "A false positive is not established by E001. The proposed field availability must be verified before preparing a bounded read-only query proposal.",
   "evidence_ids": [
     "E001"
   ],
