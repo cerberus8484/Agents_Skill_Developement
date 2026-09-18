@@ -1,0 +1,27 @@
+{
+  "case_id": "NAB-003",
+  "status": "NEEDS_INPUT",
+  "summary": "A false positive is not established by E001. The proposed field availability must be verified before preparing a bounded read-only query proposal.",
+  "evidence_ids": [
+    "E001"
+  ],
+  "assumptions": [],
+  "unknowns": [
+    "Whether WinCollectExceptionMemoryCode exists",
+    "Relevant QID and log source",
+    "Raw payload and update timeline"
+  ],
+  "next_actions": [
+    "Verify field availability from the approved QRadar property inventory, then prepare a read-only query proposal without executing it."
+  ],
+  "verification": {
+    "status": "NOT_RUN",
+    "checks": [
+      "No QRadar query was executed",
+      "No ticket action was taken"
+    ],
+    "limitations": [
+      "No DSM inventory or raw event was supplied"
+    ]
+  }
+}
