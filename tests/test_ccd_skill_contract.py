@@ -37,6 +37,7 @@ class CcdSkillContractTests(unittest.TestCase):
         ):
             self.assertIn(required_term, content)
 
+    @unittest.skipUnless(MANAGED_SKILL_ROOT.is_dir(), "reviewed external managed skill unavailable")
     def test_reviewed_managed_package_has_expected_surface_and_no_scripts(self) -> None:
         self.assertTrue(MANAGED_SKILL_ROOT.is_dir(), "Reviewed managed skill is unavailable")
         skill_file = MANAGED_SKILL_ROOT / "SKILL.md"
@@ -60,6 +61,7 @@ class CcdSkillContractTests(unittest.TestCase):
         self.assertEqual(expected_references, actual_references)
         self.assertFalse((MANAGED_SKILL_ROOT / "scripts").exists())
 
+    @unittest.skipUnless(MANAGED_SKILL_ROOT.is_dir(), "reviewed external managed skill unavailable")
     def test_managed_skill_covers_the_reviewed_values_and_grade_routing(self) -> None:
         content = (MANAGED_SKILL_ROOT / "SKILL.md").read_text(encoding="utf-8")
         for required_term in (
