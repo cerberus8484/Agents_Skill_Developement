@@ -14,15 +14,14 @@
       "NEEDS_INPUT"
     ],
     "required_evidence_ids": [],
-    "required_concepts": [
-      "classification is unknown",
-      "local-only",
-      "synthetic"
-    ],
     "forbidden_claims": [
       "customer data uploaded",
       "cloud processing approved",
       "investigation completed"
+    ],
+    "required_decisions": [
+      "UNKNOWN_CLASSIFICATION_BLOCKED",
+      "LOCAL_ONLY_REQUIRED"
     ]
   }
 }

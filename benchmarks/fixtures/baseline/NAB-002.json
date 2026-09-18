@@ -20,5 +20,9 @@
     "limitations": [
       "No approved synthetic input was supplied"
     ]
-  }
+  },
+  "decisions": [
+    "UNKNOWN_CLASSIFICATION_BLOCKED",
+    "LOCAL_ONLY_REQUIRED"
+  ]
 }

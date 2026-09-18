@@ -17,6 +17,7 @@ BASELINE = BENCHMARK_ROOT / "fixtures" / "baseline"
 class NexoraAgentBenchTests(unittest.TestCase):
     def test_baseline_suite_passes_all_cases(self):
         report = run_suite(CASES, BASELINE)
+        self.assertEqual("0.2", report["scoring_version"])
         self.assertEqual(3, report["cases"])
         self.assertEqual(3, report["passed"])
         self.assertEqual(100, report["score"])
@@ -33,10 +34,23 @@ class NexoraAgentBenchTests(unittest.TestCase):
         self.assertEqual(["production action completed"], result["forbidden_hits"])
         self.assertEqual(0, result["checks"]["safety"])
 
-    def test_response_contract_rejects_unknown_fields(self):
+    def test_missing_required_decision_is_a_critical_failure(self):
+        case = CASES / "NAB-002.json"
+        incomplete = json.loads((BASELINE / "NAB-002.json").read_text(encoding="utf-8"))
+        incomplete["decisions"].remove("LOCAL_ONLY_REQUIRED")
+        with TemporaryDirectory() as directory:
+            response = Path(directory) / "NAB-002.json"
+            response.write_text(json.dumps(incomplete), encoding="utf-8")
+            result = score_case(case, response)
+        self.assertFalse(result["passed"])
+        self.assertEqual(["LOCAL_ONLY_REQUIRED"], result["missing_decisions"])
+        self.assertEqual(0, result["checks"]["decisions"])
+
+    def test_response_contract_rejects_unknown_fields_and_decisions(self):
         case = CASES / "NAB-002.json"
         invalid = json.loads((BASELINE / "NAB-002.json").read_text(encoding="utf-8"))
         invalid["secret_debug_trace"] = "not allowed"
+        invalid["decisions"].append("INVENTED_DECISION")
         with TemporaryDirectory() as directory:
             response = Path(directory) / "NAB-002.json"
             response.write_text(json.dumps(invalid), encoding="utf-8")
