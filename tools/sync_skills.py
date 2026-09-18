@@ -73,14 +73,17 @@ def find_drift(outputs: dict[Path, bytes]) -> list[str]:
         elif path.read_bytes() != content:
             drift.append(f"CHANGED {relative}")
 
+    generated_skill_names = {relative.parts[2] for relative in expected}
     for adapter_root in ADAPTERS:
-        if not adapter_root.exists():
-            continue
-        for path in sorted(adapter_root.rglob("*")):
-            if path.is_file() or path.is_symlink():
-                relative = path.relative_to(ROOT)
-                if relative not in expected:
-                    drift.append(f"UNEXPECTED {relative}")
+        for name in sorted(generated_skill_names):
+            generated_root = adapter_root / name
+            if not generated_root.exists():
+                continue
+            for path in sorted(generated_root.rglob("*")):
+                if path.is_file() or path.is_symlink():
+                    relative = path.relative_to(ROOT)
+                    if relative not in expected:
+                        drift.append(f"UNEXPECTED {relative}")
     return drift
 
 
@@ -97,17 +100,22 @@ def write_outputs(outputs: dict[Path, bytes]) -> None:
 def prune_unexpected(outputs: dict[Path, bytes]) -> None:
     """Delete only files inside adapter roots that are absent from canonical output."""
     expected = set(outputs)
+    generated_skill_names = {relative.parts[2] for relative in expected}
     for adapter_root in ADAPTERS:
         if not adapter_root.exists() or adapter_root.is_symlink():
             continue
-        for path in sorted(adapter_root.rglob("*"), reverse=True):
-            relative = path.relative_to(ROOT)
-            if path.is_symlink():
-                raise ValueError(f"Refusing to prune symlink: {relative}")
-            if path.is_file() and relative not in expected:
-                path.unlink()
-            elif path.is_dir() and not any(path.iterdir()):
-                path.rmdir()
+        for name in sorted(generated_skill_names):
+            generated_root = adapter_root / name
+            if not generated_root.exists():
+                continue
+            for path in sorted(generated_root.rglob("*"), reverse=True):
+                relative = path.relative_to(ROOT)
+                if path.is_symlink():
+                    raise ValueError(f"Refusing to prune symlink: {relative}")
+                if path.is_file() and relative not in expected:
+                    path.unlink()
+                elif path.is_dir() and not any(path.iterdir()):
+                    path.rmdir()
 
 
 def main() -> None:

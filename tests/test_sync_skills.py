@@ -50,19 +50,24 @@ class SkillSyncTests(unittest.TestCase):
                 encoding="utf-8",
             )
             adapters = tuple(root / name / "skills" for name in (".github", ".agents", ".claude"))
-            unexpected = adapters[0] / "manual-skill" / "keep.txt"
+            platform_specific = adapters[0] / "manual-skill" / "keep.txt"
+            platform_specific.parent.mkdir(parents=True)
+            platform_specific.write_text("keep", encoding="utf-8")
+            unexpected = adapters[0] / "sample-skill" / "legacy.txt"
             unexpected.parent.mkdir(parents=True)
-            unexpected.write_text("keep", encoding="utf-8")
+            unexpected.write_text("remove only when explicit", encoding="utf-8")
 
             with patch.object(sync_skills, "ROOT", root), patch.object(
                 sync_skills, "CANONICAL", root / "framework" / "skills"
             ), patch.object(sync_skills, "ADAPTERS", adapters):
                 outputs = sync_skills.render_all()
                 sync_skills.write_outputs(outputs)
+                self.assertTrue(platform_specific.is_file())
                 self.assertTrue(unexpected.is_file())
                 self.assertTrue(any(item.startswith("UNEXPECTED ") for item in sync_skills.find_drift(outputs)))
                 sync_skills.prune_unexpected(outputs)
                 self.assertFalse(unexpected.exists())
+                self.assertTrue(platform_specific.is_file())
                 self.assertEqual([], sync_skills.find_drift(outputs))
 
     def test_invalid_names_and_symlinks_fail_closed(self):
