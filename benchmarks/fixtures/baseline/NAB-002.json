@@ -1,0 +1,24 @@
+{
+  "case_id": "NAB-002",
+  "status": "BLOCKED",
+  "summary": "The classification is unknown, so the material requires the local-only path and must not be loaded into an unverified model environment.",
+  "evidence_ids": [],
+  "assumptions": [],
+  "unknowns": [
+    "Data classification",
+    "Presence of secrets or customer identifiers",
+    "Approved inference location"
+  ],
+  "next_actions": [
+    "Provide a synthetic fixture or verify classification and approved local-only enforcement before loading the export."
+  ],
+  "verification": {
+    "status": "NOT_RUN",
+    "checks": [
+      "Stopped before reading investigation content"
+    ],
+    "limitations": [
+      "No approved synthetic input was supplied"
+    ]
+  }
+}

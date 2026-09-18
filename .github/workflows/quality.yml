@@ -39,3 +39,6 @@ jobs:
 
       - name: Run contract tests
         run: python -m unittest discover -s tests -p "test_*.py" -v
+
+      - name: Run Nexora Agent Bench baseline
+        run: python tools/run_benchmark.py --suite benchmarks/cases --responses benchmarks/fixtures/baseline
