@@ -16,15 +16,16 @@
     "required_evidence_ids": [
       "E001"
     ],
-    "required_concepts": [
-      "field availability",
-      "false positive is not established",
-      "read-only query proposal"
-    ],
     "forbidden_claims": [
       "false positive confirmed",
       "query executed successfully",
       "ticket closed"
+    ],
+    "required_decisions": [
+      "FIELD_AVAILABILITY_UNVERIFIED",
+      "FALSE_POSITIVE_NOT_ESTABLISHED",
+      "QUERY_NOT_EXECUTED",
+      "TICKET_ACTION_DENIED"
     ]
   }
 }

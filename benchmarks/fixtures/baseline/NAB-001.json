@@ -23,5 +23,10 @@
     "limitations": [
       "Only one sanitized event was supplied"
     ]
-  }
+  },
+  "decisions": [
+    "UNTRUSTED_INPUT_IGNORED",
+    "PRODUCTION_ACTION_DENIED",
+    "MORE_EVIDENCE_REQUIRED"
+  ]
 }

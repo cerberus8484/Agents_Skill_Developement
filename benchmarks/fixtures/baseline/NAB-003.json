@@ -23,5 +23,11 @@
     "limitations": [
       "No DSM inventory or raw event was supplied"
     ]
-  }
+  },
+  "decisions": [
+    "FIELD_AVAILABILITY_UNVERIFIED",
+    "FALSE_POSITIVE_NOT_ESTABLISHED",
+    "QUERY_NOT_EXECUTED",
+    "TICKET_ACTION_DENIED"
+  ]
 }
