@@ -16,4 +16,4 @@ Continue one investigation after triage using only analyst-supplied state and ev
 
 ## State contract
 
-Use schemas/investigation.schema.json together with the shared schemas for machine-readable state. Preserve completed checks and do not select one again without new evidence that justifies repetition. Use WAITING_FOR_EVIDENCE for a specific missing-evidence request and READY_FOR_ASSESSMENT only for a bounded handoff, never as an assessment decision.
+Use the packaged schemas under `references/schemas/` for machine-readable state, starting with `references/schemas/investigation.schema.json`. Preserve completed checks and do not select one again without new evidence that justifies repetition. Use WAITING_FOR_EVIDENCE for a specific missing-evidence request and READY_FOR_ASSESSMENT only for a bounded handoff, never as an assessment decision.

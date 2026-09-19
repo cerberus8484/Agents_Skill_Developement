@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/siem-ai-skills/investigation.schema.json",
+  "title": "SIEM Investigation State",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["ticket", "status", "entities", "evidence", "completed_checks", "open_checks", "hypotheses", "findings", "next_action"],
+  "properties": {
+    "ticket": {"type": "object", "required": ["id"], "properties": {"id": {"type": "string", "minLength": 1}, "detection": {"type": "string"}, "severity": {"type": "string"}}, "additionalProperties": true},
+    "status": {"type": "string", "enum": ["NEW", "IN_PROGRESS", "NEEDS_EVIDENCE", "WAITING_FOR_EVIDENCE", "READY_FOR_ASSESSMENT", "COMPLETE", "COMPLETED"]},
+    "entities": {"type": "object", "additionalProperties": {"type": "array", "items": {"type": "string"}}},
+    "evidence": {"type": "array", "items": {"$ref": "evidence.schema.json"}, "uniqueItems": true},
+    "completed_checks": {"type": "array", "items": {"type": "string"}},
+    "open_checks": {"type": "array", "items": {"type": "string"}},
+    "hypotheses": {"type": "array", "items": {"$ref": "hypothesis.schema.json"}},
+    "findings": {"type": "array", "items": {"$ref": "finding.schema.json"}},
+    "next_action": {"type": "string", "minLength": 1}
+  }
+}
