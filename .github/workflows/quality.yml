@@ -37,6 +37,9 @@ jobs:
       - name: Check generated skills
         run: python tools/sync_skills.py --check
 
+      - name: Run Nexora Agent Shield
+        run: python tools/run_agent_shield.py
+
       - name: Run contract tests
         run: python -m unittest discover -s tests -p "test_*.py" -v
 
