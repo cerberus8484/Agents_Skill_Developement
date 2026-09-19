@@ -55,7 +55,7 @@
 | Nexora Agent Bench | ACTIVE_OFFLINE – Schema-, Entscheidungs- und semantische Konsistenzprüfung |
 | Nexora Agent Shield | ACTIVE_STATIC – Least-Privilege-, Adapter- und Vertragsprüfung |
 | GitHub Copilot | STRUCTURAL_ONLY |
-| OpenAI Codex | UNTESTED |
+| OpenAI Codex | RUNTIME_VALIDATED_CONDITIONAL – 10/10 agents started and 15/15 skills method-tested with synthetic data; packaging fix requires revalidation |
 | Claude Code | UNTESTED |
 
 Die Plattformstatus sind keine Runtime-Freigaben. Details: [Adapter-Dokumentation](framework/adapters/).
@@ -82,6 +82,15 @@ Siehe [Data Handling](standards/data-handling-standard.md) und [Local-Only-Archi
     python tools/run_agent_shield.py
     python -m unittest
     python tools/run_benchmark.py --suite benchmarks/cases --responses benchmarks/fixtures/baseline
+
+Für eine sichere, benutzerweite Codex-Installation unter Windows oder einem anderen lokalen System:
+
+    python tools/sync_skills.py --prune
+    python tools/sync_agents.py
+    python tools/install_codex.py --dry-run
+    python tools/install_codex.py
+
+Der Installer sichert gleichnamige Nexora-Pakete, ersetzt nur diese vollständig und lässt fremde persönliche Skills und Agenten unverändert. Codex danach vollständig neu starten.
 
 Der Skill-Sync erzeugt die drei Plattformfassungen aus kanonischen Quellen. Team-Agenten werden separat mit `python tools/sync_agents.py` synchronisiert; `--check` prüft sie ohne Änderungen. Nexora Agent Shield vergleicht Rechte und Adapter mit der expliziten Least-Privilege-Policy. Die Tests prüfen Dateiverträge und Synchronität, nicht native Plattform-Laufzeitwirkung. Nexora Agent Bench prüft zusätzlich den strukturierten Entscheidungsvertrag und deterministische Widersprüche, aber keine echte Toolaktivität.
 

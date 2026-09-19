@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/siem-ai-skills/finding.schema.json",
+  "title": "SIEM Finding",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "title", "classification", "summary", "evidence_ids", "confidence"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^F[0-9]{3,}$"},
+    "title": {"type": "string", "minLength": 1},
+    "classification": {"type": "string", "enum": ["UNASSESSED", "UNKNOWN", "INCONCLUSIVE", "SUSPICIOUS", "LIKELY_LEGITIMATE", "CONFIRMED_LEGITIMATE", "LIKELY_MALICIOUS", "CONFIRMED_MALICIOUS"]},
+    "category": {"type": "string", "enum": ["SECURITY_RELEVANT", "DATA_QUALITY", "PARSING", "TIMESTAMP", "PROCESS", "AUTHENTICATION", "NETWORK", "ENTITY", "DUPLICATE", "UNKNOWN"]},
+    "summary": {"type": "string", "minLength": 1},
+    "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^E[0-9]{3,}$"}, "uniqueItems": true},
+    "hypothesis_ids": {"type": "array", "items": {"type": "string", "pattern": "^H[0-9]{3,}$"}, "uniqueItems": true},
+    "confidence": {"type": "string", "enum": ["LOW", "MEDIUM", "HIGH"]},
+    "open_questions": {"type": "array", "items": {"type": "string"}}
+  }
+}

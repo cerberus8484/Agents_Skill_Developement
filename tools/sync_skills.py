@@ -19,6 +19,14 @@ ADAPTERS = (
     ROOT / ".claude" / "skills",
 )
 VALID_NAME = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+SCHEMA_BUNDLES = {
+    "qradar-investigation": (
+        "evidence.schema.json",
+        "finding.schema.json",
+        "hypothesis.schema.json",
+        "investigation.schema.json",
+    ),
+}
 
 
 def discover_skills() -> tuple[str, ...]:

@@ -1,5 +1,6 @@
 """Safety and drift tests for Nexora Skills adapter generation."""
 
+import json
 import unittest
 from contextlib import redirect_stderr, redirect_stdout
 from io import StringIO
@@ -15,6 +16,14 @@ class SkillSyncTests(unittest.TestCase):
         outputs = sync_skills.render_all()
         self.assertGreater(len(outputs), 0)
         self.assertEqual([], sync_skills.find_drift(outputs))
+
+    def test_qradar_investigation_bundles_machine_readable_schemas(self):
+        outputs = sync_skills.render_all()
+        for adapter in (".github", ".agents", ".claude"):
+            for schema in sync_skills.SCHEMA_BUNDLES["qradar-investigation"]:
+                relative = Path(adapter) / "skills" / "qradar-investigation" / "references" / "schemas" / schema
+                self.assertIn(relative, outputs)
+                json.loads(outputs[relative].decode("utf-8"))
 
     def test_check_is_read_only_and_reports_drift(self):
         with TemporaryDirectory() as directory:
