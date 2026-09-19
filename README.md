@@ -55,10 +55,12 @@
 | Nexora Agent Bench | ACTIVE_OFFLINE – Schema-, Entscheidungs- und semantische Konsistenzprüfung |
 | Nexora Agent Shield | ACTIVE_STATIC – Least-Privilege-, Adapter- und Vertragsprüfung |
 | GitHub Copilot | STRUCTURAL_ONLY |
-| OpenAI Codex | RUNTIME_VALIDATED_CONDITIONAL – 10/10 agents started and 15/15 skills method-tested with synthetic data; packaging fix requires revalidation |
+| OpenAI Codex | **READY** – 10/10 agents, 15/15 skills, 16/16 installer/schema checks and 87/87 repository tests validated with synthetic data on Windows |
 | Claude Code | UNTESTED |
 
 Die Plattformstatus sind keine Runtime-Freigaben. Details: [Adapter-Dokumentation](framework/adapters/).
+
+`READY` gilt für die nachgewiesene Codex-Integration mit synthetischen Daten. Es ist keine Freigabe für Kundendaten, Produktionssysteme oder ungeprüfte externe Toolzugriffe. Nachweis: [Codex Runtime Validation](docs/codex-runtime-validation.md).
 
 ## Clean Code
 

@@ -40,6 +40,6 @@ Requested behavior and relevant negative cases have test evidence; failures are 
 ## Platform status
 
 Copilot: STRUCTURAL_ONLY / Runtime UNTESTED.
-Codex: STRUCTURAL_ONLY / Runtime UNTESTED; host registration and tool policy require validation.
+Codex: READY / Native start and bounded synthetic role test validated on Windows 2026-09-19; production tools and customer data remain unapproved.
 Claude Code: STRUCTURAL_ONLY / Runtime UNTESTED.
 Framework maturity: YELLOW. Contract quality and runtime behavior are different claims.

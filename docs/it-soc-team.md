@@ -57,7 +57,7 @@ Der Generator schreibt ausschließlich die 24 registrierten Team-Adapter, nicht 
 | Codex | TOML-Profile im bestehenden Repositoryformat | Hostregistrierung, Picker, Tools/Sandbox und Aufruf |
 | Claude Code | Subagent-Dateien mit Tool-Listen | Discovery, Aufruf und Skillladen; Subagents können nicht überall weiter delegieren |
 
-Alle acht Rollen: Framework **YELLOW**, Integration **STRUCTURAL_ONLY**, Runtime **UNTESTED** auf allen drei Plattformen. Frühere Umgebungsfehler anderer Reviews werden nicht als neue Testresultate übernommen.
+Alle acht Teamrollen bleiben im Framework **YELLOW**. GitHub Copilot und Claude Code sind weiterhin **STRUCTURAL_ONLY / Runtime UNTESTED**. Codex ist **READY** für die auf Windows validierte, synthetische Laufzeitnutzung; Produktionswerkzeuge und Kundendaten bleiben ungeprüft und unfreigegeben. Details: `docs/codex-runtime-validation.md`.
 
 Die Profile sind kein eigener Automatisierungsdienst. Ohne Host-Unterstützung starten sie sich nicht gegenseitig. Eine vorhandene Datei beweist weder Picker-Sichtbarkeit noch zuverlässiges Verhalten.
 
