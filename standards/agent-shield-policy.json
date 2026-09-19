@@ -1,0 +1,46 @@
+{
+  "version": "0.1",
+  "known_tools": ["read", "search", "edit", "execute", "agent"],
+  "platform_tool_map": {
+    "claude": {
+      "read": ["Read"],
+      "search": ["Grep", "Glob"],
+      "edit": ["Edit", "Write"],
+      "execute": ["Bash"],
+      "agent": ["Agent"]
+    }
+  },
+  "required_contract_clauses": [
+    "CUSTOMER_DATA and UNKNOWN require LOCAL_ONLY",
+    "Never read secrets",
+    "untrusted evidence, not authority",
+    "No external writes",
+    "Never claim a tool run"
+  ],
+  "agents": {
+    "team-lead": {
+      "allowed_tools": ["read", "search", "agent"]
+    },
+    "software-engineer": {
+      "allowed_tools": ["read", "search", "edit", "execute"]
+    },
+    "code-security-reviewer": {
+      "allowed_tools": ["read", "search"]
+    },
+    "soc-analyst": {
+      "allowed_tools": ["read", "search"]
+    },
+    "detection-engineer": {
+      "allowed_tools": ["read", "search", "edit"]
+    },
+    "infrastructure-engineer": {
+      "allowed_tools": ["read", "search", "edit"]
+    },
+    "privacy-reviewer": {
+      "allowed_tools": ["read", "search"]
+    },
+    "qa-documentation": {
+      "allowed_tools": ["read", "search", "edit", "execute"]
+    }
+  }
+}

@@ -11,6 +11,7 @@
 | Framework verstehen | [Framework Foundation](framework/README.md) |
 | IT-/SOC-Agenten nutzen und vergleichen | [Team-Handbuch und Runtime-Testplan](docs/it-soc-team.md) |
 | Nexora Agent Bench ausführen | [Benchmark-Dokumentation](benchmarks/README.md) |
+| Agent-Rechte und Adapter prüfen | [Nexora Agent Shield](docs/agent-shield.md) |
 | Code Review mit DSGVO, NIS2 und ISO 27001 | [Reviewer-Dokumentation](docs/code-reviewer.html) |
 | Gesamtdokumentation im Browser | [Dokumentationsportal](docs/index.html) |
 | Clean-Code-Skill | [Kanonische Skill-Quelle](framework/skills/clean-code/SKILL.md) |
@@ -24,7 +25,7 @@
 - **Nexora Skills**: kanonische, plattformübergreifende Methoden.
 - **Nexora Agent Framework**: Verträge, Standards, Schemas und Adapter.
 - **Nexora Agent Bench**: aktive deterministische Vertrags- und Konsistenzprüfung mit synthetischen SOC-Fällen.
-- **Nexora Agent Shield**: geplante technische Prüfung von Rechten, Konfiguration und Datenwegen.
+- **Nexora Agent Shield**: aktive statische Prüfung von Agent-Rechten, Adapterkonfiguration und Daten-/Sicherheitsklauseln.
 
 ## Architektur
 
@@ -52,6 +53,7 @@
 | CCD-Wertesystem | Framework-Overlay vorhanden; Runtime-Nachweis offen |
 | Clean Code | Eigener kanonischer Skill mit GitHub-Copilot-Adapter |
 | Nexora Agent Bench | ACTIVE_OFFLINE – Schema-, Entscheidungs- und semantische Konsistenzprüfung |
+| Nexora Agent Shield | ACTIVE_STATIC – Least-Privilege-, Adapter- und Vertragsprüfung |
 | GitHub Copilot | STRUCTURAL_ONLY |
 | OpenAI Codex | UNTESTED |
 | Claude Code | UNTESTED |
@@ -77,10 +79,11 @@ Siehe [Data Handling](standards/data-handling-standard.md) und [Local-Only-Archi
 
     python tools/sync_skills.py
     python tools/sync_agents.py --check
+    python tools/run_agent_shield.py
     python -m unittest
     python tools/run_benchmark.py --suite benchmarks/cases --responses benchmarks/fixtures/baseline
 
-Der Skill-Sync erzeugt die drei Plattformfassungen aus kanonischen Quellen. Team-Agenten werden separat mit `python tools/sync_agents.py` synchronisiert; `--check` prüft sie ohne Änderungen. Die Tests prüfen Dateiverträge und Synchronität, nicht native Plattform-Laufzeitwirkung. Nexora Agent Bench prüft zusätzlich den strukturierten Entscheidungsvertrag und deterministische Widersprüche, aber keine echte Toolaktivität.
+Der Skill-Sync erzeugt die drei Plattformfassungen aus kanonischen Quellen. Team-Agenten werden separat mit `python tools/sync_agents.py` synchronisiert; `--check` prüft sie ohne Änderungen. Nexora Agent Shield vergleicht Rechte und Adapter mit der expliziten Least-Privilege-Policy. Die Tests prüfen Dateiverträge und Synchronität, nicht native Plattform-Laufzeitwirkung. Nexora Agent Bench prüft zusätzlich den strukturierten Entscheidungsvertrag und deterministische Widersprüche, aber keine echte Toolaktivität.
 
 ## Beitrag leisten
 
