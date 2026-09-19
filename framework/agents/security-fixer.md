@@ -29,5 +29,5 @@
 | Platform | Integration | Status |
 |---|---|---|
 | GitHub Copilot | `.github/agents/security-fixer.agent.md` | STRUCTURAL_ONLY |
-| OpenAI Codex | `.codex/agents/security-fixer.toml`; installed user adapter | STRUCTURAL_ONLY |
+| OpenAI Codex | `.codex/agents/security-fixer.toml`; installed user adapter | READY — native start and bounded synthetic role test validated 2026-09-19 |
 | Claude Code | `.claude/agents/security-fixer.md` | STRUCTURAL_ONLY |

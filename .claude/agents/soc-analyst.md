@@ -79,7 +79,7 @@ Every claim traces to supplied evidence; unresolved conflicts remain visible. Co
 ## Platform status
 
 Copilot: STRUCTURAL_ONLY / Runtime UNTESTED.
-Codex: STRUCTURAL_ONLY / Runtime UNTESTED; host registration and tool policy require validation.
+Codex: READY / Native start and bounded synthetic role test validated on Windows 2026-09-19; production tools and customer data remain unapproved.
 Claude Code: STRUCTURAL_ONLY / Runtime UNTESTED.
 Framework maturity: YELLOW. Contract quality and runtime behavior are different claims.
 
@@ -106,4 +106,3 @@ Enter benchmark mode only when the supplied task declares a case ID matching
 
 Outside an explicit NAB case, preserve the normal SOC output and handoff
 contracts; do not force benchmark JSON onto ordinary investigations.
-

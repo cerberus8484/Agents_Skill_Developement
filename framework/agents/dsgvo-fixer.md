@@ -28,5 +28,5 @@
 | Platform | Integration | Status |
 |---|---|---|
 | GitHub Copilot | `.github/agents/dsgvo-fixer.agent.md` | STRUCTURAL_ONLY |
-| OpenAI Codex | `.codex/agents/dsgvo-fixer.toml`; installed user adapter | STRUCTURAL_ONLY |
+| OpenAI Codex | `.codex/agents/dsgvo-fixer.toml`; installed user adapter | READY — native start and bounded synthetic role test validated 2026-09-19 |
 | Claude Code | `.claude/agents/dsgvo-fixer.md` | STRUCTURAL_ONLY |
