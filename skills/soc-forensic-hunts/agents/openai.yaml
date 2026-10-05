@@ -1,0 +1,4 @@
+interface:
+  display_name: "SOC Hunt Governance"
+  short_description: "Review threat hunts without executing them."
+  default_prompt: "Use $soc-forensic-hunts to review this proposed hunt without executing queries or changing production systems."

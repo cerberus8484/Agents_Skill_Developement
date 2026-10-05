@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/siem-ai-skills/hypothesis.schema.json",
+  "title": "SIEM Hypothesis",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "statement", "status", "confidence", "supporting_evidence_ids", "contradicting_evidence_ids"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^H[0-9]{3,}$"},
+    "statement": {"type": "string", "minLength": 1},
+    "status": {"type": "string", "enum": ["OPEN", "ACTIVE", "SUPPORTED", "WEAKENED", "REJECTED", "CONFIRMED"]},
+    "confidence": {"type": "string", "enum": ["LOW", "MEDIUM", "HIGH"]},
+    "supporting_evidence_ids": {"type": "array", "items": {"type": "string", "pattern": "^E[0-9]{3,}$"}, "uniqueItems": true},
+    "contradicting_evidence_ids": {"type": "array", "items": {"type": "string", "pattern": "^E[0-9]{3,}$"}, "uniqueItems": true},
+    "notes": {"type": "string"}
+  }
+}
