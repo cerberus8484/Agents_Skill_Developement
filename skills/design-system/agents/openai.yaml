@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design System Review"
+  short_description: "Bounded UI system review guidance"
+  default_prompt: "Use $design-system to review these components and tokens for system consistency and accessibility considerations."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "QRadar AQL Proposal"
+  short_description: "Create bounded QRadar AQL proposals."
+  default_prompt: "Use $qradar-aql to convert this supplied QRadar query request into a safe proposal status and AQL proposal."

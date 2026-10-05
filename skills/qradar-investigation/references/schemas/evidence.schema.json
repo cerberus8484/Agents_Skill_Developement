@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/siem-ai-skills/evidence.schema.json",
+  "title": "SIEM Evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "type", "source", "title", "received_at", "raw_content"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^E[0-9]{3,}$"},
+    "type": {"type": "string", "enum": ["ticket", "event", "flow", "query_result", "raw_log", "csv", "json", "screenshot_transcription", "analyst_note"]},
+    "source": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 1},
+    "received_at": {"type": "string", "format": "date-time"},
+    "original_timestamp": {"type": "string"},
+    "raw_content": {"type": "string", "minLength": 1},
+    "raw_reference": {"type": "string"},
+    "extracted_facts": {"type": "object", "additionalProperties": true},
+    "quality_notes": {"type": "array", "items": {"type": "string"}}
+  }
+}

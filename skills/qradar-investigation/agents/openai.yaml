@@ -1,0 +1,4 @@
+interface:
+  display_name: "QRadar Investigation"
+  short_description: "Maintain bounded SIEM investigation state."
+  default_prompt: "Use $qradar-investigation to update this supplied investigation state and propose one safe next step."
